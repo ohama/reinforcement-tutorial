@@ -1,0 +1,8 @@
+[book]
+title = "F#으로 배우는 강화학습"
+authors = []
+description = "슬롯머신부터 오목 AI까지 — F#으로 구현하는 강화학습 단계별 튜토리얼"
+language = "ko"
+src = "src"
+
+[output.html]
