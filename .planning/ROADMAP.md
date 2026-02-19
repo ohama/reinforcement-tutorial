@@ -45,12 +45,12 @@ Plans:
   2. `dotnet run`으로 사람 vs AI 대전 모드를 선택하면 학습된 에이전트와 콘솔에서 게임을 플레이할 수 있다
   3. Serilog가 매 1000판 승률을 구조화 로그로 출력하고, 학습 곡선이 수렴하는 것을 로그에서 관찰할 수 있다
   4. mdBook 02-tictactoe/ 챕터에 `{{#include}}` 로 실제 소스가 인클루드되어 있고, Phase 1 Bandit의 한계와 MDP 필요성이 설명된다
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: TicTacToe 게임 엔진 (Domain.fs, Rules.fs — 순수 함수, FsCheck 프로퍼티)
-- [ ] 02-02: TD(0) 에이전트 + 자가 대국 학습 루프 (Agent.fs, Training.fs, Expecto 수렴 테스트)
-- [ ] 02-03: 사람 vs AI 콘솔 모드 + Serilog 로깅 + mdBook 챕터
+- [ ] 02-01-PLAN.md — TicTacToe.sln 부트스트랩 + Domain.fs + Rules.fs + FsCheck 보드 불변 조건 테스트
+- [ ] 02-02-PLAN.md — Agent.fs + Training.fs (TD(0) 자가 대국) + Expecto 수렴 테스트 (>90% 승률)
+- [ ] 02-03-PLAN.md — Program.fs (Serilog 학습 곡선 + 사람 vs AI 콘솔) + 한국어 mdBook 챕터
 
 ### Phase 3: Connect Four (Q-Learning + Minimax)
 **Goal**: Q-Learning과 Minimax Alpha-Beta가 동일 게임에서 비교되고, 대규모 상태 공간에서 Q-table의 한계가 실증된다
@@ -113,7 +113,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Bandit + mdBook 기반 | 3/3 | Complete | 2026-02-19 |
-| 2. Tic-Tac-Toe (TD Learning) | 0/3 | Not started | - |
+| 2. Tic-Tac-Toe (TD Learning) | 0/3 | Planned | - |
 | 3. Connect Four (Q-Learning + Minimax) | 0/4 | Not started | - |
 | 4. Connect Four DQN | 0/4 | Not started | - |
 | 5. Gomoku MCTS | 0/5 | Not started | - |
