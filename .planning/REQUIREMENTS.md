@@ -120,14 +120,16 @@
 
 ## Traceability
 
+Note: TUTR-03, TUTR-04, TUTR-06 are established in Phase 1 and the pattern is carried forward into each subsequent phase as part of that phase's plan. TUTR-05 first applies in Phase 2 (first cross-phase connection). XCUT-01~03 are established in Phase 1 and enforced throughout.
+
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | TUTR-01 | Phase 1 | Pending |
 | TUTR-02 | Phase 1 | Pending |
-| TUTR-03 | Phase 1-5 | Pending |
-| TUTR-04 | Phase 1-5 | Pending |
-| TUTR-05 | Phase 2-5 | Pending |
-| TUTR-06 | Phase 1-5 | Pending |
+| TUTR-03 | Phase 1 | Pending |
+| TUTR-04 | Phase 1 | Pending |
+| TUTR-05 | Phase 2 | Pending |
+| TUTR-06 | Phase 1 | Pending |
 | BAND-01 | Phase 1 | Pending |
 | BAND-02 | Phase 1 | Pending |
 | BAND-03 | Phase 1 | Pending |
@@ -181,15 +183,15 @@
 | GMOK-10 | Phase 5 | Pending |
 | GMOK-11 | Phase 5 | Pending |
 | GMOK-12 | Phase 5 | Pending |
-| XCUT-01 | Phase 1-5 | Pending |
-| XCUT-02 | Phase 1-5 | Pending |
-| XCUT-03 | Phase 1-5 | Pending |
+| XCUT-01 | Phase 1 | Pending |
+| XCUT-02 | Phase 1 | Pending |
+| XCUT-03 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 56 total
 - Mapped to phases: 56
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-19*
-*Last updated: 2026-02-19 after initial definition*
+*Last updated: 2026-02-19 after roadmap creation — traceability clarified to single-phase per requirement*
