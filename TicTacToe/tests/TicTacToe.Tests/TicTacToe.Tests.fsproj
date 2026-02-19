@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Include="PropertyTests.fs" />
+    <Compile Include="ConvergenceTests.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
 
