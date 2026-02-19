@@ -124,22 +124,22 @@ Note: TUTR-03, TUTR-04, TUTR-06 are established in Phase 1 and the pattern is ca
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TUTR-01 | Phase 1 | Pending |
-| TUTR-02 | Phase 1 | Pending |
-| TUTR-03 | Phase 1 | Pending |
+| TUTR-01 | Phase 1 | Complete |
+| TUTR-02 | Phase 1 | Complete |
+| TUTR-03 | Phase 1 | Complete |
 | TUTR-04 | Phase 1 | Pending |
 | TUTR-05 | Phase 2 | Pending |
-| TUTR-06 | Phase 1 | Pending |
-| BAND-01 | Phase 1 | Pending |
-| BAND-02 | Phase 1 | Pending |
-| BAND-03 | Phase 1 | Pending |
-| BAND-04 | Phase 1 | Pending |
-| BAND-05 | Phase 1 | Pending |
-| BAND-06 | Phase 1 | Pending |
-| BAND-07 | Phase 1 | Pending |
-| BAND-08 | Phase 1 | Pending |
-| BAND-09 | Phase 1 | Pending |
-| BAND-10 | Phase 1 | Pending |
+| TUTR-06 | Phase 1 | Complete |
+| BAND-01 | Phase 1 | Complete |
+| BAND-02 | Phase 1 | Complete |
+| BAND-03 | Phase 1 | Complete |
+| BAND-04 | Phase 1 | Complete |
+| BAND-05 | Phase 1 | Complete |
+| BAND-06 | Phase 1 | Complete |
+| BAND-07 | Phase 1 | Complete |
+| BAND-08 | Phase 1 | Complete |
+| BAND-09 | Phase 1 | Complete |
+| BAND-10 | Phase 1 | Complete |
 | TICT-01 | Phase 2 | Pending |
 | TICT-02 | Phase 2 | Pending |
 | TICT-03 | Phase 2 | Pending |
@@ -183,9 +183,9 @@ Note: TUTR-03, TUTR-04, TUTR-06 are established in Phase 1 and the pattern is ca
 | GMOK-10 | Phase 5 | Pending |
 | GMOK-11 | Phase 5 | Pending |
 | GMOK-12 | Phase 5 | Pending |
-| XCUT-01 | Phase 1 | Pending |
-| XCUT-02 | Phase 1 | Pending |
-| XCUT-03 | Phase 1 | Pending |
+| XCUT-01 | Phase 1 | Complete |
+| XCUT-02 | Phase 1 | Complete |
+| XCUT-03 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 56 total

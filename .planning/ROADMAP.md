@@ -12,7 +12,7 @@
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Bandit + mdBook 기반** - 프로젝트 전체 구조 확립, ε-greedy + UCB1 구현, mdBook 스캐폴드
+- [x] **Phase 1: Bandit + mdBook 기반** - 프로젝트 전체 구조 확립, ε-greedy + UCB1 구현, mdBook 스캐폴드
 - [ ] **Phase 2: Tic-Tac-Toe (TD Learning)** - MDP + Value Function + 자가 대국으로 TD(0) 에이전트 구현
 - [ ] **Phase 3: Connect Four (Q-Learning + Minimax)** - 특징 기반 Q-Learning과 Alpha-Beta Pruning 비교
 - [ ] **Phase 4: Connect Four DQN** - TorchSharp Conv2D 신경망으로 Q-table 한계 극복
@@ -32,9 +32,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — mdBook 스캐폴드 + Bandit.sln 세 프로젝트 구조 (순수 라이브러리 / 콘솔 셸 / 테스트 러너)
-- [ ] 01-02-PLAN.md — Bandit 게임 엔진 전체 구현 (ε-greedy, UCB1, incremental mean, compareEpsilons, Serilog 로깅)
-- [ ] 01-03-PLAN.md — FsCheck 프로퍼티 테스트 + Expecto 수렴 테스트 + 한국어 mdBook 01-bandit 챕터 완성
+- [x] 01-01-PLAN.md — mdBook 스캐폴드 + Bandit.sln 세 프로젝트 구조 (순수 라이브러리 / 콘솔 셸 / 테스트 러너)
+- [x] 01-02-PLAN.md — Bandit 게임 엔진 전체 구현 (ε-greedy, UCB1, incremental mean, compareEpsilons, Serilog 로깅)
+- [x] 01-03-PLAN.md — FsCheck 프로퍼티 테스트 + Expecto 수렴 테스트 + 한국어 mdBook 01-bandit 챕터 완성
 
 ### Phase 2: Tic-Tac-Toe (TD Learning)
 **Goal**: MDP와 TD Learning 개념이 동작하는 F# 코드로 검증되고, 학습된 AI가 콘솔에서 사람과 대전할 수 있다
@@ -112,7 +112,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Bandit + mdBook 기반 | 0/3 | Not started | - |
+| 1. Bandit + mdBook 기반 | 3/3 | Complete | 2026-02-19 |
 | 2. Tic-Tac-Toe (TD Learning) | 0/3 | Not started | - |
 | 3. Connect Four (Q-Learning + Minimax) | 0/4 | Not started | - |
 | 4. Connect Four DQN | 0/4 | Not started | - |
