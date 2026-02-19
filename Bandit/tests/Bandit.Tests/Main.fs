@@ -6,5 +6,9 @@ open Bandit.Tests.ConvergenceTests
 
 [<EntryPoint>]
 let main args =
-    let allTests = testList "All Tests" [ propertyTests; convergenceTests ]
+    let allTests =
+        testList "Bandit Test Suite" [
+            propertyTests
+            convergenceTests
+        ]
     runTestsWithCLIArgs [] args allTests
