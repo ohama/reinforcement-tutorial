@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="Rules.fs" />
+    <Compile Include="Agent.fs" />
+    <Compile Include="Training.fs" />
   </ItemGroup>
 
 </Project>
