@@ -29,12 +29,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. `dotnet test`를 실행하면 FsCheck 보상 합산 불변 조건 테스트와 Expecto 1000회 최적 arm 수렴 검증이 통과한다
   3. `mdbook build`가 성공하고, 01-bandit/ 챕터에 RL 개념 설명과 핵심 F# 타입 정의가 한국어로 있다
   4. Domain.fs/Rules.fs에 I/O 코드가 없고, 모든 에러 처리가 Option/Result 패턴을 사용한다
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: mdBook 스캐폴드 + 프로젝트 구조 (book.toml, SUMMARY.md, chapter 폴더 5개, Bandit.sln)
-- [ ] 01-02: Bandit 게임 엔진 + ε-greedy + UCB1 구현 (Domain.fs, Agent.fs, Training.fs, Program.fs)
-- [ ] 01-03: 테스트 + 로깅 + 챕터 작성 (FsCheck, Expecto, Serilog, mdBook 01-bandit 챕터)
+- [ ] 01-01-PLAN.md — mdBook 스캐폴드 + Bandit.sln 세 프로젝트 구조 (순수 라이브러리 / 콘솔 셸 / 테스트 러너)
+- [ ] 01-02-PLAN.md — Bandit 게임 엔진 전체 구현 (ε-greedy, UCB1, incremental mean, compareEpsilons, Serilog 로깅)
+- [ ] 01-03-PLAN.md — FsCheck 프로퍼티 테스트 + Expecto 수렴 테스트 + 한국어 mdBook 01-bandit 챕터 완성
 
 ### Phase 2: Tic-Tac-Toe (TD Learning)
 **Goal**: MDP와 TD Learning 개념이 동작하는 F# 코드로 검증되고, 학습된 AI가 콘솔에서 사람과 대전할 수 있다
