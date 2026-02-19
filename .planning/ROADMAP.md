@@ -13,7 +13,7 @@
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Bandit + mdBook 기반** - 프로젝트 전체 구조 확립, ε-greedy + UCB1 구현, mdBook 스캐폴드
-- [ ] **Phase 2: Tic-Tac-Toe (TD Learning)** - MDP + Value Function + 자가 대국으로 TD(0) 에이전트 구현
+- [x] **Phase 2: Tic-Tac-Toe (TD Learning)** - MDP + Value Function + 자가 대국으로 TD(0) 에이전트 구현
 - [ ] **Phase 3: Connect Four (Q-Learning + Minimax)** - 특징 기반 Q-Learning과 Alpha-Beta Pruning 비교
 - [ ] **Phase 4: Connect Four DQN** - TorchSharp Conv2D 신경망으로 Q-table 한계 극복
 - [ ] **Phase 5: Gomoku MCTS** - MCTS + Policy/Value Network + 자가 대국 파이프라인
@@ -48,9 +48,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — TicTacToe.sln 부트스트랩 + Domain.fs + Rules.fs + FsCheck 보드 불변 조건 테스트
-- [ ] 02-02-PLAN.md — Agent.fs + Training.fs (TD(0) 자가 대국) + Expecto 수렴 테스트 (>90% 승률)
-- [ ] 02-03-PLAN.md — Program.fs (Serilog 학습 곡선 + 사람 vs AI 콘솔) + 한국어 mdBook 챕터
+- [x] 02-01-PLAN.md — TicTacToe.sln 부트스트랩 + Domain.fs + Rules.fs + FsCheck 보드 불변 조건 테스트
+- [x] 02-02-PLAN.md — Agent.fs + Training.fs (TD(0) 자가 대국) + Expecto 수렴 테스트 (>90% 승률)
+- [x] 02-03-PLAN.md — Program.fs (Serilog 학습 곡선 + 사람 vs AI 콘솔) + 한국어 mdBook 챕터
 
 ### Phase 3: Connect Four (Q-Learning + Minimax)
 **Goal**: Q-Learning과 Minimax Alpha-Beta가 동일 게임에서 비교되고, 대규모 상태 공간에서 Q-table의 한계가 실증된다
@@ -113,7 +113,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Bandit + mdBook 기반 | 3/3 | Complete | 2026-02-19 |
-| 2. Tic-Tac-Toe (TD Learning) | 0/3 | Planned | - |
+| 2. Tic-Tac-Toe (TD Learning) | 3/3 | Complete | 2026-02-19 |
 | 3. Connect Four (Q-Learning + Minimax) | 0/4 | Not started | - |
 | 4. Connect Four DQN | 0/4 | Not started | - |
 | 5. Gomoku MCTS | 0/5 | Not started | - |
