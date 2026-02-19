@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 1 of 5 (Bandit + mdBook 기반)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-02-19 — Completed 01-01-PLAN.md (bootstrap skeleton)
+Last activity: 2026-02-19 — Completed 01-02-PLAN.md (Bandit RL engine + console shell)
 
-Progress: [█░░░░░░░░░] 7% (1/15 plans total)
+Progress: [██░░░░░░░░] 13% (2/15 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 5 min
-- Total execution time: ~5 min
+- Total plans completed: 2
+- Average duration: 3.5 min
+- Total execution time: ~7 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-bandit-mdbook | 1/3 | ~5 min | 5 min |
+| 01-bandit-mdbook | 2/3 | ~7 min | 3.5 min |
 | - | - | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (5 min)
-- Trend: -
+- Last 5 plans: 01-01 (5 min), 01-02 (2 min)
+- Trend: fast
 
 *Updated after each plan completion*
 
@@ -49,12 +49,15 @@ Recent decisions affecting current work:
 - [Setup]: Console only — RL 학습에 집중, Web/GUI 없음
 - [01-01]: net10.0 used (system has .NET 10 SDK only, not net9.0) — all future phases use net10.0
 - [01-01]: Traditional .sln format required — .NET 10 defaults to .slnx; must use `dotnet new sln` twice or delete .slnx to get .sln
-- [01-01]: FsCheck 3.3.2 with NU1608 warning — monitor in Plan 01-02 when property tests added; downgrade to 2.16.5 if runtime errors occur
+- [01-01]: FsCheck 3.3.2 with NU1608 warning — no runtime errors in 01-02; downgrade to 2.16.5 only if runtime errors occur
 - [01-01]: mdBook v0.5.2 installed via Homebrew (research specified 0.4.52) — backward-compatible
+- [01-02]: selectArm signature in runEpisode is `AgentState -> Arm` (rng captured in closure by caller) — idiomatic F#, avoids threading rng through signature
+- [01-02]: Local mutable totalPulls in runEpisodeUcb1 is acceptable — function-local, not exposed externally
+- [01-02]: compareEpsilons creates child RNG per epsilon via rng.Next() seed — statistical independence with determinism
 
 ### Pending Todos
 
-- [01-02]: Monitor FsCheck 3.3.2 NU1608 warning — downgrade to 2.16.5 if property test runtime errors occur
+- [01-03]: Tutorial content for Bandit chapter — working algorithm available to reference
 
 ### Blockers/Concerns
 
@@ -65,6 +68,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-02-19T02:33:52Z
-Stopped at: Completed 01-01-PLAN.md (bootstrap skeleton — Bandit.sln + mdBook)
+Last session: 2026-02-19T02:39:52Z
+Stopped at: Completed 01-02-PLAN.md (Bandit RL engine — pure library + Serilog console shell)
 Resume file: None
