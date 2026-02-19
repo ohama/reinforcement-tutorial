@@ -10,31 +10,31 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 2 of 5 in progress (Tictactoe + TD Learning)
-Plan: 1 of 3 in Phase 2 complete
+Plan: 2 of 3 in Phase 2 complete
 Status: In progress
-Last activity: 2026-02-19 — Completed 02-01-PLAN.md (TicTacToe solution bootstrap, Domain.fs + Rules.fs, FsCheck property tests)
+Last activity: 2026-02-19 — Completed 02-02-PLAN.md (TD(0) agent + self-play training + Expecto convergence test >90%)
 
-Progress: [████░░░░░░] 27% (4/15 plans total)
+Progress: [█████░░░░░] 33% (5/15 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 3.5 min
-- Total execution time: ~14 min
+- Total plans completed: 5
+- Average duration: 3.0 min
+- Total execution time: ~16 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-bandit-mdbook | 3/3 COMPLETE | ~11 min | 3.7 min |
-| 02-tictactoe-mdbook | 1/3 | ~3 min | 3 min |
+| 02-tictactoe-mdbook | 2/3 | ~5 min | 2.5 min |
 | 03-gomoku-minimax | 0/3 | - | - |
 | 04-gomoku-dqn | 0/3 | - | - |
 | 05-gomoku-alphazero | 0/3 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (5 min), 01-02 (2 min), 01-03 (4 min), 02-01 (3 min)
+- Last 5 plans: 01-02 (2 min), 01-03 (4 min), 02-01 (3 min), 02-02 (2 min)
 - Trend: fast
 
 *Updated after each plan completion*
@@ -62,10 +62,14 @@ Recent decisions affecting current work:
 - [02-01]: dotnet new sln --format sln required — confirmed .NET 10 creates .slnx by default; `--format sln` flag is the fix
 - [02-01]: Array.create 9 Empty required for Board init — Array.zeroCreate returns null for DU types; documented in Domain.fs
 - [02-01]: ValueTable = Map<Board, float> — board state to X win probability [0.0, 1.0]; pure functional approach
+- [02-02]: prevBoard tracks current player's previous board for TD backup (not opponent's board)
+- [02-02]: Both X and O share same ValueTable in self-play — X maximizes V, O minimizes V
+- [02-02]: winRateVsRandom hardcodes epsilon=0 — evaluation is always greedy by design
+- [02-02]: Main.fs needs fully qualified module path: TicTacToe.Tests.ConvergenceTests.convergenceTests (F# scoping rule)
 
 ### Pending Todos
 
-None — Phase 2 Plan 1 complete. Continue to 02-02 (TD learning agent).
+None — Phase 2 Plan 2 complete. Continue to 02-03 (tutorial/mdBook TicTacToe chapter).
 
 ### Blockers/Concerns
 
@@ -77,6 +81,6 @@ None — Phase 2 Plan 1 complete. Continue to 02-02 (TD learning agent).
 
 ## Session Continuity
 
-Last session: 2026-02-19T05:52:36Z
-Stopped at: Completed 02-01-PLAN.md (TicTacToe solution bootstrap + Domain.fs + Rules.fs + FsCheck property tests)
+Last session: 2026-02-19T05:57:56Z
+Stopped at: Completed 02-02-PLAN.md (TD(0) agent + Training + Expecto convergence test >90% win rate)
 Resume file: None
