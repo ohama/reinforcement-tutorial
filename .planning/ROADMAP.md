@@ -61,13 +61,13 @@ Plans:
   2. `dotnet run`으로 Minimax AI vs Q-Learning AI 대결을 실행하면 승률과 Alpha-Beta 가지치기 통계가 콘솔에 출력된다
   3. `dotnet run`으로 사람 vs AI 모드를 선택하면 사람이 Minimax 또는 Q-Learning AI와 대전할 수 있다
   4. mdBook 03-connect-four/ 챕터에 "왜 Q-table이 여기서 한계에 부딪히는가" 섹션이 있고 Phase 4 DQN 필요성이 설명된다
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 03-01: Connect Four 게임 엔진 (Domain.fs, Rules.fs — 중력, 4연속 판정, FsCheck 프로퍼티)
-- [ ] 03-02: Minimax + Alpha-Beta 구현 (depth 6~8, 평가 함수)
-- [ ] 03-03: Q-Learning 에이전트 + QTable 모듈 (Dictionary 백엔드, 특징 추출)
-- [ ] 03-04: 대결 비교 출력 + Serilog + mdBook 챕터
+- [ ] 03-01-PLAN.md — ConnectFour.sln 부트스트랩 + Domain.fs + Rules.fs + FsCheck 중력/4연속 판정 프로퍼티 테스트
+- [ ] 03-02-PLAN.md — Minimax.fs (Negamax + Alpha-Beta, depth 6~8) + Expecto 동일 결과 검증
+- [ ] 03-03-PLAN.md — QAgent.fs (Dictionary Q-table, ε-greedy) + Training.fs (자가 대국 루프)
+- [ ] 03-04-PLAN.md — Program.fs (Serilog + AI vs AI + 사람 vs AI 콘솔 메뉴) + 한국어 mdBook 챕터
 
 ### Phase 4: Connect Four DQN
 **Goal**: TorchSharp Conv2D DQN이 학습되고, Phase 3 Minimax(depth 4) 대비 승률 > 50%를 달성하며 메모리 누수 없이 안정 작동한다
