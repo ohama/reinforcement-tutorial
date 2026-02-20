@@ -96,8 +96,8 @@ let incrementalMean (state: AgentState) (arm: Arm) (reward: float) : AgentState 
 
 $$a_t = \arg\max_a \left[ Q(a) + \sqrt{\frac{2 \ln t}{N(a)}} \right]$$
 
-- $Q(a)$: arm a의 현재 추정 가치 (활용 항)
-- $\sqrt{2 \ln t / N(a)}$: 탐색 보너스 — 방문 횟수가 적을수록 커짐
+- \\(Q(a)\\): arm a의 현재 추정 가치 (활용 항)
+- \\(\sqrt{2 \ln t / N(a)}\\): 탐색 보너스 — 방문 횟수가 적을수록 커짐
 
 ```fsharp
 // Bandit/src/Bandit/Agent.fs
@@ -115,7 +115,7 @@ let ucb1 (totalSteps: int) (state: AgentState) : Arm =
         |> fst
 ```
 
-**초기화가 중요한 이유**: $N(a) = 0$이면 $\ln(t) / 0 = \infty$가 된다. 모든 arm을 한 번씩 방문한 뒤에야 UCB1 공식을 적용한다.
+**초기화가 중요한 이유**: \\(N(a) = 0\\)이면 \\(\ln(t) / 0 = \infty\\)가 된다. 모든 arm을 한 번씩 방문한 뒤에야 UCB1 공식을 적용한다.
 
 ### ε-greedy vs UCB1 비교
 

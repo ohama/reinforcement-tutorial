@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-380f36a3.js";
+            window.path_to_searchindex_js = "../searchindex-6f43756c.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-48fe27ef.js"></script>
@@ -257,8 +257,8 @@ let epsilonGreedy (rng: System.Random) (epsilon: float) (state: AgentState) : Ar
 <p>ε-greedy는 탐색 확률을 고정한다. UCB1은 <strong>불확실성을 명시적으로 보너스로 추가</strong>하여 결정론적으로 탐색과 활용을 균형 잡는다:</p>
 <p>$$a_t = \arg\max_a \left[ Q(a) + \sqrt{\frac{2 \ln t}{N(a)}} \right]$$</p>
 <ul>
-<li>$Q(a)$: arm a의 현재 추정 가치 (활용 항)</li>
-<li>$\sqrt{2 \ln t / N(a)}$: 탐색 보너스 — 방문 횟수가 적을수록 커짐</li>
+<li>\(Q(a)\): arm a의 현재 추정 가치 (활용 항)</li>
+<li>\(\sqrt{2 \ln t / N(a)}\): 탐색 보너스 — 방문 횟수가 적을수록 커짐</li>
 </ul>
 <pre><code class="language-fsharp">// Bandit/src/Bandit/Agent.fs
 
@@ -274,7 +274,7 @@ let ucb1 (totalSteps: int) (state: AgentState) : Arm =
         |&gt; Array.maxBy snd
         |&gt; fst
 </code></pre>
-<p><strong>초기화가 중요한 이유</strong>: $N(a) = 0$이면 $\ln(t) / 0 = \infty$가 된다. 모든 arm을 한 번씩 방문한 뒤에야 UCB1 공식을 적용한다.</p>
+<p><strong>초기화가 중요한 이유</strong>: \(N(a) = 0\)이면 \(\ln(t) / 0 = \infty\)가 된다. 모든 arm을 한 번씩 방문한 뒤에야 UCB1 공식을 적용한다.</p>
 <h3 id="ε-greedy-vs-ucb1-비교"><a class="header" href="#ε-greedy-vs-ucb1-비교">ε-greedy vs UCB1 비교</a></h3>
 <div class="table-wrapper">
 <table>
