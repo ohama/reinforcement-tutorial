@@ -166,6 +166,8 @@ let private runEpisode (rng: System.Random) (model: DQNModel) (buf: ReplayBuffer
 // PURE (no I/O): caller (Program.fs) handles all logging.
 let trainDQN (config: TrainingConfig) : TrainingResult =
     let rng    = System.Random(42)
+    // Seed torch RNG for deterministic weight initialisation across runs
+    torch.manual_seed(42L) |> ignore
     let model  = new DQNModel("policy")
     let target = new DQNModel("target")
 
