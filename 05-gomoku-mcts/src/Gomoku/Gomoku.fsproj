@@ -10,6 +10,8 @@
     <Compile Include="PolicyValueNet.fs" />
     <Compile Include="MctsNode.fs" />
     <Compile Include="Mcts.fs" />
+    <Compile Include="SelfPlay.fs" />
+    <Compile Include="Training.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TorchSharp-cpu" Version="0.106.0" />
