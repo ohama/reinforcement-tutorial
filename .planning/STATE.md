@@ -5,24 +5,24 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 5 IN PROGRESS — 05-02 done. Next: 05-03 (AlphaZero MCTS with neural network).
+**Current focus:** Phase 5 IN PROGRESS — 05-03 done. Phase 5 complete (all 3 plans done).
 
 ## Current Position
 
-Phase: 5 of 5 IN PROGRESS (Gomoku MCTS / AlphaZero-style)
-Plan: 2 of 3 in Phase 5 complete (05-01 + 05-02 done)
-Status: In progress
+Phase: 5 of 5 COMPLETE (Gomoku MCTS / AlphaZero-style)
+Plan: 3 of 3 in Phase 5 complete (05-01 + 05-02 + 05-03 done)
+Status: Phase 5 complete
 
-Last activity: 2026-02-20 — Completed 05-02-PLAN.md (MctsNode + Mcts.fs + 14/14 tests passing; MCTS 100% win rate vs random)
+Last activity: 2026-02-20 — Completed 05-03-PLAN.md (TorchSharp + PolicyValueNet + neural mctsSearchWithNet; 14/14 tests passing)
 
-Progress: [███████████████] 100% (Phase 5 in progress)
+Progress: [███████████████] 100% (All phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
+- Total plans completed: 15
 - Average duration: ~2.8 min (non-DQN) / ~8 min (DQN)
-- Total execution time: ~69 min
+- Total execution time: ~73 min
 
 **By Phase:**
 
@@ -32,10 +32,10 @@ Progress: [███████████████] 100% (Phase 5 in progr
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
 | 03-connect-four-q-learning-minimax | 4/4 COMPLETE | ~8 min | 2.0 min |
 | 04-connect-four-dqn | 4/4 COMPLETE | ~43 min | 10.8 min |
-| 05-gomoku-mcts | 2/3 | ~4 min | 2 min |
+| 05-gomoku-mcts | 3/3 COMPLETE | ~8 min | 2.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-03 (26 min), 04-04 (~8 min), 05-01 (2 min), 05-02 (2 min)
+- Last 5 plans: 05-01 (2 min), 05-02 (2 min), 05-03 (4 min)
 
 *Updated after each plan completion*
 
@@ -108,17 +108,22 @@ Recent decisions affecting current work:
 - [05-02]: leafValue for terminal node in BACKPROP = -1.0: current player at terminal did NOT make the winning move → bad for them
 - [05-02]: rollout uses startPlayer tracking (not s.CurrentPlayer at each step) to assign result from expanded node's perspective
 - [05-02]: Pure MCTS 50 simulations achieves 100% win rate vs random on 15x15 Gomoku (GMOK-10 verified)
+- [05-03]: Do NOT use open type TorchSharp.torch at module level in files with existing F# math code — shadows float, sqrt, log, cos, int, int64; use open TorchSharp + fully qualified torch.X calls instead
+- [05-03]: ReLU() and Tanh() as nn module instances (not functional) — RegisterComponents() discovers via reflection; matches Phase 4 DQNModel pattern
+- [05-03]: Use torch.nn.functional.log_softmax (fully qualified) — avoids namespace ambiguity with open type
+- [05-03]: Implement Dirichlet noise in pure F# using Marsaglia-Tsang Gamma sampler — torch.distributions.Dirichlet not reliably accessible via F# open type in 0.106.0
+- [05-03]: mctsSearchWithNet takes rng: System.Random parameter — Dirichlet noise requires randomness outside tensor scope
 
 ### Pending Todos
 
-None — Phase 5 in progress. Next: 05-03 (AlphaZero MCTS with neural network).
+None — Phase 5 complete (all 3 plans done).
 
 ### Blockers/Concerns
 
-None — 05-02 complete cleanly. MctsNode and Mcts.fs ready for Plan 03 neural network extension.
+None — 05-03 complete cleanly. PolicyValueNet and mctsSearchWithNet ready for Plan 04 self-play training.
 
 ## Session Continuity
 
-Last session: 2026-02-20T04:10:31Z
-Stopped at: Completed 05-02-PLAN.md — MctsNode + Mcts.fs pure MCTS + 14/14 tests passing (MCTS 100% win rate vs random)
+Last session: 2026-02-20T04:19:24Z
+Stopped at: Completed 05-03-PLAN.md — TorchSharp + PolicyValueNet + neural mctsSearchWithNet + 14/14 tests passing
 Resume file: None
