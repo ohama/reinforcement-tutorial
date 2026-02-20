@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="Rules.fs" />
+    <Compile Include="Minimax.fs" />
   </ItemGroup>
 
 </Project>
