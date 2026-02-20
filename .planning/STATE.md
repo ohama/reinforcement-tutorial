@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 4 in progress — 04-01 complete. Next: 04-02 (DQN network architecture + training loop).
+**Current focus:** Phase 4 in progress — 04-02 complete. Next: 04-03 (full 50K episode DQN training loop).
 
 ## Current Position
 
 Phase: 4 of 5 IN PROGRESS (Connect Four + DQN with TorchSharp)
-Plan: 1 of 3 in Phase 4 complete (04-01 done)
+Plan: 2 of 3 in Phase 4 complete (04-01, 04-02 done)
 Status: In progress
-Last activity: 2026-02-20 — Completed 04-01-PLAN.md (DQN.sln bootstrap + boardToTensor + FsCheck tests)
+Last activity: 2026-02-20 — Completed 04-02-PLAN.md (DQNModel + ReplayBuffer + full DQNAgent + 7 tests passing)
 
-Progress: [███████████░] 73% (11/15 plans total)
+Progress: [████████████░] 80% (12/15 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: ~2.3 min
-- Total execution time: ~29 min
+- Total plans completed: 12
+- Average duration: ~2.6 min
+- Total execution time: ~35 min
 
 **By Phase:**
 
@@ -30,12 +30,12 @@ Progress: [███████████░] 73% (11/15 plans total)
 | 01-bandit-mdbook | 3/3 COMPLETE | ~11 min | 3.7 min |
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
 | 03-connect-four-q-learning-minimax | 4/4 COMPLETE | ~8 min | 2.0 min |
-| 04-connect-four-dqn | 1/3 | ~3 min | 3 min |
+| 04-connect-four-dqn | 2/3 | ~9 min | 4.5 min |
 | 05-gomoku-alphazero | 0/3 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (2 min), 03-03 (2 min), 03-04 (3 min), 04-01 (3 min)
-- Trend: fast
+- Last 5 plans: 03-03 (2 min), 03-04 (3 min), 04-01 (3 min), 04-02 (6 min)
+- Trend: stable
 
 *Updated after each plan completion*
 
@@ -89,19 +89,21 @@ Recent decisions affecting current work:
 - [04-01]: genValidBoard in tests uses System.Random(42) fixed seed + isGameOver: GameResult option check — consistent with Phase 3 API
 - [04-01]: torch.NewDisposeScope() in every test — deterministic tensor memory management, no leaks
 - [04-01]: TorchSharp-cpu 0.106.0 confirmed working on Apple Silicon ARM64 macOS with NativeLoader pattern
+- [04-02]: open type TorchSharp.torch shadows F# int/int64 conversion functions — use Operators.int and Operators.int64 throughout DQNAgent
+- [04-02]: Tensor.max(dim) returns struct ValueTuple<Tensor,Tensor> in TorchSharp 0.106.0 — use let struct(vals, _) = t.max(1L); .values property does NOT exist
+- [04-02]: index_fill_(0L, idxTensor, Scalar) for in-place illegal move masking — qVec.[int64 col] <- fails to compile due to shadowing
+- [04-02]: Experience stores float32[] not Tensor fields — tensors outside NewDisposeScope cause memory leaks in 50K episode loops
 
 ### Pending Todos
 
-None — 04-01 complete. Phase 4 Plan 02 (DQN network + training loop) is next.
+None — 04-02 complete. Phase 4 Plan 03 (50K episode training loop) is next.
 
 ### Blockers/Concerns
 
-- [04-02]: TorchSharp Conv2D + Sequential F# API differs from C# examples — verify API shape before writing network
-- [04-02]: Replay buffer memory management — use torch.NewDisposeScope() or manual .Dispose() on stored tensors
 - [Phase 5 planning]: AlphaZero 스타일 self-play + dual-head MCTS in F# — 문서 희소, research-phase 강력 권장
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 04-01-PLAN.md — DQN.sln bootstrap + boardToTensor + 3 FsCheck tests passing
+Stopped at: Completed 04-02-PLAN.md — DQNModel + ReplayBuffer + DQNAgent complete, 7/7 tests passing
 Resume file: None
