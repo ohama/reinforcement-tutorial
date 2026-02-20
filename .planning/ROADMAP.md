@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Bandit + mdBook 기반** - 프로젝트 전체 구조 확립, ε-greedy + UCB1 구현, mdBook 스캐폴드
 - [x] **Phase 2: Tic-Tac-Toe (TD Learning)** - MDP + Value Function + 자가 대국으로 TD(0) 에이전트 구현
-- [ ] **Phase 3: Connect Four (Q-Learning + Minimax)** - 특징 기반 Q-Learning과 Alpha-Beta Pruning 비교
+- [x] **Phase 3: Connect Four (Q-Learning + Minimax)** - 특징 기반 Q-Learning과 Alpha-Beta Pruning 비교
 - [ ] **Phase 4: Connect Four DQN** - TorchSharp Conv2D 신경망으로 Q-table 한계 극복
 - [ ] **Phase 5: Gomoku MCTS** - MCTS + Policy/Value Network + 자가 대국 파이프라인
 
@@ -64,10 +64,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — ConnectFour.sln 부트스트랩 + Domain.fs + Rules.fs + FsCheck 중력/4연속 판정 프로퍼티 테스트
-- [ ] 03-02-PLAN.md — Minimax.fs (Negamax + Alpha-Beta, depth 6~8) + Expecto 동일 결과 검증
-- [ ] 03-03-PLAN.md — QAgent.fs (Dictionary Q-table, ε-greedy) + Training.fs (자가 대국 루프)
-- [ ] 03-04-PLAN.md — Program.fs (Serilog + AI vs AI + 사람 vs AI 콘솔 메뉴) + 한국어 mdBook 챕터
+- [x] 03-01-PLAN.md — ConnectFour.sln 부트스트랩 + Domain.fs + Rules.fs + FsCheck 중력/4연속 판정 프로퍼티 테스트
+- [x] 03-02-PLAN.md — Minimax.fs (Negamax + Alpha-Beta, depth 6~8) + Expecto 동일 결과 검증
+- [x] 03-03-PLAN.md — QAgent.fs (Dictionary Q-table, ε-greedy) + Training.fs (자가 대국 루프)
+- [x] 03-04-PLAN.md — Program.fs (Serilog + AI vs AI + 사람 vs AI 콘솔 메뉴) + 한국어 mdBook 챕터
 
 ### Phase 4: Connect Four DQN
 **Goal**: TorchSharp Conv2D DQN이 학습되고, Phase 3 Minimax(depth 4) 대비 승률 > 50%를 달성하며 메모리 누수 없이 안정 작동한다
@@ -114,6 +114,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Bandit + mdBook 기반 | 3/3 | Complete | 2026-02-19 |
 | 2. Tic-Tac-Toe (TD Learning) | 3/3 | Complete | 2026-02-19 |
-| 3. Connect Four (Q-Learning + Minimax) | 0/4 | Not started | - |
+| 3. Connect Four (Q-Learning + Minimax) | 4/4 | Complete | 2026-02-20 |
 | 4. Connect Four DQN | 0/4 | Not started | - |
 | 5. Gomoku MCTS | 0/5 | Not started | - |
