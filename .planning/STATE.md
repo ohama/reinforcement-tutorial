@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 3 COMPLETE — Phase 4 (DQN) next. Verify TorchSharp ARM64 support before starting.
+**Current focus:** Phase 4 in progress — 04-01 complete. Next: 04-02 (DQN network architecture + training loop).
 
 ## Current Position
 
-Phase: 3 of 5 COMPLETE (Connect Four + Q-Learning + Minimax)
-Plan: 4 of 4 in Phase 3 complete (03-01, 03-02, 03-03, 03-04 all done)
-Status: Phase 3 complete — ready for Phase 4
-Last activity: 2026-02-20 — Completed 03-04-PLAN.md (Program.fs console + Korean mdBook chapter)
+Phase: 4 of 5 IN PROGRESS (Connect Four + DQN with TorchSharp)
+Plan: 1 of 3 in Phase 4 complete (04-01 done)
+Status: In progress
+Last activity: 2026-02-20 — Completed 04-01-PLAN.md (DQN.sln bootstrap + boardToTensor + FsCheck tests)
 
-Progress: [██████████░░] 67% (10/15 plans total)
+Progress: [███████████░] 73% (11/15 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
+- Total plans completed: 11
 - Average duration: ~2.3 min
-- Total execution time: ~26 min
+- Total execution time: ~29 min
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [██████████░░] 67% (10/15 plans total)
 | 01-bandit-mdbook | 3/3 COMPLETE | ~11 min | 3.7 min |
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
 | 03-connect-four-q-learning-minimax | 4/4 COMPLETE | ~8 min | 2.0 min |
-| 04-gomoku-dqn | 0/3 | - | - |
+| 04-connect-four-dqn | 1/3 | ~3 min | 3 min |
 | 05-gomoku-alphazero | 0/3 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (3 min), 03-02 (2 min), 03-03 (2 min), 03-04 (3 min)
+- Last 5 plans: 03-02 (2 min), 03-03 (2 min), 03-04 (3 min), 04-01 (3 min)
 - Trend: fast
 
 *Updated after each plan completion*
@@ -84,19 +84,24 @@ Recent decisions affecting current work:
 - [03-04]: AI vs AI depth=6 for matchup; Human vs Minimax depth=7 for player challenge
 - [03-04]: Q-table covers only 0.000004% of 4.5T possible states — explicit DQN motivation
 - [03-04]: Korean mdBook {{#include}} path pattern: ../../../03-connect-four/src/ConnectFour/...
+- [04-01]: NativeLoader uses module-level `do load()` — dylibs preload before any TorchSharp call, prevents SIGSEGV on ARM64 macOS
+- [04-01]: boardToTensor [3,6,7] encoding: ch0=myPiece, ch1=oppPiece, ch2=empty — each cell contributes 1.0f (sum invariant = 42.0f)
+- [04-01]: genValidBoard in tests uses System.Random(42) fixed seed + isGameOver: GameResult option check — consistent with Phase 3 API
+- [04-01]: torch.NewDisposeScope() in every test — deterministic tensor memory management, no leaks
+- [04-01]: TorchSharp-cpu 0.106.0 confirmed working on Apple Silicon ARM64 macOS with NativeLoader pattern
 
 ### Pending Todos
 
-None — Phase 3 complete. Phase 4 (DQN with TorchSharp) is next.
+None — 04-01 complete. Phase 4 Plan 02 (DQN network + training loop) is next.
 
 ### Blockers/Concerns
 
-- [Phase 4 planning]: TorchSharp Conv2D + Sequential F# API 패턴 — C# 예제와 다름, research-phase 권장
-- [Phase 4]: Apple Silicon ARM64 TorchSharp-cpu 지원 여부 — Phase 4 시작 전 확인 필요
+- [04-02]: TorchSharp Conv2D + Sequential F# API differs from C# examples — verify API shape before writing network
+- [04-02]: Replay buffer memory management — use torch.NewDisposeScope() or manual .Dispose() on stored tensors
 - [Phase 5 planning]: AlphaZero 스타일 self-play + dual-head MCTS in F# — 문서 희소, research-phase 강력 권장
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Phase 3 complete — verified 4/4 must-haves, all requirements marked Complete
+Stopped at: Completed 04-01-PLAN.md — DQN.sln bootstrap + boardToTensor + 3 FsCheck tests passing
 Resume file: None
