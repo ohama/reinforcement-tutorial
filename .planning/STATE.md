@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 2 COMPLETE — Phase 3 next (Gomoku + Minimax Alpha-Beta)
+**Current focus:** Phase 3 IN PROGRESS — Connect Four game engine done, Minimax + Q-Learning next
 
 ## Current Position
 
-Phase: 2 of 5 complete (Tictactoe + TD Learning)
-Plan: 3 of 3 in Phase 2 complete — Phase 2 DONE
-Status: Phase complete
-Last activity: 2026-02-19 — Completed 02-03-PLAN.md (Serilog logging + human vs AI console + Korean mdBook chapter)
+Phase: 3 of 5 in progress (Connect Four + Q-Learning + Minimax)
+Plan: 1 of 3 in Phase 3 complete
+Status: In progress
+Last activity: 2026-02-20 — Completed 03-01-PLAN.md (ConnectFour game engine + FsCheck property tests)
 
-Progress: [██████░░░░] 40% (6/15 plans total)
+Progress: [███████░░░] 47% (7/15 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: ~2.5 min
-- Total execution time: ~18 min
+- Total plans completed: 7
+- Average duration: ~2.4 min
+- Total execution time: ~21 min
 
 **By Phase:**
 
@@ -29,12 +29,12 @@ Progress: [██████░░░░] 40% (6/15 plans total)
 |-------|-------|-------|----------|
 | 01-bandit-mdbook | 3/3 COMPLETE | ~11 min | 3.7 min |
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
-| 03-gomoku-minimax | 0/3 | - | - |
+| 03-connect-four-q-learning-minimax | 1/3 | ~3 min | 3 min |
 | 04-gomoku-dqn | 0/3 | - | - |
 | 05-gomoku-alphazero | 0/3 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (4 min), 02-01 (3 min), 02-02 (2 min), 02-03 (2 min)
+- Last 5 plans: 02-01 (3 min), 02-02 (2 min), 02-03 (2 min), 03-01 (3 min)
 - Trend: fast
 
 *Updated after each plan completion*
@@ -69,10 +69,14 @@ Recent decisions affecting current work:
 - [02-03]: Program.fs is sole impure file — Training.fs returns history list; Program.fs iterates and logs via Serilog
 - [02-03]: runHumanVsAI uses recursive F# loop (not while loop) — consistent with codebase style
 - [02-03]: AI plays epsilon=0 in human-vs-AI mode — user faces optimally trained policy, not random noise
+- [03-01]: Connect Four Board = flat 42-element array, row-major, row 0 = top, row 5 = bottom (gravity anchor)
+- [03-01]: dropRow iterates rows-1 downto 0 — gravity: first empty found from bottom = landing row
+- [03-01]: genValidBoard plays 0-30 random plies via System.Random to produce realistic board states for FsCheck
+- [03-01]: Array.create (rows*cols) Empty for Board init (not Array.zeroCreate — returns null for DU types)
 
 ### Pending Todos
 
-None — Phase 2 fully complete. Ready to start Phase 3 (03-gomoku-minimax).
+None — Phase 3 Plan 01 complete. Ready for Plan 02 (Minimax Alpha-Beta) or Plan 03 (Q-Learning).
 
 ### Blockers/Concerns
 
@@ -83,6 +87,6 @@ None — Phase 2 fully complete. Ready to start Phase 3 (03-gomoku-minimax).
 
 ## Session Continuity
 
-Last session: 2026-02-19T06:02:13Z
-Stopped at: Completed 02-03-PLAN.md (Serilog logging + human vs AI console + Korean mdBook chapter)
+Last session: 2026-02-20T00:05:56Z
+Stopped at: Completed 03-01-PLAN.md (ConnectFour game engine + FsCheck property tests)
 Resume file: None
