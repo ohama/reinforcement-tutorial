@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 5 IN PROGRESS — 05-01 done. Next: 05-02 (MCTS).
+**Current focus:** Phase 5 IN PROGRESS — 05-02 done. Next: 05-03 (AlphaZero MCTS with neural network).
 
 ## Current Position
 
 Phase: 5 of 5 IN PROGRESS (Gomoku MCTS / AlphaZero-style)
-Plan: 1 of 3 in Phase 5 complete (05-01 done)
+Plan: 2 of 3 in Phase 5 complete (05-01 + 05-02 done)
 Status: In progress
 
-Last activity: 2026-02-20 — Completed 05-01-PLAN.md (Gomoku.sln bootstrap + Domain.fs + Rules.fs + 8/8 FsCheck/Expecto tests passing)
+Last activity: 2026-02-20 — Completed 05-02-PLAN.md (MctsNode + Mcts.fs + 14/14 tests passing; MCTS 100% win rate vs random)
 
-Progress: [███████████████] 100% (15/15 plans total — Phase 5 base plan count TBD)
+Progress: [███████████████] 100% (Phase 5 in progress)
 
 ## Performance Metrics
 
@@ -32,10 +32,10 @@ Progress: [███████████████] 100% (15/15 plans tota
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
 | 03-connect-four-q-learning-minimax | 4/4 COMPLETE | ~8 min | 2.0 min |
 | 04-connect-four-dqn | 4/4 COMPLETE | ~43 min | 10.8 min |
-| 05-gomoku-mcts | 1/3 | ~2 min | 2 min |
+| 05-gomoku-mcts | 2/3 | ~4 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-02 (6 min), 04-03 (26 min), 04-04 (~8 min), 05-01 (2 min)
+- Last 5 plans: 04-03 (26 min), 04-04 (~8 min), 05-01 (2 min), 05-02 (2 min)
 
 *Updated after each plan completion*
 
@@ -103,17 +103,22 @@ Recent decisions affecting current work:
 - [05-01]: Board = int array (0=empty, 1=Black, -1=White) — flat 225-element row-major array; Array.zeroCreate safe for int arrays (unsafe only for DU arrays)
 - [05-01]: isWinningMove scans 4 directions through placed stone only — O(WinLength) not O(225), critical for MCTS simulation speed
 - [05-01]: playRandomGame FsCheck helper: plays random plies stopping on win/draw to generate varied board states for property tests
+- [05-02]: MctsNode.Prior is mutable field (private prior_ backing, public get/set) — enables Dirichlet noise injection at root in Plan 03 without redesign
+- [05-02]: UpdateRecursive(-leafValue) call convention: caller negates at leaf, recursive calls negate at each ancestor — alternating sign = perspective flip
+- [05-02]: leafValue for terminal node in BACKPROP = -1.0: current player at terminal did NOT make the winning move → bad for them
+- [05-02]: rollout uses startPlayer tracking (not s.CurrentPlayer at each step) to assign result from expanded node's perspective
+- [05-02]: Pure MCTS 50 simulations achieves 100% win rate vs random on 15x15 Gomoku (GMOK-10 verified)
 
 ### Pending Todos
 
-None — Phase 5 in progress. Next: 05-02 (MCTS implementation).
+None — Phase 5 in progress. Next: 05-03 (AlphaZero MCTS with neural network).
 
 ### Blockers/Concerns
 
-None — 05-01 complete cleanly, no blockers for 05-02.
+None — 05-02 complete cleanly. MctsNode and Mcts.fs ready for Plan 03 neural network extension.
 
 ## Session Continuity
 
-Last session: 2026-02-20
-Stopped at: Completed 05-01-PLAN.md — Gomoku.sln bootstrap + Domain.fs + Rules.fs + 8/8 tests passing
+Last session: 2026-02-20T04:10:31Z
+Stopped at: Completed 05-02-PLAN.md — MctsNode + Mcts.fs pure MCTS + 14/14 tests passing (MCTS 100% win rate vs random)
 Resume file: None
