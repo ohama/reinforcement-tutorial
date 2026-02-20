@@ -12,6 +12,7 @@ create-missing = false
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "navy"
+mathjax-support = true
 
 [output.html.search]
 enable = true
