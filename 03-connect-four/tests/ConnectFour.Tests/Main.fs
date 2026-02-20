@@ -8,5 +8,6 @@ let main argv =
         testList "All ConnectFour Tests" [
             ConnectFour.Tests.PropertyTests.gravityTests
             ConnectFour.Tests.PropertyTests.winnerTests
+            ConnectFour.Tests.MinimaxTests.minimaxTests
         ]
     runTestsWithCLIArgs [] argv allTests
