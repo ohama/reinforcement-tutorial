@@ -5,4 +5,14 @@ description = "슬롯머신부터 오목 AI까지 — F#으로 구현하는 강�
 language = "ko"
 src = "src"
 
+[build]
+build-dir = "../docs"
+create-missing = false
+
 [output.html]
+default-theme = "light"
+preferred-dark-theme = "navy"
+
+[output.html.search]
+enable = true
+limit-results = 30

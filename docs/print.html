@@ -1,0 +1,2252 @@
+<!DOCTYPE HTML>
+<html lang="ko" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>F#으로 배우는 강화학습</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="슬롯머신부터 오목 AI까지 — F#으로 구현하는 강화학습 단계별 튜토리얼">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-380f36a3.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-48fe27ef.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">F#으로 배우는 강화학습</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="f으로-배우는-강화학습"><a class="header" href="#f으로-배우는-강화학습">F#으로 배우는 강화학습</a></h1>
+<p>이 튜토리얼은 F#으로 강화학습(Reinforcement Learning) 핵심 알고리즘을 단계별로 구현하며 배우는 실전 가이드입니다.</p>
+<h2 id="구성"><a class="header" href="#구성">구성</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Chapter</th><th>게임</th><th>핵심 개념</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>슬롯머신 (Bandit)</td><td>Exploration vs Exploitation, ε-greedy, UCB1</td></tr>
+<tr><td>2</td><td>틱택토</td><td>MDP, Value Function, TD Learning</td></tr>
+<tr><td>3</td><td>커넥트 포</td><td>Q-Learning, Minimax, Alpha-Beta Pruning</td></tr>
+<tr><td>4</td><td>커넥트 포 DQN</td><td>신경망, Experience Replay, Target Network</td></tr>
+<tr><td>5</td><td>오목</td><td>MCTS, Policy/Value Network, Self-Play</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="전제-조건"><a class="header" href="#전제-조건">전제 조건</a></h2>
+<ul>
+<li>F# 기본 문법 숙지</li>
+<li>.NET 10 SDK 설치</li>
+<li>RL 개념 사전 지식 불필요 — 이 튜토리얼에서 다룸</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="chapter-1-슬롯머신--탐색과-활용"><a class="header" href="#chapter-1-슬롯머신--탐색과-활용">Chapter 1: 슬롯머신 — 탐색과 활용</a></h1>
+<h2 id="문제-정의-multi-armed-bandit"><a class="header" href="#문제-정의-multi-armed-bandit">문제 정의: Multi-Armed Bandit</a></h2>
+<p><strong>Multi-Armed Bandit(MAB)</strong> 문제는 강화학습에서 가장 단순하지만 핵심 딜레마를 정확히 포착하는 문제다. N개의 슬롯머신(arm)이 있고, 각 arm은 고유한 보상 확률을 가진다. 에이전트는 매 step마다 arm 하나를 선택하고 보상(0 또는 1)을 받는다. 목표는 T step 동안 누적 보상을 최대화하는 것이다.</p>
+<p><strong>왜 이것이 어려운가?</strong> 에이전트는 arm들의 실제 보상 확률을 모른다. 알아내려면 탐색해야 하는데, 탐색 자체가 비용이다.</p>
+<hr>
+<h2 id="탐색-vs-활용-exploration-vs-exploitation"><a class="header" href="#탐색-vs-활용-exploration-vs-exploitation">탐색 vs 활용 (Exploration vs Exploitation)</a></h2>
+<p>이것이 RL의 근본적 딜레마다:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>전략</th><th>설명</th><th>위험</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>탐색 (Exploration)</strong></td><td>새로운 arm을 시도해 더 나은 선택지 발견</td><td>당장의 보상을 포기</td></tr>
+<tr><td><strong>활용 (Exploitation)</strong></td><td>현재 최선의 arm을 반복 선택</td><td>더 좋은 arm을 놓칠 수 있음</td></tr>
+</tbody>
+</table>
+</div>
+<p>순수 탐색은 보상을 극대화하지 못한다. 순수 활용은 초기 데이터에 갇힌다. 좋은 알고리즘은 이 둘을 동적으로 균형 잡는다.</p>
+<hr>
+<h2 id="f-구현-핵심-타입"><a class="header" href="#f-구현-핵심-타입">F# 구현: 핵심 타입</a></h2>
+<pre><code class="language-fsharp">// Bandit/src/Bandit/Domain.fs
+
+/// Index of an arm (0-based)
+type Arm = int
+
+/// 에이전트의 불변 상태 — 매 step마다 새 레코드 생성 (mutable 없음)
+type AgentState = {
+    Counts: int array   // 각 arm을 선택한 횟수
+    Values: float array // 각 arm의 추정 가치 (Q-value)
+}
+
+/// Bandit 환경: N개의 arm, 각각 고정된 보상 확률
+type BanditEnv = {
+    RewardProbs: float array
+}
+</code></pre>
+<p><strong>설계 원칙</strong>: <code>AgentState</code>는 불변(immutable)이다. 각 step에서 새 레코드를 반환한다. <code>mutable</code> 필드를 쓰지 않는 이유는 함수를 순수하게 유지하여 테스트와 추론이 쉬워지기 때문이다.</p>
+<hr>
+<h2 id="알고리즘-1-ε-greedy"><a class="header" href="#알고리즘-1-ε-greedy">알고리즘 1: ε-greedy</a></h2>
+<h3 id="아이디어"><a class="header" href="#아이디어">아이디어</a></h3>
+<p>확률 ε로 무작위 arm을 선택하고(탐색), 확률 (1-ε)로 현재 추정 가치가 가장 높은 arm을 선택한다(활용). ε이 클수록 더 많이 탐색한다.</p>
+<pre><code class="language-fsharp">// Bandit/src/Bandit/Agent.fs
+
+let epsilonGreedy (rng: System.Random) (epsilon: float) (state: AgentState) : Arm =
+    if rng.NextDouble() &lt; epsilon then
+        rng.Next(state.Values.Length)              // 탐색: 무작위 arm
+    else
+        state.Values
+        |&gt; Array.indexed
+        |&gt; Array.maxBy snd
+        |&gt; fst                                      // 활용: 최선의 arm
+</code></pre>
+<h3 id="점진적-평균-업데이트-incremental-mean"><a class="header" href="#점진적-평균-업데이트-incremental-mean">점진적 평균 업데이트 (Incremental Mean)</a></h3>
+<p>각 arm의 가치를 추정할 때 전체 보상 기록을 저장하지 않는다. 점진적 평균 공식으로 O(1) 메모리와 수치 안정성을 동시에 달성한다:</p>
+<p>$$Q_{n+1}(a) = Q_n(a) + \frac{1}{n} \left[ R_n - Q_n(a) \right]$$</p>
+<pre><code class="language-fsharp">let incrementalMean (state: AgentState) (arm: Arm) (reward: float) : AgentState =
+    let n = state.Counts.[arm] + 1
+    let newVal = state.Values.[arm] + (1.0 / float n) * (reward - state.Values.[arm])
+    { Counts = state.Counts |&gt; Array.mapi (fun i c -&gt; if i = arm then n else c)
+      Values = state.Values |&gt; Array.mapi (fun i v -&gt; if i = arm then newVal else v) }
+</code></pre>
+<h3 id="ε-값별-동작-차이"><a class="header" href="#ε-값별-동작-차이">ε 값별 동작 차이</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>ε</th><th>탐색 빈도</th><th>활용 빈도</th><th>특징</th></tr>
+</thead>
+<tbody>
+<tr><td>0.01</td><td>1%</td><td>99%</td><td>초기에 최선의 arm을 빠르게 고정, 새 정보 반영 느림</td></tr>
+<tr><td>0.10</td><td>10%</td><td>90%</td><td>실용적 균형, 가장 많이 사용</td></tr>
+<tr><td>0.30</td><td>30%</td><td>70%</td><td>환경 변화에 적응력 높지만 단기 성능 낮음</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="알고리즘-2-ucb1-upper-confidence-bound"><a class="header" href="#알고리즘-2-ucb1-upper-confidence-bound">알고리즘 2: UCB1 (Upper Confidence Bound)</a></h2>
+<h3 id="아이디어-1"><a class="header" href="#아이디어-1">아이디어</a></h3>
+<p>ε-greedy는 탐색 확률을 고정한다. UCB1은 <strong>불확실성을 명시적으로 보너스로 추가</strong>하여 결정론적으로 탐색과 활용을 균형 잡는다:</p>
+<p>$$a_t = \arg\max_a \left[ Q(a) + \sqrt{\frac{2 \ln t}{N(a)}} \right]$$</p>
+<ul>
+<li>$Q(a)$: arm a의 현재 추정 가치 (활용 항)</li>
+<li>$\sqrt{2 \ln t / N(a)}$: 탐색 보너스 — 방문 횟수가 적을수록 커짐</li>
+</ul>
+<pre><code class="language-fsharp">// Bandit/src/Bandit/Agent.fs
+
+let ucb1 (totalSteps: int) (state: AgentState) : Arm =
+    // 초기화: 방문하지 않은 arm이 있으면 먼저 방문 (N(a)=0 → 나눗셈 방지)
+    match Array.tryFindIndex (fun c -&gt; c = 0) state.Counts with
+    | Some arm -&gt; arm
+    | None -&gt;
+        let t = float totalSteps
+        state.Values
+        |&gt; Array.mapi (fun i q -&gt; q + sqrt (2.0 * log t / float state.Counts.[i]))
+        |&gt; Array.indexed
+        |&gt; Array.maxBy snd
+        |&gt; fst
+</code></pre>
+<p><strong>초기화가 중요한 이유</strong>: $N(a) = 0$이면 $\ln(t) / 0 = \infty$가 된다. 모든 arm을 한 번씩 방문한 뒤에야 UCB1 공식을 적용한다.</p>
+<h3 id="ε-greedy-vs-ucb1-비교"><a class="header" href="#ε-greedy-vs-ucb1-비교">ε-greedy vs UCB1 비교</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>특성</th><th>ε-greedy</th><th>UCB1</th></tr>
+</thead>
+<tbody>
+<tr><td>탐색 방식</td><td>확률적 (매번 동전 던지기)</td><td>결정론적 (불확실성 기반)</td></tr>
+<tr><td>하이퍼파라미터</td><td>ε (튜닝 필요)</td><td>없음</td></tr>
+<tr><td>이론적 보장</td><td>없음</td><td>O(log T) 후회 (regret) 상한</td></tr>
+<tr><td>환경 변화 적응</td><td>ε으로 조절 가능</td><td>고정 공식 (비정상 환경에 취약)</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="실험-결과-해석"><a class="header" href="#실험-결과-해석">실험 결과 해석</a></h2>
+<p><code>dotnet run --project Bandit/src/Bandit.Console/</code>을 실행하면:</p>
+<pre><code>[HH:mm:ss INF] === ε-greedy 비교 (1000 steps, 10-arm bandit) ===
+[HH:mm:ss INF]   ε=0.01  최적 arm=9  추정 가치=0.892  총 보상≈871.3
+[HH:mm:ss INF]   ε=0.10  최적 arm=9  추정 가치=0.901  총 보상≈843.6
+[HH:mm:ss INF]   ε=0.30  최적 arm=9  추정 가치=0.895  총 보상≈762.1
+[HH:mm:ss INF] --------------------------------------------------
+[HH:mm:ss INF] === ε-greedy (ε=0.10) vs UCB1 ===
+[HH:mm:ss INF]   ε-greedy 총 보상≈843.6
+[HH:mm:ss INF]   UCB1     총 보상≈891.2
+[HH:mm:ss INF]   승자: UCB1 (+47.6)
+</code></pre>
+<p><strong>관찰 포인트</strong>:</p>
+<ul>
+<li>ε=0.01은 초기 운에 따라 성능이 불안정하다 (탐색 부족)</li>
+<li>ε=0.10이 단기 성능과 장기 학습의 균형을 잡는다</li>
+<li>ε=0.30은 탐색을 너무 많이 해서 총 보상이 낮다</li>
+<li>UCB1은 하이퍼파라미터 없이도 ε-greedy와 경쟁한다</li>
+</ul>
+<hr>
+<h2 id="이-phase의-f-설계-원칙"><a class="header" href="#이-phase의-f-설계-원칙">이 Phase의 F# 설계 원칙</a></h2>
+<p>Phase 전체에서 지키는 두 가지 핵심 규칙:</p>
+<p><strong>1. Functional Core / Imperative Shell (XCUT-03)</strong></p>
+<p><code>Domain.fs</code>, <code>Environment.fs</code>, <code>Agent.fs</code>, <code>Training.fs</code>는 순수 함수만 포함한다. 모든 I/O (Serilog, <code>printfn</code>, <code>Console.*</code>)는 <code>Program.fs</code>에만 있다. 이렇게 하면 순수 함수를 격리해서 테스트하고, I/O 없이 재사용할 수 있다.</p>
+<p><strong>2. Option/Result 패턴 (XCUT-01)</strong></p>
+<p>예외를 던지지 않는다. 잘못된 입력(예: ε가 [0,1] 범위 밖)은 <code>Result&lt;'T, string&gt;</code>으로 표현한다. 이렇게 하면 오류 경로가 타입 시스템에 드러나 런타임 충돌이 없다.</p>
+<hr>
+<h2 id="다음-phase"><a class="header" href="#다음-phase">다음 Phase</a></h2>
+<p>Bandit에서 에이전트는 <strong>상태(state)</strong> 개념이 없다. 매 step이 독립적이다. 하지만 실제 게임(틱택토, 오목)은 이전 수가 현재 상황을 결정한다 — 이것이 **MDP(Markov Decision Process)**다.</p>
+<p>Chapter 2에서는 틱택토를 통해 상태, 전이, 가치 함수, TD Learning을 구현한다.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="chapter-2-틱택토--상태-가치-그리고-시간차-학습"><a class="header" href="#chapter-2-틱택토--상태-가치-그리고-시간차-학습">Chapter 2: 틱택토 — 상태, 가치, 그리고 시간차 학습</a></h1>
+<h2 id="phase-1의-한계-왜-mdp가-필요한가"><a class="header" href="#phase-1의-한계-왜-mdp가-필요한가">Phase 1의 한계: 왜 MDP가 필요한가?</a></h2>
+<p>1장에서 우리는 슬롯머신 문제(Multi-Armed Bandit)를 풀었다. Bandit에서는 <strong>상태가 하나</strong>였다.
+어떤 버튼을 눌러도 세상은 그대로였고, 과거의 선택이 미래 선택지에 영향을 주지 않았다.</p>
+<p>틱택토는 본질적으로 다르다. <strong>행동이 상태를 바꾼다.</strong> 한 수를 두면 보드가 달라지고,
+다음에 선택할 수 있는 자리도 달라진다. 게임이 끝날 때까지 이 과정이 반복된다.</p>
+<p>이것이 **MDP(Markov Decision Process)**의 핵심이다:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>개념</th><th>Bandit</th><th>틱택토</th></tr>
+</thead>
+<tbody>
+<tr><td>상태</td><td>단 하나 (항상 같은 상황)</td><td>수천 개 (보드 배치)</td></tr>
+<tr><td>행동의 영향</td><td>없음</td><td>상태 전이</td></tr>
+<tr><td>보상 시점</td><td>즉각적</td><td>게임 종료 시</td></tr>
+<tr><td>최적 전략</td><td>최고 기댓값 arm 선택</td><td>미래 상태까지 고려</td></tr>
+</tbody>
+</table>
+</div>
+<p>Bandit에서는 <code>incrementalMean</code>으로 평균 보상만 추적하면 됐다.
+틱택토에서는 **“이 보드 배치에서 이길 확률이 얼마인가”**를 추적해야 한다 — 이것이 <strong>가치 함수</strong>다.</p>
+<h2 id="mdp-핵심-개념"><a class="header" href="#mdp-핵심-개념">MDP 핵심 개념</a></h2>
+<p><strong>상태 (State):</strong> 현재 보드 배치 (9칸 × {빈칸, X, O} = 최대 19,683가지, 실제 도달 가능 ~5,478가지)</p>
+<p><strong>행동 (Action):</strong> 빈 칸에 돌 놓기 (최대 9개, 게임 진행에 따라 감소)</p>
+<p><strong>전이 (Transition):</strong> <code>applyMove board player move</code> → 새 보드</p>
+<p><strong>보상 (Reward):</strong> 게임 종료 시에만 발생 (승: 1.0, 패: 0.0, 무: 0.5)</p>
+<p><strong>가치 함수 (Value Function):</strong> <code>V(s)</code> = 상태 s에서 X가 이길 확률</p>
+<h2 id="td0-학습-시간차-업데이트"><a class="header" href="#td0-학습-시간차-업데이트">TD(0) 학습: 시간차 업데이트</a></h2>
+<p>**TD Learning (Temporal Difference Learning)**은 실제 게임 플레이를 통해 가치 함수를 업데이트한다.
+몬테카를로 방법처럼 게임이 끝날 때까지 기다리지 않고, <strong>매 수마다 즉각 업데이트</strong>한다.</p>
+<p>업데이트 공식:</p>
+<pre><code>V(s) ← V(s) + α × (V(s') - V(s))
+</code></pre>
+<ul>
+<li><code>V(s)</code>: 현재 상태의 가치 추정치</li>
+<li><code>V(s')</code>: 다음 상태의 가치 추정치</li>
+<li><code>α (alpha)</code>: 학습률 (0.1 ~ 0.3)</li>
+<li><code>V(s') - V(s)</code>: TD 오차 (예측이 얼마나 틀렸나)</li>
+</ul>
+<p>직관: <strong>다음 상태가 현재보다 좋아 보이면 현재 상태 가치를 올린다</strong>. 나빠 보이면 내린다.</p>
+<h2 id="핵심-f-타입"><a class="header" href="#핵심-f-타입">핵심 F# 타입</a></h2>
+<pre><code class="language-fsharp">module TicTacToe.Domain
+
+type Cell = Empty | X | O
+
+/// Flat 9-element board (0=top-left, 8=bottom-right, row-major)
+/// 0|1|2
+/// 3|4|5
+/// 6|7|8
+type Board = Cell array
+
+/// Immutable game state (TICT-02)
+type GameState = {
+    Board: Board
+    CurrentPlayer: Cell  // X or O; Empty is never valid
+}
+
+/// Value table: board state -&gt; X's estimated win probability [0.0, 1.0]
+type ValueTable = Map&lt;Board, float&gt;
+
+/// Create a board initialized with 9 empty cells
+/// CRITICAL: Do not use Array.zeroCreate — returns null for DU types
+/// Must use Array.create 9 Empty
+let emptyBoard () : Board = Array.create 9 Empty
+
+let initialState () : GameState =
+    { Board = emptyBoard (); CurrentPlayer = X }
+
+let otherPlayer (p: Cell) : Cell =
+    match p with
+    | X -&gt; O
+    | O -&gt; X
+    | Empty -&gt; failwith "otherPlayer: Empty is not a valid player"
+</code></pre>
+<h2 id="게임-규칙-엔진"><a class="header" href="#게임-규칙-엔진">게임 규칙 엔진</a></h2>
+<pre><code class="language-fsharp">module TicTacToe.Rules
+
+open TicTacToe.Domain
+
+/// 8 winning lines (3 rows + 3 columns + 2 diagonals)
+let private winLines = [|
+    [|0;1;2|]; [|3;4;5|]; [|6;7;8|]  // rows
+    [|0;3;6|]; [|1;4;7|]; [|2;5;8|]  // columns
+    [|0;4;8|]; [|2;4;6|]             // diagonals
+|]
+
+/// Check winner: Some player if there's a winner, None otherwise
+let checkWinner (board: Board) : Cell option =
+    winLines
+    |&gt; Array.tryPick (fun line -&gt;
+        let cells = line |&gt; Array.map (fun i -&gt; board.[i])
+        if cells.[0] &lt;&gt; Empty &amp;&amp; cells.[0] = cells.[1] &amp;&amp; cells.[1] = cells.[2]
+        then Some cells.[0]
+        else None)
+
+type GameResult = XWins | OWins | Draw
+
+/// Check if game is over: Some GameResult if over, None if still in progress
+let isGameOver (board: Board) : GameResult option =
+    match checkWinner board with
+    | Some X -&gt; Some XWins
+    | Some O -&gt; Some OWins
+    | Some Empty -&gt; None  // Logically impossible but satisfies pattern match exhaustiveness
+    | None -&gt;
+        if Array.forall (fun c -&gt; c &lt;&gt; Empty) board
+        then Some Draw
+        else None
+
+/// List of legal moves (indices of Empty cells)
+let legalMoves (board: Board) : int list =
+    board
+    |&gt; Array.indexed
+    |&gt; Array.choose (fun (i, c) -&gt; if c = Empty then Some i else None)
+    |&gt; Array.toList
+
+/// Apply move: returns a new board with the given index set to player
+/// Legality check is the caller's responsibility
+let applyMove (board: Board) (player: Cell) (index: int) : Board =
+    board |&gt; Array.mapi (fun i c -&gt; if i = index then player else c)
+</code></pre>
+<h2 id="td-learning-에이전트"><a class="header" href="#td-learning-에이전트">TD Learning 에이전트</a></h2>
+<pre><code class="language-fsharp">module TicTacToe.Agent
+
+open TicTacToe.Domain
+open TicTacToe.Rules
+
+/// TD(0) 업데이트: V(s) &lt;- V(s) + alpha * (V(s') - V(s))
+/// alpha: 학습률 (전형적으로 0.1-0.3)
+/// 모든 값은 X의 관점 (V=1.0: X 확실 승, V=0.0: O 확실 승, V=0.5: 불명/무승부)
+let tdUpdate (alpha: float) (vTable: ValueTable) (state: Board) (nextState: Board) : ValueTable =
+    let vCurrent = Map.tryFind state vTable |&gt; Option.defaultValue 0.5
+    let vNext    = Map.tryFind nextState vTable |&gt; Option.defaultValue 0.5
+    let vNew     = vCurrent + alpha * (vNext - vCurrent)
+    Map.add state vNew vTable
+
+/// 랜덤 에이전트 (TICT-03): 합법 수 중 무작위 선택
+let randomAgent (rng: System.Random) (state: GameState) : int =
+    let moves = legalMoves state.Board
+    moves.[rng.Next(moves.Length)]
+
+/// TD 에이전트 (TICT-04): epsilon-greedy 수 선택
+/// X는 V(후계)를 최대화, O는 V(후계)를 최소화
+/// epsilon 확률로 무작위, 그 외에는 탐욕적 선택
+let tdAgent (rng: System.Random) (epsilon: float) (vTable: ValueTable) (state: GameState) : int =
+    let moves = legalMoves state.Board
+    if rng.NextDouble() &lt; epsilon then
+        moves.[rng.Next(moves.Length)]  // 탐험
+    else
+        let getBoardValue board =
+            Map.tryFind board vTable |&gt; Option.defaultValue 0.5
+        let scoredMoves =
+            moves
+            |&gt; List.map (fun move -&gt;
+                let nextBoard = applyMove state.Board state.CurrentPlayer move
+                let v = getBoardValue nextBoard
+                move, v)
+        match state.CurrentPlayer with
+        | X -&gt; scoredMoves |&gt; List.maxBy snd |&gt; fst  // X: V 최대화
+        | O -&gt; scoredMoves |&gt; List.minBy snd |&gt; fst  // O: V 최소화
+        | Empty -&gt; failwith "tdAgent: Empty는 유효한 플레이어가 아닙니다"
+</code></pre>
+<h2 id="자가-대국-학습-루프"><a class="header" href="#자가-대국-학습-루프">자가 대국 학습 루프</a></h2>
+<pre><code class="language-fsharp">module TicTacToe.Training
+
+open TicTacToe.Domain
+open TicTacToe.Rules
+open TicTacToe.Agent
+
+/// 한 에피소드 자가 대국 실행.
+/// 두 TD 에이전트가 동일 ValueTable(공유)으로 경쟁.
+/// 반환: (업데이트된 ValueTable, 게임 결과)
+let playEpisode
+    (rng: System.Random)
+    (alpha: float)
+    (epsilon: float)
+    (vTable: ValueTable) : ValueTable * GameResult =
+
+    let rec loop (state: GameState) (vTable: ValueTable) (prevBoard: Board option) =
+        match isGameOver state.Board with
+        | Some result -&gt;
+            // 종단 상태: 최종 값 고정 + 마지막 백업
+            let terminalValue =
+                match result with
+                | XWins -&gt; 1.0
+                | OWins -&gt; 0.0
+                | Draw  -&gt; 0.5
+            let vTable' = Map.add state.Board terminalValue vTable
+            let vTable'' =
+                match prevBoard with
+                | Some prev -&gt; tdUpdate alpha vTable' prev state.Board
+                | None -&gt; vTable'
+            vTable'', result
+        | None -&gt;
+            let move = tdAgent rng epsilon vTable state
+            let nextBoard = applyMove state.Board state.CurrentPlayer move
+            let nextState = { Board = nextBoard; CurrentPlayer = otherPlayer state.CurrentPlayer }
+            // TD 백업: 현재 플레이어의 이전 보드를 현재 보드 방향으로 업데이트
+            let vTable' =
+                match prevBoard with
+                | Some prev -&gt; tdUpdate alpha vTable prev state.Board
+                | None -&gt; vTable
+            loop nextState vTable' (Some state.Board)
+
+    loop (initialState ()) vTable None
+
+/// N 에피소드 자가 대국 학습 (TICT-05).
+/// 반환: (최종 ValueTable, win rate history [(episode, xWinRate)])
+/// logInterval마다 현재까지의 X 승률을 history에 기록
+let trainAgent
+    (rng: System.Random)
+    (episodes: int)
+    (alpha: float)
+    (epsilon: float)
+    (logInterval: int) : ValueTable * (int * float) list =
+
+    let rec loop ep vTable wins history =
+        if ep &gt; episodes then
+            vTable, List.rev history
+        else
+            let vTable', result = playEpisode rng alpha epsilon vTable
+            let wins' = if result = XWins then wins + 1 else wins
+            let history' =
+                if ep % logInterval = 0 &amp;&amp; ep &gt; 0 then
+                    let rate = float wins' / float ep
+                    (ep, rate) :: history
+                else history
+            loop (ep + 1) vTable' wins' history'
+
+    loop 1 Map.empty 0 []
+
+/// TD 에이전트(X, epsilon=0) vs 랜덤 에이전트(O) 승률 측정 (TICT-08)
+/// games 판 중 X 승리 비율 반환
+let winRateVsRandom
+    (rng: System.Random)
+    (vTable: ValueTable)
+    (games: int) : float =
+    let wins =
+        [ 1..games ]
+        |&gt; List.sumBy (fun _ -&gt;
+            let rec play state =
+                match isGameOver state.Board with
+                | Some XWins -&gt; 1
+                | Some _ -&gt; 0
+                | None -&gt;
+                    let move =
+                        if state.CurrentPlayer = X then
+                            tdAgent rng 0.0 vTable state  // 평가 시 epsilon=0 (순수 탐욕)
+                        else
+                            randomAgent rng state
+                    let next = {
+                        Board = applyMove state.Board state.CurrentPlayer move
+                        CurrentPlayer = otherPlayer state.CurrentPlayer
+                    }
+                    play next
+            play (initialState ()))
+    float wins / float games
+</code></pre>
+<h2 id="학습-검증-승률--90"><a class="header" href="#학습-검증-승률--90">학습 검증: 승률 &gt; 90%</a></h2>
+<p>10만 판 자가 대국 후, 학습된 에이전트를 완전 랜덤 상대와 1,000판 대결시킨다.</p>
+<pre><code>FsCheck 보드 불변 조건 테스트:
+  ✓ 빈칸 수는 합법적인 이동 1회 후 1 감소한다
+  ✓ 플레이어는 교대한다: X 이후 O 차례
+  ✓ 합법 수는 모두 [0, 8] 범위 내에 있다
+  ✓ applyMove는 대상 칸만 변경하고 나머지는 유지한다
+  ✓ 초기 보드는 9개의 빈 칸을 가진다
+
+Expecto 수렴 테스트:
+  ✓ TD 에이전트가 100k 자가 대국 후 랜덤 상대 승률 &gt; 90%
+</code></pre>
+<h2 id="학습-곡선-관찰"><a class="header" href="#학습-곡선-관찰">학습 곡선 관찰</a></h2>
+<p>Serilog가 1,000판마다 현재 승률을 출력한다:</p>
+<pre><code>[12:34:56 INF] Episode=1000 WinRate=61.2%
+[12:34:57 INF] Episode=2000 WinRate=72.5%
+...
+[12:35:10 INF] Episode=50000 WinRate=91.8%
+[12:35:20 INF] Episode=100000 WinRate=93.4%
+</code></pre>
+<p>처음에는 무작위에 가깝다가, 점차 전략적 수가 쌓이며 수렴한다.</p>
+<h2 id="phase-3-예고-왜-상태-공간이-문제인가"><a class="header" href="#phase-3-예고-왜-상태-공간이-문제인가">Phase 3 예고: 왜 상태 공간이 문제인가?</a></h2>
+<p>틱택토의 상태 수는 ~5,478개 — <code>Map&lt;Board, float&gt;</code> 하나에 충분히 들어간다.</p>
+<p>하지만 Connect Four는? 6×7 보드, 최대 42수. 가능한 상태 수는 4조(4×10¹²)를 넘는다.
+이 크기의 가치 테이블은 메모리에 들어가지 않는다.</p>
+<p>3장에서는 이 문제를 두 가지 방향으로 접근한다:</p>
+<ol>
+<li><strong>Q-Learning + 특징 추출</strong>: 상태 전체 대신 보드의 특징(연속 돌 수 등)을 사용</li>
+<li><strong>Minimax Alpha-Beta</strong>: 가치 함수 없이 게임 트리 탐색으로 최선 수 계산</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="chapter-3-커넥트-포--q-learning과-minimax"><a class="header" href="#chapter-3-커넥트-포--q-learning과-minimax">Chapter 3: 커넥트 포 — Q-Learning과 Minimax</a></h1>
+<h2 id="phase-2의-한계-상태-공간-폭발"><a class="header" href="#phase-2의-한계-상태-공간-폭발">Phase 2의 한계: 상태 공간 폭발</a></h2>
+<p>2장에서 우리는 틱택토의 가치 함수를 <code>Map&lt;Board, float&gt;</code>로 표현했다.
+도달 가능한 상태가 ~5,478개였기 때문에 이 방식이 완벽히 작동했다.</p>
+<p>커넥트 포는 본질적으로 다르다. 6×7 보드에서 가능한 위치 수는 천문학적이다.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>항목</th><th>틱택토</th><th>커넥트 포</th></tr>
+</thead>
+<tbody>
+<tr><td>보드 크기</td><td>3×3 = 9칸</td><td>6×7 = 42칸</td></tr>
+<tr><td>도달 가능 상태 수</td><td>~5,478개</td><td>~4,531,985,219,092개</td></tr>
+<tr><td>Map으로 저장 가능?</td><td>가능 (몇 KB)</td><td>불가 (수십 TB 필요)</td></tr>
+<tr><td>전략</td><td>TD(0) 가치 함수</td><td>Q-Learning + Minimax</td></tr>
+</tbody>
+</table>
+</div>
+<p>4조 개를 넘는 상태 — 이것이 3장에서 두 가지 전혀 다른 접근법을 탐구하는 이유다.</p>
+<h2 id="커넥트-포-게임-규칙"><a class="header" href="#커넥트-포-게임-규칙">커넥트 포 게임 규칙</a></h2>
+<p>커넥트 포는 두 플레이어가 교대로 6행 7열 격자에 돌을 떨어뜨리는 게임이다.
+돌은 중력을 받아 열의 최하단 빈 칸에 쌓인다.
+가로, 세로, 대각선 방향으로 4개를 먼저 연결하면 승리한다.</p>
+<h3 id="핵심-f-타입-정의"><a class="header" href="#핵심-f-타입-정의">핵심 F# 타입 정의</a></h3>
+<pre><code class="language-fsharp">module ConnectFour.Domain
+
+type Cell = Empty | Red | Yellow
+
+/// 6×7 board as flat 42-element array, row-major: index = row * 7 + col
+/// Row 0 = top, Row 5 = bottom
+type Board = Cell array
+
+type GameState = {
+    Board: Board
+    CurrentPlayer: Cell
+}
+
+let rows = 6
+let cols = 7
+
+let inline idx row col = row * cols + col
+
+let emptyBoard () : Board = Array.create (rows * cols) Empty
+
+let initialState () : GameState =
+    { Board = emptyBoard (); CurrentPlayer = Red }
+
+let opponent (player: Cell) : Cell =
+    match player with
+    | Red    -&gt; Yellow
+    | Yellow -&gt; Red
+    | Empty  -&gt; failwith "opponent: Empty is not a player"
+</code></pre>
+<p>보드는 42개 원소의 1차원 배열이다. <code>idx row col = row * 7 + col</code>로 접근한다.
+행 0이 맨 위, 행 5가 맨 아래(중력 기준점)다.</p>
+<h3 id="게임-규칙-엔진-1"><a class="header" href="#게임-규칙-엔진-1">게임 규칙 엔진</a></h3>
+<pre><code class="language-fsharp">module ConnectFour.Rules
+
+open ConnectFour.Domain
+
+let dropRow (board: Board) (col: int) : int option =
+    [ rows - 1 .. -1 .. 0 ]
+    |&gt; List.tryFind (fun row -&gt; board.[idx row col] = Empty)
+
+let legalMoves (board: Board) : int list =
+    [ 0 .. cols - 1 ]
+    |&gt; List.filter (fun col -&gt; dropRow board col |&gt; Option.isSome)
+
+let applyMove (board: Board) (player: Cell) (col: int) : Board =
+    match dropRow board col with
+    | None -&gt; failwith $"applyMove: column {col} is full"
+    | Some row -&gt;
+        board |&gt; Array.mapi (fun i c -&gt; if i = idx row col then player else c)
+
+let private checkDirection (board: Board) (r: int) (c: int) (dr: int) (dc: int) (player: Cell) : bool =
+    [ 0 .. 3 ]
+    |&gt; List.forall (fun k -&gt;
+        let nr = r + k * dr
+        let nc = c + k * dc
+        nr &gt;= 0 &amp;&amp; nr &lt; rows &amp;&amp; nc &gt;= 0 &amp;&amp; nc &lt; cols &amp;&amp; board.[idx nr nc] = player)
+
+let checkWinner (board: Board) : Cell option =
+    let directions = [ (0,1); (1,0); (1,1); (1,-1) ]
+    [ for r in 0 .. rows-1 do
+      for c in 0 .. cols-1 do
+      for (dr, dc) in directions do
+        yield (r, c, dr, dc) ]
+    |&gt; List.tryPick (fun (r, c, dr, dc) -&gt;
+        let cell = board.[idx r c]
+        if cell &lt;&gt; Empty &amp;&amp; checkDirection board r c dr dc cell
+        then Some cell
+        else None)
+
+type GameResult = RedWins | YellowWins | Draw
+
+let isGameOver (board: Board) : GameResult option =
+    match checkWinner board with
+    | Some Red    -&gt; Some RedWins
+    | Some Yellow -&gt; Some YellowWins
+    | Some Empty  -&gt; None
+    | None -&gt;
+        if Array.forall (fun c -&gt; c &lt;&gt; Empty) board then Some Draw
+        else None
+</code></pre>
+<p><code>dropRow</code>는 열에서 돌이 실제로 떨어질 위치를 찾는다 — 아래에서부터 첫 번째 빈 칸이다.
+<code>isGameOver</code>는 승자 확인(4방향)과 무승부 확인(보드가 모두 찼을 때)을 처리한다.</p>
+<h2 id="minimax-alpha-beta-pruning"><a class="header" href="#minimax-alpha-beta-pruning">Minimax Alpha-Beta Pruning</a></h2>
+<p><strong>Minimax</strong>는 상대방도 최선을 다한다고 가정하고 게임 트리를 완전 탐색한다.
+나는 내 점수를 최대화하려 하고, 상대는 내 점수를 최소화하려 한다.</p>
+<p><strong>Alpha-Beta Pruning</strong>은 Minimax를 최적화한다. 이미 더 좋은 수를 알고 있는 경우,
+탐색할 필요 없는 트리 가지를 잘라낸다. 평균적으로 탐색 비용을 절반으로 줄인다.</p>
+<p>Negamax 변형을 사용하면 두 플레이어를 동일한 코드로 처리할 수 있다:
+모든 상태의 점수를 “현재 플레이어 기준“으로 평가한다.</p>
+<pre><code class="language-fsharp">module ConnectFour.Minimax
+
+open ConnectFour.Domain
+open ConnectFour.Rules
+
+let [&lt;Literal&gt;] private NegInf = -1_000_000
+let [&lt;Literal&gt;] private PosInf =  1_000_000
+
+let private scoreWindow (window: Cell list) (player: Cell) : int =
+    let opp = opponent player
+    let p = window |&gt; List.filter ((=) player) |&gt; List.length
+    let o = window |&gt; List.filter ((=) opp) |&gt; List.length
+    if o &gt; 0 then 0
+    else
+        match p with
+        | 4 -&gt; 10000
+        | 3 -&gt; 50
+        | 2 -&gt; 3
+        | 1 -&gt; 1
+        | _ -&gt; 0
+
+let private allWindows (board: Board) : Cell list list =
+    [ for r in 0 .. rows-1 do
+        for c in 0 .. cols-4 do
+          yield [ board.[idx r c]; board.[idx r (c+1)]; board.[idx r (c+2)]; board.[idx r (c+3)] ]
+      for c in 0 .. cols-1 do
+        for r in 0 .. rows-4 do
+          yield [ board.[idx r c]; board.[idx (r+1) c]; board.[idx (r+2) c]; board.[idx (r+3) c] ]
+      for r in 0 .. rows-4 do
+        for c in 0 .. cols-4 do
+          yield [ board.[idx r c]; board.[idx (r+1) (c+1)]; board.[idx (r+2) (c+2)]; board.[idx (r+3) (c+3)] ]
+      for r in 3 .. rows-1 do
+        for c in 0 .. cols-4 do
+          yield [ board.[idx r c]; board.[idx (r-1) (c+1)]; board.[idx (r-2) (c+2)]; board.[idx (r-3) (c+3)] ]
+    ]
+
+let evaluateBoard (board: Board) (player: Cell) : int =
+    let opp = opponent player
+    let windows = allWindows board
+    let netWindowScore =
+        windows |&gt; List.sumBy (fun w -&gt;
+            scoreWindow w player - scoreWindow w opp)
+    let centerBonus =
+        [ 0 .. rows-1 ]
+        |&gt; List.filter (fun r -&gt; board.[idx r 3] = player)
+        |&gt; List.length
+        |&gt; (*) 3
+    netWindowScore + centerBonus
+
+let rec minimaxAB
+    (board: Board) (player: Cell) (depth: int)
+    (alpha: int) (beta: int) (pruneCount: int ref) : int =
+    match isGameOver board with
+    | Some result -&gt;
+        match result with
+        | RedWins    -&gt; if player = Red    then 10000 + depth else -(10000 + depth)
+        | YellowWins -&gt; if player = Yellow then 10000 + depth else -(10000 + depth)
+        | Draw       -&gt; 0
+    | None when depth = 0 -&gt;
+        evaluateBoard board player
+    | None -&gt;
+        let opp = opponent player
+        let moves = legalMoves board |&gt; List.sortBy (fun c -&gt; abs (c - 3))
+        let rec loop moves alpha bestScore =
+            match moves with
+            | [] -&gt; bestScore
+            | col :: rest -&gt;
+                let nextBoard = applyMove board player col
+                let childScore = -(minimaxAB nextBoard opp (depth - 1) (-beta) (-alpha) pruneCount)
+                let newBest = max bestScore childScore
+                let newAlpha = max alpha newBest
+                if newAlpha &gt;= beta then
+                    pruneCount.Value &lt;- pruneCount.Value + 1
+                    newBest
+                else
+                    loop rest newAlpha newBest
+        loop moves alpha NegInf
+
+let chooseMoveAB (board: Board) (player: Cell) (depth: int) : int * int =
+    let pruneCount = ref 0
+    let opp = opponent player
+    let moves = legalMoves board |&gt; List.sortBy (fun c -&gt; abs (c - 3))
+    let scored =
+        moves |&gt; List.map (fun col -&gt;
+            let nextBoard = applyMove board player col
+            let score = -(minimaxAB nextBoard opp (depth - 1) NegInf PosInf pruneCount)
+            col, score)
+    let bestCol = scored |&gt; List.maxBy snd |&gt; fst
+    bestCol, pruneCount.Value
+
+let rec private naiveMinimax (board: Board) (player: Cell) (depth: int) : int =
+    match isGameOver board with
+    | Some result -&gt;
+        match result with
+        | RedWins    -&gt; if player = Red    then 10000 + depth else -(10000 + depth)
+        | YellowWins -&gt; if player = Yellow then 10000 + depth else -(10000 + depth)
+        | Draw       -&gt; 0
+    | None when depth = 0 -&gt;
+        evaluateBoard board player
+    | None -&gt;
+        let opp = opponent player
+        let moves = legalMoves board |&gt; List.sortBy (fun c -&gt; abs (c - 3))
+        moves |&gt; List.map (fun col -&gt;
+            let nextBoard = applyMove board player col
+            -(naiveMinimax nextBoard opp (depth - 1)))
+        |&gt; List.max
+
+let chooseMoveNaive (board: Board) (player: Cell) (depth: int) : int =
+    let opp = opponent player
+    let moves = legalMoves board |&gt; List.sortBy (fun c -&gt; abs (c - 3))
+    moves |&gt; List.map (fun col -&gt;
+        let nextBoard = applyMove board player col
+        col, -(naiveMinimax nextBoard opp (depth - 1)))
+    |&gt; List.maxBy snd |&gt; fst
+</code></pre>
+<p><code>chooseMoveAB</code>는 <code>(최선 열, 누적 가지치기 횟수)</code> 쌍을 반환한다.
+가지치기 횟수는 Alpha-Beta가 얼마나 효과적으로 탐색을 줄였는지 보여주는 지표다.</p>
+<h2 id="q-learning"><a class="header" href="#q-learning">Q-Learning</a></h2>
+<p><strong>Q-Learning</strong>은 행동-가치 함수 <code>Q(s, a)</code>를 학습한다:
+“상태 s에서 행동 a를 취할 때 기대 보상은 얼마인가?”</p>
+<p>벨만 방정식으로 업데이트한다:</p>
+<pre><code>Q(s,a) ← Q(s,a) + α × [r + γ × max_a' Q(s',a') - Q(s,a)]
+</code></pre>
+<ul>
+<li><code>α (alpha)</code>: 학습률 — 새 정보를 얼마나 빠르게 반영하나</li>
+<li><code>γ (gamma)</code>: 할인율 — 미래 보상을 얼마나 중요하게 여기나</li>
+<li><code>r + γ × max Q(s',a')</code>: TD 목표값</li>
+<li><code>r + γ × max Q(s',a') - Q(s,a)</code>: TD 오차</li>
+</ul>
+<p>ε-greedy 정책으로 탐색과 활용의 균형을 맞춘다:
+ε 확률로 무작위 행동(탐색), 1-ε 확률로 최선 행동(활용).</p>
+<pre><code class="language-fsharp">module ConnectFour.QAgent
+
+open ConnectFour.Domain
+open ConnectFour.Rules
+
+type QTable = System.Collections.Generic.Dictionary&lt;string, float[]&gt;
+
+let encodeState (board: Board) : string =
+    board
+    |&gt; Array.map (fun c -&gt;
+        match c with
+        | Red    -&gt; 'R'
+        | Yellow -&gt; 'Y'
+        | Empty  -&gt; '.')
+    |&gt; System.String
+
+let createQTable () : QTable = QTable()
+
+let getQ (table: QTable) (state: string) : float[] =
+    match table.TryGetValue(state) with
+    | true, values -&gt; values
+    | false, _ -&gt;
+        let values = Array.create cols 0.0
+        table.[state] &lt;- values
+        values
+
+let chooseAction (rng: System.Random) (table: QTable) (board: Board) (epsilon: float) : int =
+    let legal = legalMoves board
+    if legal.IsEmpty then failwith "chooseAction: no legal moves (game should be over)"
+    if rng.NextDouble() &lt; epsilon then
+        legal.[rng.Next(legal.Length)]
+    else
+        let state = encodeState board
+        let qVals = getQ table state
+        legal |&gt; List.maxBy (fun c -&gt; qVals.[c])
+
+let updateQ
+    (table: QTable) (state: string) (action: int) (reward: float)
+    (nextState: string) (nextLegalMoves: int list)
+    (alpha: float) (gamma: float) (isTerminal: bool) : unit =
+    let qCurr = getQ table state
+    let nextMax =
+        if isTerminal || nextLegalMoves.IsEmpty then 0.0
+        else
+            let qNext = getQ table nextState
+            nextLegalMoves |&gt; List.map (fun c -&gt; qNext.[c]) |&gt; List.max
+    let target = reward + gamma * nextMax
+    qCurr.[action] &lt;- qCurr.[action] + alpha * (target - qCurr.[action])
+
+let [&lt;Literal&gt;] RewardWin  =  1.0
+let [&lt;Literal&gt;] RewardLoss = -1.0
+let [&lt;Literal&gt;] RewardDraw =  0.3
+let [&lt;Literal&gt;] RewardStep =  0.0
+</code></pre>
+<p>Q-Table은 <code>Dictionary&lt;string, float[]&gt;</code>로 구현된다:</p>
+<ul>
+<li>키: 42글자 문자열 (<code>.</code> = 빈칸, <code>R</code> = 빨강, <code>Y</code> = 노랑)</li>
+<li>값: 7개 원소 배열 (각 열의 Q값)</li>
+</ul>
+<p>Red와 Yellow가 별도 테이블을 유지한다 — 각자 자신의 관점에서 학습한다.</p>
+<h2 id="q-table의-한계--왜-phase-4-dqn이-필요한가"><a class="header" href="#q-table의-한계--왜-phase-4-dqn이-필요한가">Q-Table의 한계 — 왜 Phase 4 DQN이 필요한가</a></h2>
+<p>50,000 에피소드 학습 후의 현실:</p>
+<pre><code>=== Q-Table 크기 분석 ===
+학습 후 방문한 상태: 169,311
+전체 가능한 상태:    4,531,985,219,092
+커버율:              0.000004%
+</code></pre>
+<p>Q-Table은 방문한 상태만 저장한다. 4조 개 상태 중 0.000004%만 본 것이다.
+한 번도 보지 못한 상태에서는 Q값이 0으로 초기화되어 있다 — 에이전트가 판단 근거를 갖지 못한다.</p>
+<p>이 방식은 <strong>일반화가 불가능</strong>하다. “이 위치와 비슷한 위치에서 이겼었다“는 지식을 전달할 수 없다.</p>
+<p>AI vs AI 결과가 이를 극명하게 보여준다:</p>
+<pre><code>=== AI vs AI 결과 (총 20게임) ===
+Minimax(R) 승: 20 / 20 (100.0%)
+Q-Learning(Y) 승: 0 / 20 (0.0%)
+Alpha-Beta 누적 가지치기: 184,820회
+</code></pre>
+<p>Minimax는 매 수마다 게임 트리를 깊이 6까지 탐색하며 최선 수를 계산한다.
+Q-Learning은 본 적 없는 보드 배치에서 갈피를 잡지 못한다.</p>
+<h2 id="phase-4-미리보기-신경망으로-일반화"><a class="header" href="#phase-4-미리보기-신경망으로-일반화">Phase 4 미리보기: 신경망으로 일반화</a></h2>
+<p>Q-Table의 한계를 극복하는 방법은 **함수 근사(Function Approximation)**다.</p>
+<p>상태를 키-값 쌍으로 저장하는 대신, 신경망으로 <code>Q(s,a)</code>를 근사한다:</p>
+<ul>
+<li>입력: 보드 배치 (42개 픽셀로 본다)</li>
+<li>출력: 7개의 Q값 (각 열에 대해)</li>
+</ul>
+<p>이것이 **DQN(Deep Q-Network)**이다. 2015년 DeepMind가 Atari 게임을 정복하며 세상을 놀라게 한 방법.</p>
+<p>신경망은 비슷한 보드 배치에서 비슷한 Q값을 예측할 수 있다 — 일반화가 가능하다.
+4조 개 상태를 모두 방문하지 않아도 된다. 패턴을 학습하면 된다.</p>
+<p>4장에서는 TorchSharp로 DQN을 F#으로 구현하고,
+같은 커넥트 포 환경에서 Q-Table이 실패하는 곳에서 DQN이 성공하는지 확인한다.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="4장-connect-four-dqn--신경망으로-q-table-한계-극복"><a class="header" href="#4장-connect-four-dqn--신경망으로-q-table-한계-극복">4장. Connect Four DQN — 신경망으로 Q-table 한계 극복</a></h1>
+<h2 id="phase-3의-한계"><a class="header" href="#phase-3의-한계">Phase 3의 한계</a></h2>
+<p>Phase 3에서 Q-Learning으로 Connect Four를 학습시켰다. 결과는 실망스러웠다:
+<strong>4조 5,319억 개(4.5T)</strong> 의 가능한 상태 중 50,000 에피소드로 탐색한 것은 단 <strong>0.000004%</strong> 에 불과했다.</p>
+<p>Q-table 방식은 “방문한 상태“만 기억한다. 비슷하게 생긴 두 보드가 있어도
+한쪽을 방문하지 않았다면 Q-값은 0(기본값)이다. 보드 게임처럼 상태 공간이 광대하면
+표 방식은 근본적인 한계에 부딪힌다.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>방식</th><th>상태 표현</th><th>Connect Four 성능</th></tr>
+</thead>
+<tbody>
+<tr><td>Q-table</td><td>방문한 상태만 기억</td><td>0.000004% 탐색</td></tr>
+<tr><td>DQN</td><td>신경망 파라미터로 압축</td><td>유사한 상태 일반화</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>해결책: 함수 근사(Function Approximation)</strong></p>
+<p>Q-table 대신 신경망 Q(s, a; θ)를 사용한다.
+비슷한 보드 패턴에서 비슷한 Q-값을 출력하도록 학습하면
+방문하지 않은 상태도 일반화할 수 있다.</p>
+<h2 id="dqn-핵심-개념"><a class="header" href="#dqn-핵심-개념">DQN 핵심 개념</a></h2>
+<h3 id="1-경험-재플레이-experience-replay"><a class="header" href="#1-경험-재플레이-experience-replay">1. 경험 재플레이 (Experience Replay)</a></h3>
+<p>연속적인 게임 데이터는 시간적으로 상관되어 있다.
+이 상관성이 신경망 학습을 불안정하게 만든다.
+해결책: 경험을 버퍼에 저장하고 <strong>무작위 배치</strong>를 샘플링한다.</p>
+<h3 id="2-타겟-네트워크-target-network"><a class="header" href="#2-타겟-네트워크-target-network">2. 타겟 네트워크 (Target Network)</a></h3>
+<p>Bellman 방정식의 목표값 <code>r + γ · max Q(s', a')</code> 을 계산할 때
+학습 중인 네트워크를 그대로 쓰면 “움직이는 과녁“을 쫓는 꼴이 된다.
+해결책: <strong>별도의 타겟 네트워크</strong>를 두고 주기적으로 동기화한다.</p>
+<h3 id="3-커리큘럼-학습-curriculum-learning"><a class="header" href="#3-커리큘럼-학습-curriculum-learning">3. 커리큘럼 학습 (Curriculum Learning)</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>에피소드 구간</th><th>상대방</th></tr>
+</thead>
+<tbody>
+<tr><td>0 ~ 20,000</td><td>랜덤</td></tr>
+<tr><td>20,000 ~ 35,000</td><td>Minimax depth 2</td></tr>
+<tr><td>35,000 ~ 50,000</td><td>Minimax depth 4</td></tr>
+</tbody>
+</table>
+</div>
+<p>약한 상대에서 강한 상대로 점진적으로 난이도를 높이면 수렴이 훨씬 빠르다.</p>
+<h2 id="arm64-네이티브-라이브러리-로딩"><a class="header" href="#arm64-네이티브-라이브러리-로딩">ARM64 네이티브 라이브러리 로딩</a></h2>
+<p>TorchSharp는 macOS ARM64에서 네이티브 라이브러리 자동 탐색에 버그가 있다.
+<code>AppContext.BaseDirectory/runtimes/osx-arm64/native/</code> 에서 직접 로드해야 한다.</p>
+<pre><code class="language-fsharp">module ConnectFourDQN.NativeLoader
+
+open System.Runtime.InteropServices
+open System.IO
+
+let private load () =
+    let exeDir = System.AppContext.BaseDirectory
+    let nativeDir = Path.Combine(exeDir, "runtimes", "osx-arm64", "native")
+    if Directory.Exists(nativeDir) then
+        NativeLibrary.Load(Path.Combine(nativeDir, "libomp.dylib"))           |&gt; ignore
+        NativeLibrary.Load(Path.Combine(nativeDir, "libc10.dylib"))           |&gt; ignore
+        NativeLibrary.Load(Path.Combine(nativeDir, "libtorch_cpu.dylib"))     |&gt; ignore
+        NativeLibrary.Load(Path.Combine(nativeDir, "libtorch.dylib"))         |&gt; ignore
+        NativeLibrary.Load(Path.Combine(nativeDir, "libLibTorchSharp.dylib")) |&gt; ignore
+
+do load ()
+</code></pre>
+<h2 id="보드-텐서-변환-3-채널-인코딩"><a class="header" href="#보드-텐서-변환-3-채널-인코딩">보드 텐서 변환 (3-채널 인코딩)</a></h2>
+<p>보드를 <strong>[3, 6, 7]</strong> float32 텐서로 인코딩한다:</p>
+<ul>
+<li>채널 0: 내 돌 위치 (1.0)</li>
+<li>채널 1: 상대 돌 위치 (1.0)</li>
+<li>채널 2: 빈 칸 위치 (1.0)</li>
+</ul>
+<p><strong>불변 조건 (DQN-08):</strong> 임의의 합법 보드에서 텐서의 모든 값 합 = 42.0
+(모든 칸에서 정확히 하나의 채널이 1.0)</p>
+<p>FsCheck property test로 검증.</p>
+<p>에이전트 전체 코드 (보드→텐서 변환, epsilon-greedy, 학습 스텝, 타겟 동기화):</p>
+<pre><code class="language-fsharp">module ConnectFourDQN.DQNAgent
+
+open TorchSharp
+open type TorchSharp.torch
+open ConnectFourDQN.Domain
+open ConnectFourDQN.Rules
+open ConnectFourDQN.DQNModel
+open ConnectFourDQN.ReplayBuffer
+
+// NOTE: `open type TorchSharp.torch` shadows the F# `int` and `int64` conversion
+// functions (they resolve to ScalarType.Int32 / ScalarType.Int64 instead).
+// Use `Operators.int` and `Operators.int64` for numeric conversions throughout.
+
+// ── Board → Tensor ─────────────────────────────────────────────────────────
+// Encode board as 3-channel float32 tensor [3, 6, 7].
+// Channel 0: my pieces, Channel 1: opponent pieces, Channel 2: empty cells.
+// Invariant: sum of all values = 42.0 (exactly one channel = 1.0 per cell).
+let boardToTensor (board: Board) (myPiece: Cell) (oppPiece: Cell) : Tensor =
+    let flat = Array.init (3 * 6 * 7) (fun i -&gt;
+        let ch   = i / (6 * 7)
+        let rem  = i % (6 * 7)
+        let cell = board.[rem / 7 * 7 + rem % 7]
+        match ch, cell with
+        | 0, c when c = myPiece  -&gt; 1.0f
+        | 1, c when c = oppPiece -&gt; 1.0f
+        | 2, Empty               -&gt; 1.0f
+        | _                      -&gt; 0.0f)
+    torch.tensor(flat, dtype = ScalarType.Float32).reshape([| 3L; 6L; 7L |])
+
+// Extract float32[] from boardToTensor result (for storing in ReplayBuffer without tensor leak).
+// Must be called inside a dispose scope — the tensor is freed when scope exits.
+let boardToArray (board: Board) (myPiece: Cell) (oppPiece: Cell) : float32[] =
+    use _scope = torch.NewDisposeScope()
+    use t = boardToTensor board myPiece oppPiece
+    t.data&lt;float32&gt;().ToArray()
+
+// ── Action Selection ────────────────────────────────────────────────────────
+// Epsilon-greedy with illegal move masking.
+// Illegal columns (full) are masked with -infinity before argmax so the network
+// never selects an invalid action.
+let chooseMove (rng: System.Random) (model: DQNModel) (board: Board)
+               (myPiece: Cell) (oppPiece: Cell) (epsilon: float) : int =
+    let legal = legalMoves board
+    if rng.NextDouble() &lt; epsilon then
+        // Exploration: random legal move
+        legal.[rng.Next(legal.Length)]
+    else
+        // Exploitation: greedy Q-value with illegal move masking
+        use _scope = torch.NewDisposeScope()
+        use stateTensor = boardToTensor board myPiece oppPiece
+        use input = stateTensor.unsqueeze(0L)   // [1,3,6,7]
+        use qAll  = model.forward(input)         // [1,7]
+        use qVec  = qAll.squeeze(0L)             // [7]
+        // Mask illegal columns with -infinity using index_fill_
+        // (avoids shadowed `int64` conversion function)
+        let illegalCols : int64[] =
+            [| 0 .. cols - 1 |]
+            |&gt; Array.filter (fun c -&gt; not (List.contains c legal))
+            |&gt; Array.map Operators.int64
+        if illegalCols.Length &gt; 0 then
+            use idxTensor = torch.tensor(illegalCols)
+            let negInf : Scalar = System.Single.NegativeInfinity
+            qVec.index_fill_(0L, idxTensor, negInf) |&gt; ignore
+        // Operators.int to convert int64 result (avoids shadowed `int` function)
+        let v : int64 = qVec.argmax().item&lt;int64&gt;()
+        Operators.int v
+
+// ── Training Step ────────────────────────────────────────────────────────────
+// One gradient update step using a batch from the replay buffer.
+// Wraps ALL tensor operations in NewDisposeScope — no tensor escapes this function.
+// Returns the loss value for logging.
+let trainStep (model: DQNModel) (target: DQNModel)
+              (opt: TorchSharp.torch.optim.Optimizer)
+              (experiences: Experience[]) (gamma: float32) : float32 =
+    use _scope = torch.NewDisposeScope()
+
+    let n = experiences.Length
+
+    // Reconstruct state/nextState tensors from stored float32[] arrays
+    let toBatch (getData: Experience -&gt; float32[]) =
+        let concat = experiences |&gt; Array.collect getData
+        torch.tensor(concat, dtype = ScalarType.Float32)
+              .reshape([| Operators.int64 n; 3L; 6L; 7L |])
+
+    use states     = toBatch (fun e -&gt; e.StateData)
+    use nextStates = toBatch (fun e -&gt; e.NextStateData)
+    use actions    = torch.tensor(experiences |&gt; Array.map (fun e -&gt; Operators.int64 e.Action))
+    use rewards    = torch.tensor(experiences |&gt; Array.map (fun e -&gt; e.Reward) : float32[])
+    use dones      = torch.tensor(experiences |&gt; Array.map (fun e -&gt; if e.Done then 1.0f else 0.0f) : float32[])
+
+    // Current Q-values for the taken actions: Q(s, a)
+    use qAll   = model.forward(states)                                  // [N, 7]
+    use qTaken = qAll.gather(1L, actions.unsqueeze(1L)).squeeze(1L)    // [N]
+
+    // Target Q-values: r + gamma * max_a'(Q_target(s', a')) * (1 - done)
+    // IMPORTANT: we must exit no_grad BEFORE computing the loss so that backward() works.
+    // Use explicit .Dispose() rather than `use` so we control the scope boundary.
+    let targetQ =
+        let noGrad = torch.no_grad()
+        let struct(nextQMax, _nextQIdx) = target.forward(nextStates).max(1L)  // [N]
+        let tq = rewards + gamma * nextQMax * (1.0f - dones)   // [N], detached
+        nextQMax.Dispose()
+        noGrad.Dispose()
+        tq
+    use _targetQ = targetQ  // register for dispose-scope cleanup
+
+    opt.zero_grad()
+    use loss = nn.functional.smooth_l1_loss(qTaken, targetQ, reduction = nn.Reduction.Mean)
+    loss.backward()
+    opt.step() |&gt; ignore
+
+    loss.item&lt;float32&gt;()
+
+// ── Target Network Sync ──────────────────────────────────────────────────────
+// Hard copy: save policy weights to temp file, load into target.
+// Called every targetSyncFreq steps.
+let syncTargetNetwork (policy: DQNModel) (target: DQNModel) (tmpPath: string) =
+    policy.save(tmpPath) |&gt; ignore
+    target.load(tmpPath) |&gt; ignore
+</code></pre>
+<h2 id="dqn-모델-구조"><a class="header" href="#dqn-모델-구조">DQN 모델 구조</a></h2>
+<p>Connect Four 6×7 보드에 맞는 Conv2D 아키텍처:</p>
+<pre><code>입력: [batch, 3, 6, 7]
+  → Conv2d(3→64, 3×3, pad=1) → ReLU → [batch, 64, 6, 7]
+  → Conv2d(64→128, 3×3, pad=1) → ReLU → [batch, 128, 6, 7]
+  → Flatten → [batch, 5376]  (128×6×7=5376)
+  → Linear(5376→256) → ReLU
+  → Linear(256→7)
+출력: [batch, 7] — 7개 열의 Q-값
+</code></pre>
+<pre><code class="language-fsharp">module ConnectFourDQN.DQNModel
+
+open TorchSharp
+open type TorchSharp.torch
+open type TorchSharp.torch.nn
+
+// DQN for Connect Four (6x7 board)
+// Input:  [batch, 3, 6, 7]  — 3-channel board encoding (my/opp/empty)
+// Output: [batch, 7]        — Q-value for each of the 7 columns
+//
+// Architecture (verified shape on ARM64 2026-02-20):
+//   Conv2d(3→64, 3×3, pad=1)  → [B,64,6,7]
+//   ReLU
+//   Conv2d(64→128, 3×3, pad=1) → [B,128,6,7]
+//   ReLU
+//   Flatten                   → [B,5376]  (128*6*7=5376)
+//   Linear(5376→256)
+//   ReLU
+//   Linear(256→7)
+type DQNModel(name: string) as this =
+    inherit Module&lt;Tensor, Tensor&gt;(name)
+
+    // Fields must be `let` bindings (NOT properties).
+    // RegisterComponents() discovers them via reflection.
+    let conv1   = Conv2d(3L,   64L,  3L, padding = 1L)
+    let conv2   = Conv2d(64L, 128L,  3L, padding = 1L)
+    let relu1   = ReLU()
+    let relu2   = ReLU()
+    let relu3   = ReLU()
+    let flatten = Flatten()
+    let fc1     = Linear(128L * 6L * 7L, 256L)  // 5376 → 256
+    let fc2     = Linear(256L, 7L)
+
+    // Mandatory: registers conv1, conv2, fc1, fc2 for gradient tracking + serialization
+    do this.RegisterComponents()
+
+    override _.forward(x: Tensor) : Tensor =
+        x --&gt; conv1 --&gt; relu1 --&gt; conv2 --&gt; relu2 --&gt; flatten --&gt; fc1 --&gt; relu3 --&gt; fc2
+</code></pre>
+<h2 id="experience-replay-버퍼"><a class="header" href="#experience-replay-버퍼">Experience Replay 버퍼</a></h2>
+<p>텐서를 버퍼에 직접 저장하면 메모리 누수가 발생한다.
+<code>float32[]</code> 배열로 변환해서 저장해야 한다.</p>
+<pre><code class="language-fsharp">module ConnectFourDQN.ReplayBuffer
+
+// An experience stores state/nextState as float32[] arrays (flattened [3,6,7] = 126 elements).
+// CRITICAL: Do NOT store tensors in Experience or ReplayBuffer.
+// Tensors held between training steps (outside a dispose scope) cause memory leaks.
+// float32[] arrays are plain .NET heap objects — safe to hold across steps.
+type Experience = {
+    StateData:     float32[]  // flattened [3*6*7 = 126] board encoding
+    Action:        int        // column chosen (0..6)
+    Reward:        float32    // +1.0 win, -1.0 loss, +0.3 draw, 0.0 step
+    NextStateData: float32[]  // flattened [3*6*7] board encoding after move
+    Done:          bool       // true if episode ended (win, loss, or draw)
+}
+
+// Fixed-capacity circular replay buffer.
+// Push overwrites oldest experience when full.
+// Sample returns a random batch of size batchSize (requires size &gt;= batchSize).
+type ReplayBuffer(capacity: int) =
+    let buffer = Array.zeroCreate&lt;Experience&gt; capacity
+    let mutable pos  = 0
+    let mutable size = 0
+
+    member _.Capacity = capacity
+    member _.Size     = size
+
+    member _.Push(e: Experience) =
+        buffer.[pos] &lt;- e
+        pos  &lt;- (pos + 1) % capacity
+        size &lt;- min (size + 1) capacity
+
+    member _.Sample(batchSize: int) (rng: System.Random) : Experience[] =
+        if size &lt; batchSize then
+            failwithf "ReplayBuffer.Sample: need %d experiences, have %d" batchSize size
+        Array.init batchSize (fun _ -&gt; buffer.[rng.Next(size)])
+</code></pre>
+<h2 id="커리큘럼-학습-루프"><a class="header" href="#커리큘럼-학습-루프">커리큘럼 학습 루프</a></h2>
+<pre><code class="language-fsharp">module ConnectFourDQN.Console.Training
+
+open TorchSharp
+open type TorchSharp.torch
+open ConnectFourDQN.Domain
+open ConnectFourDQN.Rules
+open ConnectFourDQN.Minimax
+open ConnectFourDQN.DQNModel
+open ConnectFourDQN.ReplayBuffer
+open ConnectFourDQN.DQNAgent
+
+// NOTE: `open type TorchSharp.torch` shadows many F# conversion functions:
+//   - `int`     → use `Operators.int`
+//   - `float`   → use `Operators.float`
+//   - `float32` → use `Operators.float32`
+//   - `int64`   → use `Operators.int64`
+//   - `float64` type does NOT exist in F# (it's `float`); TorchSharp adds ScalarType.Float64
+
+// ── Hyperparameters ─────────────────────────────────────────────────────────
+[&lt;Struct&gt;]
+type TrainingConfig = {
+    TotalEpisodes:   int
+    ReplayCapacity:  int
+    MinReplaySize:   int    // experiences before training starts
+    BatchSize:       int
+    Gamma:           float32
+    EpsilonStart:    float
+    EpsilonEnd:      float
+    EpsilonDecayEnd: int    // episode at which epsilon reaches EpsilonEnd
+    TargetSyncFreq:  int    // steps between target network hard updates
+    LearningRate:    float  // Adam lr (passed as named arg; TorchSharp optim.Adam takes float)
+    ModelSavePath:   string
+}
+
+let defaultConfig = {
+    TotalEpisodes   = 50_000
+    ReplayCapacity  = 50_000
+    MinReplaySize   = 1_000
+    BatchSize       = 128
+    Gamma           = 0.99f
+    EpsilonStart    = 1.0
+    EpsilonEnd      = 0.05
+    EpsilonDecayEnd = 40_000
+    TargetSyncFreq  = 1_000
+    LearningRate    = 1e-4
+    ModelSavePath   = "connect_four_dqn.pt"
+}
+
+// ── Training Result ──────────────────────────────────────────────────────────
+type TrainingResult = {
+    LossHistory:    (int * float32) list   // (episode, avg loss in window)
+    WinRateHistory: (int * float) list     // (episode, win rate in window)
+    FinalEpsilon:   float
+    ModelPath:      string
+}
+
+// ── Opponent Selection (Curriculum) ─────────────────────────────────────────
+// Episodes 0..20K:   random opponent
+// Episodes 20K..35K: Minimax depth 2
+// Episodes 35K..50K: Minimax depth 4
+let private chooseOpponentMove (rng: System.Random) (board: Board) (opp: Cell) (episode: int) : int =
+    let legal = legalMoves board
+    if episode &lt; 20_000 then
+        legal.[rng.Next(legal.Length)]
+    elif episode &lt; 35_000 then
+        fst (chooseMoveAB board opp 2)
+    else
+        fst (chooseMoveAB board opp 4)
+
+// ── Single Episode ────────────────────────────────────────────────────────────
+// Play one episode. DQN always plays as Red; opponent plays as Yellow.
+// Red's experiences are pushed into the replay buffer with correct terminal rewards.
+//
+// TRANSITION DESIGN (single-agent DQN with alternating players):
+//   Each Red transition = (s_red, a_red, r, s_red_next, done)
+//   where s_red_next is the board state when Red gets to move AGAIN
+//   (i.e., AFTER Yellow has responded to Red's move).
+//
+//   Rewards from Red's perspective:
+//     Red wins on Red's move   → r = +1.0, done = true
+//     Draw on Red's move       → r = +0.3, done = true
+//     Yellow wins after Red    → r = -1.0, done = true
+//     Draw on Yellow's move    → r = +0.3, done = true
+//     Game continues           → r =  0.0, done = false (pushed AFTER Yellow responds)
+let private runEpisode (rng: System.Random) (model: DQNModel) (buf: ReplayBuffer)
+                        (epsilon: float) (episode: int) : {| Win: bool; Draw: bool |} =
+    let mutable board   = Array.create (rows * cols) Empty
+    let mutable result  = {| Win = false; Draw = false |}
+    let mutable running = true
+
+    while running do
+        // ── Red's turn ──────────────────────────────────────────────────────
+        let redLegal = legalMoves board
+        if List.isEmpty redLegal then
+            result  &lt;- {| Win = false; Draw = true |}
+            running &lt;- false
+        else
+            let redAction    = chooseMove rng model board Red Yellow epsilon
+            let redStateData = boardToArray board Red Yellow
+            let boardAfterRed = applyMove board Red redAction
+
+            match isGameOver boardAfterRed with
+            | Some RedWins -&gt;
+                // Red wins immediately — terminal experience
+                let nextSD = boardToArray boardAfterRed Red Yellow
+                buf.Push { StateData = redStateData; Action = redAction; Reward = 1.0f; NextStateData = nextSD; Done = true }
+                result  &lt;- {| Win = true; Draw = false |}
+                running &lt;- false
+            | Some Draw -&gt;
+                // Draw on Red's move
+                let nextSD = boardToArray boardAfterRed Red Yellow
+                buf.Push { StateData = redStateData; Action = redAction; Reward = 0.3f; NextStateData = nextSD; Done = true }
+                result  &lt;- {| Win = false; Draw = true |}
+                running &lt;- false
+            | Some YellowWins -&gt;
+                // Shouldn't happen after Red's move, but be safe
+                let nextSD = boardToArray boardAfterRed Red Yellow
+                buf.Push { StateData = redStateData; Action = redAction; Reward = -1.0f; NextStateData = nextSD; Done = true }
+                result  &lt;- {| Win = false; Draw = false |}
+                running &lt;- false
+            | None -&gt;
+                // Game continues — Yellow gets to respond
+                // ── Yellow's turn ────────────────────────────────────────────
+                let yellowLegal = legalMoves boardAfterRed
+                if List.isEmpty yellowLegal then
+                    // Board full after Red, no winner → draw
+                    let nextSD = boardToArray boardAfterRed Red Yellow
+                    buf.Push { StateData = redStateData; Action = redAction; Reward = 0.3f; NextStateData = nextSD; Done = true }
+                    result  &lt;- {| Win = false; Draw = true |}
+                    running &lt;- false
+                else
+                    let yellowAction  = chooseOpponentMove rng boardAfterRed Yellow episode
+                    let boardAfterYellow = applyMove boardAfterRed Yellow yellowAction
+
+                    match isGameOver boardAfterYellow with
+                    | Some YellowWins -&gt;
+                        // Yellow wins — Red's last action leads to -1
+                        let nextSD = boardToArray boardAfterYellow Red Yellow
+                        buf.Push { StateData = redStateData; Action = redAction; Reward = -1.0f; NextStateData = nextSD; Done = true }
+                        result  &lt;- {| Win = false; Draw = false |}
+                        running &lt;- false
+                    | Some Draw -&gt;
+                        // Draw on Yellow's move
+                        let nextSD = boardToArray boardAfterYellow Red Yellow
+                        buf.Push { StateData = redStateData; Action = redAction; Reward = 0.3f; NextStateData = nextSD; Done = true }
+                        result  &lt;- {| Win = false; Draw = true |}
+                        running &lt;- false
+                    | Some RedWins -&gt;
+                        // Shouldn't happen after Yellow's move, but be safe
+                        let nextSD = boardToArray boardAfterYellow Red Yellow
+                        buf.Push { StateData = redStateData; Action = redAction; Reward = 1.0f; NextStateData = nextSD; Done = true }
+                        result  &lt;- {| Win = true; Draw = false |}
+                        running &lt;- false
+                    | None -&gt;
+                        // Game continues — push intermediate experience with r=0, nextState = state for Red's next move
+                        let nextSD = boardToArray boardAfterYellow Red Yellow
+                        buf.Push { StateData = redStateData; Action = redAction; Reward = 0.0f; NextStateData = nextSD; Done = false }
+                        board &lt;- boardAfterYellow
+                        // `current` stays Red for next iteration
+
+    result
+
+// ── Training Loop ─────────────────────────────────────────────────────────────
+// Runs totalEpisodes of curriculum DQN training.
+// Returns TrainingResult with loss/win-rate history for Serilog logging in Program.fs.
+// PURE (no I/O): caller (Program.fs) handles all logging.
+let trainDQN (config: TrainingConfig) : TrainingResult =
+    let rng    = System.Random(42)
+    // Seed torch RNG for deterministic weight initialisation across runs
+    torch.manual_seed(42L) |&gt; ignore
+    let model  = new DQNModel("policy")
+    let target = new DQNModel("target")
+
+    // Initialise target weights = policy weights
+    model.save(config.ModelSavePath) |&gt; ignore
+    target.load(config.ModelSavePath) |&gt; ignore
+
+    // `open type TorchSharp.torch` shadows `float`, so we pass the named argument
+    // using the raw F# float value (which TorchSharp resolves via optional param).
+    let opt = optim.Adam(model.parameters(), lr = config.LearningRate)
+    let buf = ReplayBuffer(config.ReplayCapacity)
+
+    let mutable step        = 0
+    let mutable lossAcc     = 0.0f
+    let mutable lossCount   = 0
+    let mutable wins        = 0
+    let mutable windowTotal = 0
+
+    let logInterval = 1_000   // log every 1K episodes
+
+    let mutable lossHistory    : (int * float32) list = []
+    let mutable winRateHistory : (int * float) list   = []
+
+    for episode in 0 .. config.TotalEpisodes - 1 do
+        // Epsilon: linear decay from EpsilonStart to EpsilonEnd over EpsilonDecayEnd episodes
+        let epsilon =
+            if episode &gt;= config.EpsilonDecayEnd then config.EpsilonEnd
+            else
+                config.EpsilonStart -
+                  (config.EpsilonStart - config.EpsilonEnd) *
+                  Operators.float episode / Operators.float config.EpsilonDecayEnd
+
+        let episodeResult = runEpisode rng model buf epsilon episode
+        if episodeResult.Win then wins &lt;- wins + 1
+        windowTotal &lt;- windowTotal + 1
+        step        &lt;- step + 1
+
+        // Train when buffer has enough experiences
+        if buf.Size &gt;= config.MinReplaySize then
+            let batch = buf.Sample config.BatchSize rng
+            let loss  = trainStep model target opt batch config.Gamma
+            lossAcc   &lt;- lossAcc + loss
+            lossCount &lt;- lossCount + 1
+
+            // Hard sync target network every targetSyncFreq steps
+            if step % config.TargetSyncFreq = 0 then
+                let tmpPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "_dqn_sync_tmp.dat")
+                syncTargetNetwork model target tmpPath
+
+        // Collect history snapshot every logInterval episodes
+        if (episode + 1) % logInterval = 0 then
+            let avgLoss =
+                if lossCount &gt; 0
+                then lossAcc / Operators.float32 lossCount
+                else 0.0f
+            let winRate = Operators.float wins / Operators.float windowTotal
+            lossHistory    &lt;- lossHistory    @ [(episode + 1, avgLoss)]
+            winRateHistory &lt;- winRateHistory @ [(episode + 1, winRate)]
+            lossAcc     &lt;- 0.0f
+            lossCount   &lt;- 0
+            wins        &lt;- 0
+            windowTotal &lt;- 0
+
+    // Save final trained model
+    model.save(config.ModelSavePath) |&gt; ignore
+
+    {
+        LossHistory    = lossHistory
+        WinRateHistory = winRateHistory
+        FinalEpsilon   = config.EpsilonEnd
+        ModelPath      = config.ModelSavePath
+    }
+</code></pre>
+<h2 id="학습-실행"><a class="header" href="#학습-실행">학습 실행</a></h2>
+<pre><code class="language-bash"># ARM64 macOS 필수 준비:
+brew install libomp
+
+cd 04-connect-four-dqn
+dotnet run --project src/ConnectFourDQN.Console
+# 메뉴 → 1 (학습 시작, ~수 분 소요)
+# 메뉴 → 2 (벤치마크: DQN vs Minimax depth 4, 100 게임)
+</code></pre>
+<p>Serilog 로그 (<code>logs/dqn-training.log</code>) 에서 학습 과정을 확인한다:</p>
+<pre><code>Episode=01000 AvgLoss=0.452891 WinRate=12.3%
+Episode=10000 AvgLoss=0.198344 WinRate=34.7%
+Episode=30000 AvgLoss=0.087621 WinRate=52.1%
+Episode=50000 AvgLoss=0.043218 WinRate=63.4%
+</code></pre>
+<p>손실이 감소하고 승률이 증가하면 학습이 정상적으로 진행되는 것이다.</p>
+<h2 id="dqn의-한계와-phase-5-예고"><a class="header" href="#dqn의-한계와-phase-5-예고">DQN의 한계와 Phase 5 예고</a></h2>
+<p>DQN은 Q-table의 상태 공간 문제를 해결했지만 새로운 한계가 있다:</p>
+<ul>
+<li><strong>탐색 없음</strong>: 학습 시에는 무작위 탐색(ε-greedy)에 의존하지만
+추론 시에는 단일 전방향 전파로 수를 결정한다.
+Minimax처럼 여러 수 앞을 내다보지 않는다.</li>
+<li><strong>샘플 효율</strong>: 수백만 번의 게임이 필요하다.</li>
+<li><strong>불안정성</strong>: 학습이 발산할 수 있다 (타겟 네트워크, 클리핑으로 완화).</li>
+</ul>
+<p><strong>Phase 5: MCTS + Policy/Value Network</strong></p>
+<p>Monte Carlo Tree Search는 신경망 가이드 아래 실제로 게임 트리를 탐색한다.
+DQN이 “직감“이라면 MCTS는 “계산된 직감” 이다.
+AlphaZero는 이 조합으로 바둑, 체스, 장기를 정복했다.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="5장-오목-mcts--트리-탐색과-자가-대국"><a class="header" href="#5장-오목-mcts--트리-탐색과-자가-대국">5장. 오목 MCTS — 트리 탐색과 자가 대국</a></h1>
+<h2 id="phase-4의-한계"><a class="header" href="#phase-4의-한계">Phase 4의 한계</a></h2>
+<p>Phase 4에서 DQN으로 Connect Four를 학습시켰다. 신경망이 Q-table의 상태 공간 문제를 해결했지만 새로운 한계가 드러났다:</p>
+<ul>
+<li><strong>탐색 없음</strong>: 추론 시 단 한 번의 전방향 전파로 수를 결정한다. Minimax처럼 여러 수 앞을 내다보지 않는다.</li>
+<li><strong>보상 희소성</strong>: 게임 종료 시에만 보상이 주어진다. 수백만 번의 게임이 없으면 신호가 너무 적다.</li>
+<li><strong>오목으로 확장 불가</strong>: 15×15 보드(225칸)에서 DQN의 단순 ε-greedy 탐색은 사실상 의미 있는 학습을 하지 못한다.</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>방식</th><th>탐색</th><th>오목 가능성</th></tr>
+</thead>
+<tbody>
+<tr><td>Q-table</td><td>없음</td><td>불가 (상태 폭발)</td></tr>
+<tr><td>DQN</td><td>ε-greedy (얕음)</td><td>어려움</td></tr>
+<tr><td>MCTS + 신경망</td><td>트리 탐색 (깊음)</td><td>AlphaZero 방식으로 가능</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>해결책: Monte Carlo Tree Search + Policy/Value Network</strong></p>
+<p>신경망이 “어디가 좋아 보이는가“를 안내하고, MCTS가 실제로 게임 트리를 탐색한다.
+자가 대국(Self-play)으로 생성한 데이터를 다시 신경망 학습에 활용하면 점점 강해지는 선순환이 만들어진다.</p>
+<h2 id="mcts-개념"><a class="header" href="#mcts-개념">MCTS 개념</a></h2>
+<p>MCTS(Monte Carlo Tree Search)는 게임 트리를 <strong>선택 → 확장 → 평가 → 역전파</strong> 4단계로 반복 탐색한다.</p>
+<h3 id="mcts-4단계"><a class="header" href="#mcts-4단계">MCTS 4단계</a></h3>
+<pre><code>루트 (현재 상태)
+  ├── 선택 (Selection)   : PUCT 점수가 높은 자식을 반복 선택해 잎 노드까지 내려간다
+  ├── 확장 (Expansion)   : 잎 노드에서 합법 수를 자식으로 추가한다
+  ├── 평가 (Evaluation)  : 신경망(가치 헤드)으로 현재 상태의 승패 확률을 예측한다
+  └── 역전파 (Backprop)  : 예측값을 루트까지 거슬러 올라가며 각 노드를 업데이트한다
+</code></pre>
+<p>충분한 시뮬레이션 후, 루트의 자식 방문 횟수를 정규화하면 <strong>이동 확률 분포 π</strong> 가 나온다.</p>
+<h3 id="puct-공식"><a class="header" href="#puct-공식">PUCT 공식</a></h3>
+<p>AlphaZero는 UCB1 대신 PUCT(Predictor Upper Confidence bound for Trees)를 사용한다:</p>
+<pre><code>PUCT(a) = Q(a) + c_puct × P(a) × √N_parent / (1 + N_child)
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>항</th><th>의미</th></tr>
+</thead>
+<tbody>
+<tr><td>Q(a)</td><td>현재까지 이 수를 뒀을 때의 평균 가치 (활용)</td></tr>
+<tr><td>c_puct</td><td>탐색 강도 조절 상수 (보통 5.0)</td></tr>
+<tr><td>P(a)</td><td>신경망 정책 헤드가 예측한 사전 확률 (탐색 가이드)</td></tr>
+<tr><td>√N_parent</td><td>부모 방문 횟수가 늘수록 탐색 폭도 증가</td></tr>
+<tr><td>1 + N_child</td><td>많이 방문한 수일수록 보너스 감소</td></tr>
+</tbody>
+</table>
+</div>
+<p>Q 항은 활용(exploitation), 나머지는 탐색(exploration)을 담당한다.
+P(a)가 크면 처음에는 우선 탐색되고, 방문이 쌓이면 Q로 균형을 맞춘다.</p>
+<h2 id="arm64-네이티브-라이브러리-로딩-1"><a class="header" href="#arm64-네이티브-라이브러리-로딩-1">ARM64 네이티브 라이브러리 로딩</a></h2>
+<p>TorchSharp는 macOS ARM64에서 네이티브 라이브러리 자동 탐색에 버그가 있다.
+<code>AppContext.BaseDirectory/runtimes/osx-arm64/native/</code> 에서 직접 로드해야 한다.</p>
+<pre><code class="language-fsharp">module Gomoku.NativeLoader
+
+open System.Runtime.InteropServices
+open System.IO
+
+let private load () =
+    let exeDir = System.AppContext.BaseDirectory
+    let nativeDir = Path.Combine(exeDir, "runtimes", "osx-arm64", "native")
+    if Directory.Exists(nativeDir) then
+        NativeLibrary.Load(Path.Combine(nativeDir, "libomp.dylib"))           |&gt; ignore
+        NativeLibrary.Load(Path.Combine(nativeDir, "libc10.dylib"))           |&gt; ignore
+        NativeLibrary.Load(Path.Combine(nativeDir, "libtorch_cpu.dylib"))     |&gt; ignore
+        NativeLibrary.Load(Path.Combine(nativeDir, "libtorch.dylib"))         |&gt; ignore
+        NativeLibrary.Load(Path.Combine(nativeDir, "libLibTorchSharp.dylib")) |&gt; ignore
+
+do load ()
+</code></pre>
+<p><code>do load ()</code> 는 모듈 레벨에서 즉시 실행되므로 어떤 TorchSharp 호출보다 먼저 라이브러리가 로드된다.</p>
+<h2 id="mcts-트리-노드"><a class="header" href="#mcts-트리-노드">MCTS 트리 노드</a></h2>
+<p>MCTS 트리는 가변(mutable) 클래스로 구현한다. 레코드(record)를 쓰면 부모 포인터와 자식 딕셔너리를 효율적으로 관리할 수 없다.</p>
+<pre><code class="language-fsharp">module Gomoku.MctsNode
+
+open System.Collections.Generic
+
+/// Mutable MCTS tree node. MUST be a class (not record) for parent pointers + mutable children dict.
+/// Prior is mutable so Dirichlet noise can be applied to root children (Plan 03).
+type MctsNode(parent: MctsNode option, prior: float) =
+    let children = Dictionary&lt;int, MctsNode&gt;()
+    let mutable visits     = 0
+    let mutable totalValue = 0.0
+    let mutable isExpanded = false
+    let mutable prior_     = prior   // mutable for Dirichlet noise
+
+    member _.Parent      = parent
+    member _.Children    = children
+    member _.Visits      = visits
+    member _.TotalValue  = totalValue
+    member _.IsExpanded  = isExpanded
+    member _.Prior       with get() = prior_ and set(v) = prior_ &lt;- v
+
+    /// Q-value: average value seen through this node.
+    member _.Q () =
+        if visits = 0 then 0.0
+        else totalValue / float visits
+
+    /// Expand this node with (action, prior_probability) pairs.
+    member this.Expand(actionPriors: (int * float) seq) =
+        for (action, p) in actionPriors do
+            if not (children.ContainsKey(action)) then
+                children.[action] &lt;- MctsNode(Some this, p)
+        isExpanded &lt;- true
+
+    /// Update this node with a new value observation.
+    member _.Update(value: float) =
+        visits     &lt;- visits + 1
+        totalValue &lt;- totalValue + value
+
+    /// Backpropagate value up the tree, negating at each level.
+    /// Call as: leaf.UpdateRecursive(-leafValue)
+    /// Convention: value is from the perspective of the player who just MOVED (opposite of node's current player).
+    /// Negation at each parent = perspective flip for zero-sum game.
+    member this.UpdateRecursive(value: float) =
+        this.Update(value)
+        match parent with
+        | Some p -&gt; p.UpdateRecursive(-value)
+        | None   -&gt; ()
+
+    member _.IsLeaf () = children.Count = 0
+</code></pre>
+<p><strong>핵심 설계 결정:</strong></p>
+<ul>
+<li><code>Prior</code>는 mutable — 루트에서 Dirichlet 노이즈 주입 시 변경 필요</li>
+<li><code>UpdateRecursive(-leafValue)</code> 호출 규약: 잎에서 값을 부정한 뒤 전달, 재귀 호출마다 다시 부정 → 교대 부호(zero-sum 관점 전환)</li>
+<li>단말 노드의 <code>leafValue = -1.0</code>: 마지막으로 수를 둔 플레이어가 이겼으므로 현재 플레이어 입장에서 나쁨</li>
+</ul>
+<h2 id="policyvalue-신경망"><a class="header" href="#policyvalue-신경망">Policy/Value 신경망</a></h2>
+<p>AlphaZero 방식의 이중 헤드(dual-head) 신경망:</p>
+<ul>
+<li><strong>정책 헤드(Policy Head)</strong>: 225개 합법 수의 사전 확률 분포 → MCTS 탐색 가이드</li>
+<li><strong>가치 헤드(Value Head)</strong>: 현재 상태의 승패 예측 [-1, 1] → 말단 평가 대체</li>
+</ul>
+<pre><code class="language-fsharp">module Gomoku.PolicyValueNet
+
+open TorchSharp
+open type TorchSharp.torch
+open type TorchSharp.torch.nn
+open Gomoku.Domain
+
+// IMPORTANT: `open type TorchSharp.torch` shadows F# int and int64.
+// Always use Operators.int and Operators.int64 for numeric conversion throughout this file.
+
+/// Convert a GameState to a [4, 15, 15] float32 tensor.
+/// Channel 0: current player's stones (1.0 where current player placed)
+/// Channel 1: opponent's stones (1.0 where opponent placed)
+/// Channel 2: last move indicator (1.0 at LastMove position, else 0.0)
+/// Channel 3: turn indicator (1.0 everywhere if Black to move, 0.0 if White to move)
+let boardToTensor (state: GameState) : Tensor =
+    let size = BoardSize * BoardSize  // 225
+    let data = Array.zeroCreate&lt;float32&gt; (4 * size)
+    let myVal  = playerValue state.CurrentPlayer   // 1 or -1
+    let oppVal = -myVal
+    for i in 0 .. size - 1 do
+        if state.Board.[i] = myVal  then data.[i]          &lt;- 1.0f  // ch0
+        if state.Board.[i] = oppVal then data.[size + i]   &lt;- 1.0f  // ch1
+    match state.LastMove with
+    | Some m -&gt; data.[2 * size + m] &lt;- 1.0f                          // ch2
+    | None   -&gt; ()
+    if state.CurrentPlayer = Black then
+        for i in 0 .. size - 1 do data.[3 * size + i] &lt;- 1.0f       // ch3 = 1.0 if Black
+    // Create tensor and reshape to [4, 15, 15]
+    torch.tensor(data, dtype = ScalarType.Float32)
+          .reshape([| 4L; Operators.int64 BoardSize; Operators.int64 BoardSize |])
+
+/// Dual-head Policy/Value Network.
+/// Architecture: 3-conv shared backbone + BatchNorm + ReLU → policy head (225 log-probs) + value head (scalar tanh).
+type PolicyValueNet(name: string) as this =
+    inherit Module&lt;Tensor, Tensor&gt;(name)
+
+    // Shared backbone: 3 conv layers with BatchNorm + ReLU
+    let conv1 = Conv2d(4L,   32L, 3L, padding = 1L)
+    let bn1   = BatchNorm2d(32L)
+    let relu1 = ReLU()
+    let conv2 = Conv2d(32L,  64L, 3L, padding = 1L)
+    let bn2   = BatchNorm2d(64L)
+    let relu2 = ReLU()
+    let conv3 = Conv2d(64L, 128L, 3L, padding = 1L)
+    let bn3   = BatchNorm2d(128L)
+    let relu3 = ReLU()
+
+    // Policy head: 128 → 4 channels (1×1 conv) → flatten → linear → 225
+    let pConv  = Conv2d(128L, 4L, 1L)
+    let pBn    = BatchNorm2d(4L)
+    let pRelu  = ReLU()
+    let pFc    = Linear(4L * Operators.int64 BoardSize * Operators.int64 BoardSize,
+                        Operators.int64 (BoardSize * BoardSize))
+
+    // Value head: 128 → 2 channels (1×1 conv) → flatten → linear 256 → linear 1 → tanh
+    let vConv  = Conv2d(128L, 2L, 1L)
+    let vBn    = BatchNorm2d(2L)
+    let vRelu  = ReLU()
+    let vFc1   = Linear(2L * Operators.int64 BoardSize * Operators.int64 BoardSize, 256L)
+    let vRelu2 = ReLU()
+    let vFc2   = Linear(256L, 1L)
+    let vTanh  = Tanh()
+
+    do this.RegisterComponents()
+
+    /// Shared backbone forward pass.
+    member private _.backbone(x: Tensor) : Tensor =
+        x
+        |&gt; conv1.forward |&gt; bn1.forward |&gt; relu1.forward
+        |&gt; conv2.forward |&gt; bn2.forward |&gt; relu2.forward
+        |&gt; conv3.forward |&gt; bn3.forward |&gt; relu3.forward
+
+    /// Forward (required by Module base) — returns policy log-probs [B, 225].
+    override this.forward(x: Tensor) : Tensor =
+        let h = this.backbone(x)
+        let pRaw =
+            h |&gt; pConv.forward |&gt; pBn.forward |&gt; pRelu.forward
+            |&gt; fun t -&gt; t.flatten(1L)
+        let logits = pFc.forward(pRaw)
+        torch.nn.functional.log_softmax(logits, 1L)
+
+    /// Policy log-probabilities [B, 225] — same as forward().
+    member this.policy(x: Tensor) : Tensor =
+        this.forward(x)
+
+    /// Value prediction [B, 1], range [-1, 1] via tanh.
+    member this.value(x: Tensor) : Tensor =
+        let h = this.backbone(x)
+        let vRaw =
+            h |&gt; vConv.forward |&gt; vBn.forward |&gt; vRelu.forward
+            |&gt; fun t -&gt; t.flatten(1L)
+        let vHidden = vRelu2.forward(vFc1.forward(vRaw))
+        vTanh.forward(vFc2.forward(vHidden))
+
+    /// Combined forward: returns (logProbs [B,225], value [B,1]) — convenience for training.
+    member this.forwardBoth(x: Tensor) : Tensor * Tensor =
+        let h = this.backbone(x)
+        // Policy
+        let pRaw =
+            h |&gt; pConv.forward |&gt; pBn.forward |&gt; pRelu.forward
+            |&gt; fun t -&gt; t.flatten(1L)
+        let logProbs = torch.nn.functional.log_softmax(pFc.forward(pRaw), 1L)
+        // Value
+        let vRaw =
+            h |&gt; vConv.forward |&gt; vBn.forward |&gt; vRelu.forward
+            |&gt; fun t -&gt; t.flatten(1L)
+        let vHidden = vRelu2.forward(vFc1.forward(vRaw))
+        let vOut = vTanh.forward(vFc2.forward(vHidden))
+        (logProbs, vOut)
+</code></pre>
+<p><strong>아키텍처 요약:</strong></p>
+<pre><code>입력: [batch, 4, 15, 15]
+  채널 0: 현재 플레이어 돌
+  채널 1: 상대 플레이어 돌
+  채널 2: 마지막 수 위치
+  채널 3: 흑 차례 여부 (1.0 전체)
+
+공유 백본:
+  Conv2d(4→32, 3×3, pad=1) → BN → ReLU
+  Conv2d(32→64, 3×3, pad=1) → BN → ReLU
+  Conv2d(64→128, 3×3, pad=1) → BN → ReLU
+
+정책 헤드:
+  Conv2d(128→4, 1×1) → BN → ReLU → Flatten
+  Linear(4×225→225) → log_softmax → [batch, 225]
+
+가치 헤드:
+  Conv2d(128→2, 1×1) → BN → ReLU → Flatten
+  Linear(2×225→256) → ReLU → Linear(256→1) → Tanh → [batch, 1]
+</code></pre>
+<p><strong>주의:</strong> <code>open type TorchSharp.torch</code> 는 F# 내장 <code>float</code>, <code>int</code>, <code>int64</code>, <code>sqrt</code> 등을 가린다.
+이 파일에서는 숫자 변환에 <code>Operators.int</code>, <code>Operators.int64</code> 를 사용한다.</p>
+<h2 id="mcts-탐색-신경망-연동"><a class="header" href="#mcts-탐색-신경망-연동">MCTS 탐색 (신경망 연동)</a></h2>
+<p>순수 MCTS와 신경망 연동 MCTS 두 가지 구현이 있다.</p>
+<pre><code class="language-fsharp">module Gomoku.Mcts
+
+open Gomoku.Domain
+open Gomoku.Rules
+open Gomoku.MctsNode
+open Gomoku.PolicyValueNet
+open TorchSharp
+
+// NOTE: We intentionally do NOT use `open type TorchSharp.torch` at module level
+// because it shadows F# built-ins: float, int, int64, sqrt, log, cos, etc.
+// All torch types are accessed via fully qualified names: torch.Tensor, torch.NewDisposeScope(), etc.
+
+/// PUCT score for a child node during selection.
+/// Q + c_puct * P * sqrt(N_parent) / (1 + N_child)
+let private puctScore (cPuct: float) (parentVisits: int) (child: MctsNode) =
+    let u = cPuct * child.Prior * sqrt(float parentVisits) / (1.0 + float child.Visits)
+    child.Q() + u
+
+/// Select the child with highest PUCT score.
+let private selectAction (cPuct: float) (node: MctsNode) =
+    node.Children
+    |&gt; Seq.maxBy (fun kvp -&gt; puctScore cPuct node.Visits kvp.Value)
+    |&gt; fun kvp -&gt; (kvp.Key, kvp.Value)
+
+/// Random rollout from state until terminal. Returns +1 if the CURRENT player at start wins,
+/// -1 if they lose, 0 for draw. Uses simple random play (no neural network).
+let private rollout (rng: System.Random) (state: GameState) : float =
+    let mutable s = state
+    let mutable running = true
+    let mutable result = 0.0
+    // Track starting player to assign result correctly
+    let startPlayer = state.CurrentPlayer
+    while running do
+        match s.LastMove with
+        | Some m when isWinningMove s.Board m -&gt;
+            // The player who just moved (opponent of s.CurrentPlayer) won
+            let winner = opponent s.CurrentPlayer
+            result &lt;- if winner = startPlayer then 1.0 else -1.0
+            running &lt;- false
+        | _ -&gt;
+            let legal = legalMoves s.Board
+            if legal.Length = 0 then
+                result &lt;- 0.0  // draw (full board)
+                running &lt;- false
+            else
+                let move = legal.[rng.Next(legal.Length)]
+                s &lt;- applyMove s move
+    result
+
+/// Full MCTS search using pure random rollout (no neural network).
+/// Returns array of (action, visit_probability) for the root's children.
+/// cPuct: exploration constant (5.0 typical); addDirichletNoise: false for pure MCTS.
+let mctsSearch
+    (rng: System.Random)
+    (rootState: GameState)
+    (nSimulations: int)
+    (cPuct: float)
+    : (int * float) array =
+
+    let root = MctsNode(None, 1.0)
+
+    for _ in 1 .. nSimulations do
+        let mutable state = rootState
+        let mutable node = root
+        let mutable isTerminal = false
+
+        // 1. SELECTION: descend until leaf or terminal
+        while not (node.IsLeaf()) &amp;&amp; not isTerminal do
+            let (action, child) = selectAction cPuct node
+            state &lt;- applyMove state action
+            node &lt;- child
+            match state.LastMove with
+            | Some m when isWinningMove state.Board m -&gt; isTerminal &lt;- true
+            | _ when (legalMoves state.Board).Length = 0 -&gt; isTerminal &lt;- true
+            | _ -&gt; ()
+
+        // 2. EXPANSION + EVALUATION
+        let leafValue =
+            if isTerminal then
+                // The last move was made by the player who is now NOT the current player
+                // That player just won → bad for current player at this node
+                -1.0
+            else
+                // Expand with uniform priors
+                let legal = legalMoves state.Board
+                let uniformPrior = 1.0 / float legal.Length
+                node.Expand(legal |&gt; Array.map (fun a -&gt; (a, uniformPrior)))
+                // 3. ROLLOUT (random simulation from expanded node)
+                rollout rng state
+
+        // 4. BACKPROPAGATION
+        // Convention: UpdateRecursive(-leafValue) — negate because leafValue is from leaf's perspective,
+        // and UpdateRecursive negates again at each parent, alternating perspective correctly.
+        node.UpdateRecursive(-leafValue)
+
+    // Convert visit counts to probabilities
+    if root.Children.Count = 0 then
+        // Root was never expanded (0 simulations or already terminal)
+        let legal = legalMoves rootState.Board
+        legal |&gt; Array.map (fun a -&gt; (a, 1.0 / float legal.Length))
+    else
+        let totalVisits = root.Children.Values |&gt; Seq.sumBy (fun c -&gt; c.Visits) |&gt; float
+        [| for kvp in root.Children do
+            yield (kvp.Key, float kvp.Value.Visits / totalVisits) |]
+
+/// Select the best move (highest visit count) from MCTS results.
+let bestMove (visitProbs: (int * float) array) : int =
+    visitProbs |&gt; Array.maxBy snd |&gt; fst
+
+// ── Neural-Guided MCTS (GMOK-04: PUCT + PolicyValueNet) ──────────────────────
+
+/// Sample Dirichlet(alpha) noise for n values using Gamma(alpha, 1) normalization.
+/// Pure F# implementation using Box-Muller + Marsaglia-Tsang Gamma sampler.
+/// alpha=0.3 is the standard for Gomoku; result sums to 1.0.
+let private sampleDirichlet (rng: System.Random) (n: int) (alpha: float) : float array =
+    let rec sampleGamma (a: float) : float =
+        if a &gt;= 1.0 then
+            // Marsaglia-Tsang (2000) algorithm
+            let d = a - 1.0 / 3.0
+            let c = 1.0 / System.Math.Sqrt(9.0 * d)
+            let mutable result = 0.0
+            let mutable found = false
+            while not found do
+                let u1 = rng.NextDouble()
+                let u2 = rng.NextDouble()
+                // Box-Muller transform: standard normal sample
+                let x = System.Math.Sqrt(-2.0 * System.Math.Log(u1)) * System.Math.Cos(2.0 * System.Math.PI * u2)
+                let v = (1.0 + c * x) ** 3.0
+                if v &gt; 0.0 then
+                    let u = rng.NextDouble()
+                    if u &lt; 1.0 - 0.0331 * (x * x) * (x * x) then
+                        result &lt;- d * v
+                        found &lt;- true
+                    elif System.Math.Log(u) &lt; 0.5 * x * x + d * (1.0 - v + System.Math.Log(v)) then
+                        result &lt;- d * v
+                        found &lt;- true
+            result
+        else
+            // Boost for alpha &lt; 1: Gamma(alpha, 1) = Gamma(alpha+1, 1) * U^(1/alpha)
+            let g = sampleGamma (alpha + 1.0)
+            g * (rng.NextDouble() ** (1.0 / alpha))
+    let samples = Array.init n (fun _ -&gt; sampleGamma alpha)
+    let total = Array.sum samples
+    if total &gt; 1e-10 then
+        samples |&gt; Array.map (fun s -&gt; s / total)
+    else
+        Array.create n (1.0 / float n)
+
+/// Neural-guided MCTS search using PolicyValueNet for expansion (PUCT formula).
+/// model.eval() should be set BEFORE calling this function.
+/// Each simulation wraps tensor ops in torch.NewDisposeScope() to prevent memory accumulation.
+///
+/// addDirichletNoise: true during self-play training (root exploration), false during evaluation.
+/// Returns array of (action, visit_probability) for move selection.
+let mctsSearchWithNet
+    (model: PolicyValueNet)
+    (rng: System.Random)
+    (rootState: GameState)
+    (nSimulations: int)
+    (cPuct: float)
+    (addDirichletNoise: bool)
+    : (int * float) array =
+
+    let root = MctsNode(None, 1.0)
+
+    for _ in 1 .. nSimulations do
+        use _scope = torch.NewDisposeScope()
+        let mutable state = rootState
+        let mutable node = root
+        let mutable isTerminal = false
+
+        // 1. SELECTION: descend until leaf or terminal
+        while not (node.IsLeaf()) &amp;&amp; not isTerminal do
+            let (action, child) = selectAction cPuct node
+            state &lt;- applyMove state action
+            node &lt;- child
+            match state.LastMove with
+            | Some m when isWinningMove state.Board m -&gt; isTerminal &lt;- true
+            | _ when (legalMoves state.Board).Length = 0 -&gt; isTerminal &lt;- true
+            | _ -&gt; ()
+
+        // 2. EXPANSION + EVALUATION
+        let leafValue =
+            if isTerminal then
+                -1.0  // Player who just moved won; bad for current player at this node
+            else
+                // Evaluate with neural network
+                let stateTensor = boardToTensor state
+                let batchedTensor = stateTensor.unsqueeze(0L)  // [1, 4, 15, 15]
+
+                // Policy: log-probs [1, 225] → exp → probs
+                let logProbs = model.policy(batchedTensor)
+                let probs = logProbs.exp()               // [1, 225]
+
+                // Value: [1, 1] → scalar float
+                let valueT = model.value(batchedTensor)  // [1, 1]
+                let value = float (valueT.item&lt;float32&gt;())
+
+                // Extract legal move priors
+                let legal = legalMoves state.Board
+                let probsData = probs.squeeze(0L).data&lt;float32&gt;().ToArray()
+                let legalPriors =
+                    legal |&gt; Array.map (fun a -&gt; (a, float probsData.[a]))
+                let totalProb = legalPriors |&gt; Array.sumBy snd
+
+                // Normalize; fall back to uniform if network assigns ~0 to all legal moves
+                let normalizedPriors =
+                    if totalProb &gt; 1e-8 then
+                        legalPriors |&gt; Array.map (fun (a, p) -&gt; (a, p / totalProb))
+                    else
+                        legal |&gt; Array.map (fun a -&gt; (a, 1.0 / float legal.Length))
+
+                node.Expand(normalizedPriors)
+                value
+
+        // 3. BACKPROPAGATION (perspective flip)
+        node.UpdateRecursive(-leafValue)
+
+    // Apply Dirichlet noise to root children (training only)
+    if addDirichletNoise &amp;&amp; root.Children.Count &gt; 0 then
+        let n = root.Children.Count
+        let noise = sampleDirichlet rng n 0.3  // alpha=0.3 standard for Gomoku
+        let mutable i = 0
+        for kvp in root.Children do
+            kvp.Value.Prior &lt;- 0.75 * kvp.Value.Prior + 0.25 * noise.[i]
+            i &lt;- i + 1
+
+    // Convert visit counts to probabilities
+    if root.Children.Count = 0 then
+        let legal = legalMoves rootState.Board
+        legal |&gt; Array.map (fun a -&gt; (a, 1.0 / float legal.Length))
+    else
+        let totalVisits = root.Children.Values |&gt; Seq.sumBy (fun c -&gt; c.Visits) |&gt; float
+        [| for kvp in root.Children do
+            yield (kvp.Key, float kvp.Value.Visits / totalVisits) |]
+</code></pre>
+<p><strong>PUCT 선택 (<code>puctScore</code>):</strong> Q값과 탐색 보너스를 합산해 최선의 자식을 고른다.</p>
+<p><strong>Dirichlet 노이즈:</strong> 자가 대국 학습 시에만 루트 자식에 노이즈를 추가해 탐색 다양성을 확보한다.
+파이어α = 0.3이 오목 표준값. 순수 F# Marsaglia-Tsang Gamma 샘플러로 구현 (torch.distributions 대신).</p>
+<p><strong><code>open type TorchSharp.torch</code>를 모듈 레벨에서 쓰지 않는 이유:</strong> F# 내장 <code>float</code>, <code>sqrt</code>, <code>log</code>, <code>cos</code> 등이 가려져서 수식 코드가 컴파일되지 않는다. 모든 torch 타입은 <code>torch.X</code> 로 완전 한정(fully-qualified) 접근한다.</p>
+<h2 id="자가-대국-self-play"><a class="header" href="#자가-대국-self-play">자가 대국 (Self-Play)</a></h2>
+<pre><code class="language-fsharp">module Gomoku.SelfPlay
+
+open TorchSharp
+open Gomoku.Domain
+open Gomoku.Rules
+open Gomoku.PolicyValueNet
+open Gomoku.Mcts
+
+/// Training sample: stored as float32 arrays (NOT Tensors) to avoid memory leaks in replay buffer.
+type TrainingSample = {
+    State:        float32[]  // flat [4 * 15 * 15] = 900 values, from boardToTensor
+    PolicyTarget: float32[]  // flat [225] MCTS visit distribution (sums to 1)
+    ValueTarget:  float32    // +1.0f = current player won, -1.0f = lost, 0.0f = draw
+}
+
+/// Temperature-based move selection from MCTS visit counts.
+let private selectMoveByTemp (rng: System.Random) (visitProbs: (int * float) array) (moveCount: int) : int =
+    if moveCount &gt;= 15 then
+        visitProbs |&gt; Array.maxBy snd |&gt; fst
+    else
+        let weights = visitProbs |&gt; Array.map snd
+        let total   = Array.sum weights
+        let r = rng.NextDouble() * total
+        let mutable cumSum = 0.0
+        let mutable chosen = fst visitProbs.[0]
+        let mutable found  = false
+        for (action, w) in visitProbs do
+            if not found then
+                cumSum &lt;- cumSum + w
+                if cumSum &gt;= r then
+                    chosen &lt;- action
+                    found  &lt;- true
+        chosen
+
+/// Play one complete self-play game and return training samples with value targets filled.
+/// model should be in eval() mode before calling this function.
+let playSelfPlayGame
+    (model: PolicyValueNet)
+    (rng: System.Random)
+    (nSimulations: int)
+    (cPuct: float)
+    : TrainingSample[] =
+
+    let mutable state = initialState ()
+    let stateHistory  = System.Collections.Generic.List&lt;float32[]&gt;()
+    let policyHistory = System.Collections.Generic.List&lt;float32[]&gt;()
+    let playerHistory = System.Collections.Generic.List&lt;Player&gt;()
+
+    let mutable running = true
+
+    while running do
+        use _encScope = torch.NewDisposeScope()
+        let stateTensor = boardToTensor state
+        let stateData   = stateTensor.data&lt;float32&gt;().ToArray()
+        stateHistory.Add(stateData)
+        playerHistory.Add(state.CurrentPlayer)
+
+        // NOTE: mctsSearchWithNet signature: model → rng → state → nSims → cPuct → addDirichlet
+        let visitProbs = mctsSearchWithNet model rng state nSimulations cPuct true
+
+        let piTarget = Array.zeroCreate&lt;float32&gt; (BoardSize * BoardSize)
+        for (action, prob) in visitProbs do
+            piTarget.[action] &lt;- float32 prob
+        policyHistory.Add(piTarget)
+
+        let move = selectMoveByTemp rng visitProbs state.MoveCount
+        state &lt;- applyMove state move
+
+        match state.LastMove with
+        | Some m when isWinningMove state.Board m -&gt; running &lt;- false
+        | _ when (legalMoves state.Board).Length = 0 -&gt; running &lt;- false
+        | _ -&gt; ()
+
+    let gameOutcome =
+        match state.LastMove with
+        | Some m when isWinningMove state.Board m -&gt;
+            Some (opponent state.CurrentPlayer)
+        | _ -&gt; None
+
+    let n = stateHistory.Count
+    Array.init n (fun i -&gt;
+        let valueTarget =
+            match gameOutcome with
+            | Some winner -&gt;
+                if playerHistory.[i] = winner then 1.0f else -1.0f
+            | None -&gt; 0.0f
+        { State        = stateHistory.[i]
+          PolicyTarget = policyHistory.[i]
+          ValueTarget  = valueTarget })
+</code></pre>
+<p><strong>온도(Temperature) 기반 수 선택:</strong></p>
+<pre><code>이동 횟수 &lt; 15 : 확률 비례 무작위 선택 (탐색)
+이동 횟수 ≥ 15 : 방문 횟수 최대 선택 (활용)
+</code></pre>
+<p>초반에는 다양한 게임을 탐색하고, 중반부터는 최선의 수를 고른다.</p>
+<p><strong>훈련 샘플 저장:</strong> Tensor를 버퍼에 직접 저장하면 메모리 누수가 발생한다.
+<code>float32[]</code> 배열로 변환해서 저장하고, 학습 시에 다시 Tensor로 변환한다.</p>
+<h2 id="자가-대국-학습-파이프라인"><a class="header" href="#자가-대국-학습-파이프라인">자가 대국 학습 파이프라인</a></h2>
+<p>AlphaZero 방식의 자가 대국 → 학습 루프:</p>
+<pre><code>for 반복 in 1..NTrainingIter:
+  1. 자가 대국 (Self-Play)
+     model.eval() → playSelfPlayGame() × NSelfPlayGames
+     → 훈련 샘플 (상태, 정책 타겟, 가치 타겟) 생성
+     → 리플레이 버퍼에 추가 (최대 MaxBufferSize 유지)
+
+  2. 학습 (Training)
+     model.train() → trainBatch() × NEpochsPerIter
+     손실 = -정책 교차 엔트로피 + MSE 가치 손실
+     → Adam 옵티마이저로 역전파
+</code></pre>
+<h3 id="학습-실행-1"><a class="header" href="#학습-실행-1">학습 실행</a></h3>
+<pre><code class="language-bash"># ARM64 macOS 필수 준비:
+brew install libomp
+
+cd 05-gomoku-mcts
+dotnet run --project src/Gomoku.Console
+# 메뉴 → 1 (자가 대국 학습, 수 시간 소요)
+# 메뉴 → 2 (벤치마크: AI vs Random, 50 게임)
+# 메뉴 → 3 (사람 vs AI)
+</code></pre>
+<p>Serilog 구조화 로그 (<code>logs/gomoku-training.log</code>) 에서 학습 과정을 확인한다:</p>
+<pre><code>[09:15:03 INF] SelfPlay training started: Iterations=200 Simulations=100 LR=0.002
+[09:16:44 INF] Training Iter=1 Games=1 PolicyLoss=5.4183 ValueLoss=0.9921
+[09:25:11 INF] Training Iter=10 Games=10 PolicyLoss=3.2104 ValueLoss=0.5812
+[09:42:38 INF] Training Iter=20 Games=20 PolicyLoss=2.1083 ValueLoss=0.3447
+[10:18:22 INF] Model saved to gomoku_model.pt
+[10:18:24 INF] Benchmark: WinRate=42.0 % Wins=21/50 Simulations=100
+</code></pre>
+<p>손실이 감소하면 신경망이 자가 대국 결과를 흡수하고 있는 것이다.</p>
+<h2 id="phase-5-총정리"><a class="header" href="#phase-5-총정리">Phase 5 총정리</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>구성 요소</th><th>역할</th><th>파일</th></tr>
+</thead>
+<tbody>
+<tr><td>Domain.fs</td><td>오목 상태 타입 (Board, Player, GameState)</td><td><code>Gomoku.Domain</code></td></tr>
+<tr><td>Rules.fs</td><td>합법 수 생성, 승리 판정, 상태 전이</td><td><code>Gomoku.Rules</code></td></tr>
+<tr><td>MctsNode.fs</td><td>MCTS 트리 노드 (가변 클래스)</td><td><code>Gomoku.MctsNode</code></td></tr>
+<tr><td>Mcts.fs</td><td>순수 MCTS + PUCT 신경망 탐색</td><td><code>Gomoku.Mcts</code></td></tr>
+<tr><td>PolicyValueNet.fs</td><td>이중 헤드 신경망 (정책 + 가치)</td><td><code>Gomoku.PolicyValueNet</code></td></tr>
+<tr><td>SelfPlay.fs</td><td>자가 대국 게임 루프, 훈련 샘플 생성</td><td><code>Gomoku.SelfPlay</code></td></tr>
+<tr><td>Training.fs</td><td>학습 파이프라인, 벤치마크</td><td><code>Gomoku.Training</code></td></tr>
+<tr><td>Program.fs</td><td>메뉴 진입점, Serilog 구조화 로그</td><td><code>Gomoku.Console</code></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>검증 전략 (FsCheck):</strong></p>
+<pre><code>GMOK-01 ~ 08 : Rules.fs 속성 기반 테스트 (8가지 승리 방향, 드로우, 대칭)
+GMOK-09 ~ 10 : MCTS 속성 테스트 (방문 횟수 합, 순수 MCTS vs 랜덤 100% 승률)
+GMOK-11      : 신경망 출력 형태 테스트 (정책 [1,225] log-probs 합, 가치 [-1,1])
+</code></pre>
+<p><strong>핵심 교훈:</strong></p>
+<ol>
+<li><strong>MCTS는 탐색 예산을 할당하는 전략</strong> — 신경망이 없어도 동작하지만, 신경망 가이드로 탐색 효율이 크게 향상된다.</li>
+<li><strong>이중 헤드 신경망</strong> — 정책과 가치를 공유 백본에서 동시에 학습하면 표현을 공유해 수렴이 빠르다.</li>
+<li><strong>자가 대국 데이터는 자기 강화적</strong> — 신경망이 강해질수록 더 좋은 훈련 데이터가 생성되어 선순환이 만들어진다.</li>
+<li><strong>순수 F#의 힘</strong> — 도메인(Rules.fs)과 알고리즘(Mcts.fs)은 순수 함수로 작성되어 테스트 가능하다. 부수 효과는 Program.fs 한 곳에만 있다.</li>
+</ol>
+<hr>
+<p>이 튜토리얼에서는 슬롯머신의 단순 탐색-활용 딜레마에서 시작해, 테이블 기반 강화학습(TD, Q-Learning), 신경망 함수 근사(DQN), 그리고 AlphaZero 방식의 MCTS + 자가 대국까지 단계적으로 구현했다. 각 Phase는 이전 Phase의 한계를 극복하는 방향으로 설계되었고, 모든 핵심 알고리즘은 F#의 순수 함수와 property-based test로 검증되었다.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>

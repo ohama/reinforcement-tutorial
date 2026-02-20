@@ -1,0 +1,568 @@
+<!DOCTYPE HTML>
+<html lang="ko" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 3: 커넥트 포 — Q-Learning과 Minimax - F#으로 배우는 강화학습</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="슬롯머신부터 오목 AI까지 — F#으로 구현하는 강화학습 단계별 튜토리얼">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-380f36a3.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-48fe27ef.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">F#으로 배우는 강화학습</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-3-커넥트-포--q-learning과-minimax"><a class="header" href="#chapter-3-커넥트-포--q-learning과-minimax">Chapter 3: 커넥트 포 — Q-Learning과 Minimax</a></h1>
+<h2 id="phase-2의-한계-상태-공간-폭발"><a class="header" href="#phase-2의-한계-상태-공간-폭발">Phase 2의 한계: 상태 공간 폭발</a></h2>
+<p>2장에서 우리는 틱택토의 가치 함수를 <code>Map&lt;Board, float&gt;</code>로 표현했다.
+도달 가능한 상태가 ~5,478개였기 때문에 이 방식이 완벽히 작동했다.</p>
+<p>커넥트 포는 본질적으로 다르다. 6×7 보드에서 가능한 위치 수는 천문학적이다.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>항목</th><th>틱택토</th><th>커넥트 포</th></tr>
+</thead>
+<tbody>
+<tr><td>보드 크기</td><td>3×3 = 9칸</td><td>6×7 = 42칸</td></tr>
+<tr><td>도달 가능 상태 수</td><td>~5,478개</td><td>~4,531,985,219,092개</td></tr>
+<tr><td>Map으로 저장 가능?</td><td>가능 (몇 KB)</td><td>불가 (수십 TB 필요)</td></tr>
+<tr><td>전략</td><td>TD(0) 가치 함수</td><td>Q-Learning + Minimax</td></tr>
+</tbody>
+</table>
+</div>
+<p>4조 개를 넘는 상태 — 이것이 3장에서 두 가지 전혀 다른 접근법을 탐구하는 이유다.</p>
+<h2 id="커넥트-포-게임-규칙"><a class="header" href="#커넥트-포-게임-규칙">커넥트 포 게임 규칙</a></h2>
+<p>커넥트 포는 두 플레이어가 교대로 6행 7열 격자에 돌을 떨어뜨리는 게임이다.
+돌은 중력을 받아 열의 최하단 빈 칸에 쌓인다.
+가로, 세로, 대각선 방향으로 4개를 먼저 연결하면 승리한다.</p>
+<h3 id="핵심-f-타입-정의"><a class="header" href="#핵심-f-타입-정의">핵심 F# 타입 정의</a></h3>
+<pre><code class="language-fsharp">module ConnectFour.Domain
+
+type Cell = Empty | Red | Yellow
+
+/// 6×7 board as flat 42-element array, row-major: index = row * 7 + col
+/// Row 0 = top, Row 5 = bottom
+type Board = Cell array
+
+type GameState = {
+    Board: Board
+    CurrentPlayer: Cell
+}
+
+let rows = 6
+let cols = 7
+
+let inline idx row col = row * cols + col
+
+let emptyBoard () : Board = Array.create (rows * cols) Empty
+
+let initialState () : GameState =
+    { Board = emptyBoard (); CurrentPlayer = Red }
+
+let opponent (player: Cell) : Cell =
+    match player with
+    | Red    -&gt; Yellow
+    | Yellow -&gt; Red
+    | Empty  -&gt; failwith "opponent: Empty is not a player"
+</code></pre>
+<p>보드는 42개 원소의 1차원 배열이다. <code>idx row col = row * 7 + col</code>로 접근한다.
+행 0이 맨 위, 행 5가 맨 아래(중력 기준점)다.</p>
+<h3 id="게임-규칙-엔진"><a class="header" href="#게임-규칙-엔진">게임 규칙 엔진</a></h3>
+<pre><code class="language-fsharp">module ConnectFour.Rules
+
+open ConnectFour.Domain
+
+let dropRow (board: Board) (col: int) : int option =
+    [ rows - 1 .. -1 .. 0 ]
+    |&gt; List.tryFind (fun row -&gt; board.[idx row col] = Empty)
+
+let legalMoves (board: Board) : int list =
+    [ 0 .. cols - 1 ]
+    |&gt; List.filter (fun col -&gt; dropRow board col |&gt; Option.isSome)
+
+let applyMove (board: Board) (player: Cell) (col: int) : Board =
+    match dropRow board col with
+    | None -&gt; failwith $"applyMove: column {col} is full"
+    | Some row -&gt;
+        board |&gt; Array.mapi (fun i c -&gt; if i = idx row col then player else c)
+
+let private checkDirection (board: Board) (r: int) (c: int) (dr: int) (dc: int) (player: Cell) : bool =
+    [ 0 .. 3 ]
+    |&gt; List.forall (fun k -&gt;
+        let nr = r + k * dr
+        let nc = c + k * dc
+        nr &gt;= 0 &amp;&amp; nr &lt; rows &amp;&amp; nc &gt;= 0 &amp;&amp; nc &lt; cols &amp;&amp; board.[idx nr nc] = player)
+
+let checkWinner (board: Board) : Cell option =
+    let directions = [ (0,1); (1,0); (1,1); (1,-1) ]
+    [ for r in 0 .. rows-1 do
+      for c in 0 .. cols-1 do
+      for (dr, dc) in directions do
+        yield (r, c, dr, dc) ]
+    |&gt; List.tryPick (fun (r, c, dr, dc) -&gt;
+        let cell = board.[idx r c]
+        if cell &lt;&gt; Empty &amp;&amp; checkDirection board r c dr dc cell
+        then Some cell
+        else None)
+
+type GameResult = RedWins | YellowWins | Draw
+
+let isGameOver (board: Board) : GameResult option =
+    match checkWinner board with
+    | Some Red    -&gt; Some RedWins
+    | Some Yellow -&gt; Some YellowWins
+    | Some Empty  -&gt; None
+    | None -&gt;
+        if Array.forall (fun c -&gt; c &lt;&gt; Empty) board then Some Draw
+        else None
+</code></pre>
+<p><code>dropRow</code>는 열에서 돌이 실제로 떨어질 위치를 찾는다 — 아래에서부터 첫 번째 빈 칸이다.
+<code>isGameOver</code>는 승자 확인(4방향)과 무승부 확인(보드가 모두 찼을 때)을 처리한다.</p>
+<h2 id="minimax-alpha-beta-pruning"><a class="header" href="#minimax-alpha-beta-pruning">Minimax Alpha-Beta Pruning</a></h2>
+<p><strong>Minimax</strong>는 상대방도 최선을 다한다고 가정하고 게임 트리를 완전 탐색한다.
+나는 내 점수를 최대화하려 하고, 상대는 내 점수를 최소화하려 한다.</p>
+<p><strong>Alpha-Beta Pruning</strong>은 Minimax를 최적화한다. 이미 더 좋은 수를 알고 있는 경우,
+탐색할 필요 없는 트리 가지를 잘라낸다. 평균적으로 탐색 비용을 절반으로 줄인다.</p>
+<p>Negamax 변형을 사용하면 두 플레이어를 동일한 코드로 처리할 수 있다:
+모든 상태의 점수를 “현재 플레이어 기준“으로 평가한다.</p>
+<pre><code class="language-fsharp">module ConnectFour.Minimax
+
+open ConnectFour.Domain
+open ConnectFour.Rules
+
+let [&lt;Literal&gt;] private NegInf = -1_000_000
+let [&lt;Literal&gt;] private PosInf =  1_000_000
+
+let private scoreWindow (window: Cell list) (player: Cell) : int =
+    let opp = opponent player
+    let p = window |&gt; List.filter ((=) player) |&gt; List.length
+    let o = window |&gt; List.filter ((=) opp) |&gt; List.length
+    if o &gt; 0 then 0
+    else
+        match p with
+        | 4 -&gt; 10000
+        | 3 -&gt; 50
+        | 2 -&gt; 3
+        | 1 -&gt; 1
+        | _ -&gt; 0
+
+let private allWindows (board: Board) : Cell list list =
+    [ for r in 0 .. rows-1 do
+        for c in 0 .. cols-4 do
+          yield [ board.[idx r c]; board.[idx r (c+1)]; board.[idx r (c+2)]; board.[idx r (c+3)] ]
+      for c in 0 .. cols-1 do
+        for r in 0 .. rows-4 do
+          yield [ board.[idx r c]; board.[idx (r+1) c]; board.[idx (r+2) c]; board.[idx (r+3) c] ]
+      for r in 0 .. rows-4 do
+        for c in 0 .. cols-4 do
+          yield [ board.[idx r c]; board.[idx (r+1) (c+1)]; board.[idx (r+2) (c+2)]; board.[idx (r+3) (c+3)] ]
+      for r in 3 .. rows-1 do
+        for c in 0 .. cols-4 do
+          yield [ board.[idx r c]; board.[idx (r-1) (c+1)]; board.[idx (r-2) (c+2)]; board.[idx (r-3) (c+3)] ]
+    ]
+
+let evaluateBoard (board: Board) (player: Cell) : int =
+    let opp = opponent player
+    let windows = allWindows board
+    let netWindowScore =
+        windows |&gt; List.sumBy (fun w -&gt;
+            scoreWindow w player - scoreWindow w opp)
+    let centerBonus =
+        [ 0 .. rows-1 ]
+        |&gt; List.filter (fun r -&gt; board.[idx r 3] = player)
+        |&gt; List.length
+        |&gt; (*) 3
+    netWindowScore + centerBonus
+
+let rec minimaxAB
+    (board: Board) (player: Cell) (depth: int)
+    (alpha: int) (beta: int) (pruneCount: int ref) : int =
+    match isGameOver board with
+    | Some result -&gt;
+        match result with
+        | RedWins    -&gt; if player = Red    then 10000 + depth else -(10000 + depth)
+        | YellowWins -&gt; if player = Yellow then 10000 + depth else -(10000 + depth)
+        | Draw       -&gt; 0
+    | None when depth = 0 -&gt;
+        evaluateBoard board player
+    | None -&gt;
+        let opp = opponent player
+        let moves = legalMoves board |&gt; List.sortBy (fun c -&gt; abs (c - 3))
+        let rec loop moves alpha bestScore =
+            match moves with
+            | [] -&gt; bestScore
+            | col :: rest -&gt;
+                let nextBoard = applyMove board player col
+                let childScore = -(minimaxAB nextBoard opp (depth - 1) (-beta) (-alpha) pruneCount)
+                let newBest = max bestScore childScore
+                let newAlpha = max alpha newBest
+                if newAlpha &gt;= beta then
+                    pruneCount.Value &lt;- pruneCount.Value + 1
+                    newBest
+                else
+                    loop rest newAlpha newBest
+        loop moves alpha NegInf
+
+let chooseMoveAB (board: Board) (player: Cell) (depth: int) : int * int =
+    let pruneCount = ref 0
+    let opp = opponent player
+    let moves = legalMoves board |&gt; List.sortBy (fun c -&gt; abs (c - 3))
+    let scored =
+        moves |&gt; List.map (fun col -&gt;
+            let nextBoard = applyMove board player col
+            let score = -(minimaxAB nextBoard opp (depth - 1) NegInf PosInf pruneCount)
+            col, score)
+    let bestCol = scored |&gt; List.maxBy snd |&gt; fst
+    bestCol, pruneCount.Value
+
+let rec private naiveMinimax (board: Board) (player: Cell) (depth: int) : int =
+    match isGameOver board with
+    | Some result -&gt;
+        match result with
+        | RedWins    -&gt; if player = Red    then 10000 + depth else -(10000 + depth)
+        | YellowWins -&gt; if player = Yellow then 10000 + depth else -(10000 + depth)
+        | Draw       -&gt; 0
+    | None when depth = 0 -&gt;
+        evaluateBoard board player
+    | None -&gt;
+        let opp = opponent player
+        let moves = legalMoves board |&gt; List.sortBy (fun c -&gt; abs (c - 3))
+        moves |&gt; List.map (fun col -&gt;
+            let nextBoard = applyMove board player col
+            -(naiveMinimax nextBoard opp (depth - 1)))
+        |&gt; List.max
+
+let chooseMoveNaive (board: Board) (player: Cell) (depth: int) : int =
+    let opp = opponent player
+    let moves = legalMoves board |&gt; List.sortBy (fun c -&gt; abs (c - 3))
+    moves |&gt; List.map (fun col -&gt;
+        let nextBoard = applyMove board player col
+        col, -(naiveMinimax nextBoard opp (depth - 1)))
+    |&gt; List.maxBy snd |&gt; fst
+</code></pre>
+<p><code>chooseMoveAB</code>는 <code>(최선 열, 누적 가지치기 횟수)</code> 쌍을 반환한다.
+가지치기 횟수는 Alpha-Beta가 얼마나 효과적으로 탐색을 줄였는지 보여주는 지표다.</p>
+<h2 id="q-learning"><a class="header" href="#q-learning">Q-Learning</a></h2>
+<p><strong>Q-Learning</strong>은 행동-가치 함수 <code>Q(s, a)</code>를 학습한다:
+“상태 s에서 행동 a를 취할 때 기대 보상은 얼마인가?”</p>
+<p>벨만 방정식으로 업데이트한다:</p>
+<pre><code>Q(s,a) ← Q(s,a) + α × [r + γ × max_a' Q(s',a') - Q(s,a)]
+</code></pre>
+<ul>
+<li><code>α (alpha)</code>: 학습률 — 새 정보를 얼마나 빠르게 반영하나</li>
+<li><code>γ (gamma)</code>: 할인율 — 미래 보상을 얼마나 중요하게 여기나</li>
+<li><code>r + γ × max Q(s',a')</code>: TD 목표값</li>
+<li><code>r + γ × max Q(s',a') - Q(s,a)</code>: TD 오차</li>
+</ul>
+<p>ε-greedy 정책으로 탐색과 활용의 균형을 맞춘다:
+ε 확률로 무작위 행동(탐색), 1-ε 확률로 최선 행동(활용).</p>
+<pre><code class="language-fsharp">module ConnectFour.QAgent
+
+open ConnectFour.Domain
+open ConnectFour.Rules
+
+type QTable = System.Collections.Generic.Dictionary&lt;string, float[]&gt;
+
+let encodeState (board: Board) : string =
+    board
+    |&gt; Array.map (fun c -&gt;
+        match c with
+        | Red    -&gt; 'R'
+        | Yellow -&gt; 'Y'
+        | Empty  -&gt; '.')
+    |&gt; System.String
+
+let createQTable () : QTable = QTable()
+
+let getQ (table: QTable) (state: string) : float[] =
+    match table.TryGetValue(state) with
+    | true, values -&gt; values
+    | false, _ -&gt;
+        let values = Array.create cols 0.0
+        table.[state] &lt;- values
+        values
+
+let chooseAction (rng: System.Random) (table: QTable) (board: Board) (epsilon: float) : int =
+    let legal = legalMoves board
+    if legal.IsEmpty then failwith "chooseAction: no legal moves (game should be over)"
+    if rng.NextDouble() &lt; epsilon then
+        legal.[rng.Next(legal.Length)]
+    else
+        let state = encodeState board
+        let qVals = getQ table state
+        legal |&gt; List.maxBy (fun c -&gt; qVals.[c])
+
+let updateQ
+    (table: QTable) (state: string) (action: int) (reward: float)
+    (nextState: string) (nextLegalMoves: int list)
+    (alpha: float) (gamma: float) (isTerminal: bool) : unit =
+    let qCurr = getQ table state
+    let nextMax =
+        if isTerminal || nextLegalMoves.IsEmpty then 0.0
+        else
+            let qNext = getQ table nextState
+            nextLegalMoves |&gt; List.map (fun c -&gt; qNext.[c]) |&gt; List.max
+    let target = reward + gamma * nextMax
+    qCurr.[action] &lt;- qCurr.[action] + alpha * (target - qCurr.[action])
+
+let [&lt;Literal&gt;] RewardWin  =  1.0
+let [&lt;Literal&gt;] RewardLoss = -1.0
+let [&lt;Literal&gt;] RewardDraw =  0.3
+let [&lt;Literal&gt;] RewardStep =  0.0
+</code></pre>
+<p>Q-Table은 <code>Dictionary&lt;string, float[]&gt;</code>로 구현된다:</p>
+<ul>
+<li>키: 42글자 문자열 (<code>.</code> = 빈칸, <code>R</code> = 빨강, <code>Y</code> = 노랑)</li>
+<li>값: 7개 원소 배열 (각 열의 Q값)</li>
+</ul>
+<p>Red와 Yellow가 별도 테이블을 유지한다 — 각자 자신의 관점에서 학습한다.</p>
+<h2 id="q-table의-한계--왜-phase-4-dqn이-필요한가"><a class="header" href="#q-table의-한계--왜-phase-4-dqn이-필요한가">Q-Table의 한계 — 왜 Phase 4 DQN이 필요한가</a></h2>
+<p>50,000 에피소드 학습 후의 현실:</p>
+<pre><code>=== Q-Table 크기 분석 ===
+학습 후 방문한 상태: 169,311
+전체 가능한 상태:    4,531,985,219,092
+커버율:              0.000004%
+</code></pre>
+<p>Q-Table은 방문한 상태만 저장한다. 4조 개 상태 중 0.000004%만 본 것이다.
+한 번도 보지 못한 상태에서는 Q값이 0으로 초기화되어 있다 — 에이전트가 판단 근거를 갖지 못한다.</p>
+<p>이 방식은 <strong>일반화가 불가능</strong>하다. “이 위치와 비슷한 위치에서 이겼었다“는 지식을 전달할 수 없다.</p>
+<p>AI vs AI 결과가 이를 극명하게 보여준다:</p>
+<pre><code>=== AI vs AI 결과 (총 20게임) ===
+Minimax(R) 승: 20 / 20 (100.0%)
+Q-Learning(Y) 승: 0 / 20 (0.0%)
+Alpha-Beta 누적 가지치기: 184,820회
+</code></pre>
+<p>Minimax는 매 수마다 게임 트리를 깊이 6까지 탐색하며 최선 수를 계산한다.
+Q-Learning은 본 적 없는 보드 배치에서 갈피를 잡지 못한다.</p>
+<h2 id="phase-4-미리보기-신경망으로-일반화"><a class="header" href="#phase-4-미리보기-신경망으로-일반화">Phase 4 미리보기: 신경망으로 일반화</a></h2>
+<p>Q-Table의 한계를 극복하는 방법은 **함수 근사(Function Approximation)**다.</p>
+<p>상태를 키-값 쌍으로 저장하는 대신, 신경망으로 <code>Q(s,a)</code>를 근사한다:</p>
+<ul>
+<li>입력: 보드 배치 (42개 픽셀로 본다)</li>
+<li>출력: 7개의 Q값 (각 열에 대해)</li>
+</ul>
+<p>이것이 **DQN(Deep Q-Network)**이다. 2015년 DeepMind가 Atari 게임을 정복하며 세상을 놀라게 한 방법.</p>
+<p>신경망은 비슷한 보드 배치에서 비슷한 Q값을 예측할 수 있다 — 일반화가 가능하다.
+4조 개 상태를 모두 방문하지 않아도 된다. 패턴을 학습하면 된다.</p>
+<p>4장에서는 TorchSharp로 DQN을 F#으로 구현하고,
+같은 커넥트 포 환경에서 Q-Table이 실패하는 곳에서 DQN이 성공하는지 확인한다.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../02-tictactoe/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../04-dqn/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../02-tictactoe/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../04-dqn/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

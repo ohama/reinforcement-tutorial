@@ -1,6 +1,6 @@
 # Build output
-Bandit/**/bin/
-Bandit/**/obj/
+**/bin/
+**/obj/
 tutorial/book/
 logs/
 *.user
