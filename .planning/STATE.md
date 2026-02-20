@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 3 IN PROGRESS — Connect Four engine + Q-Learning done, Minimax + Console integration next
+**Current focus:** Phase 3 IN PROGRESS — Connect Four engine + Minimax + Q-Learning done, Console integration (03-04) next
 
 ## Current Position
 
 Phase: 3 of 5 in progress (Connect Four + Q-Learning + Minimax)
-Plan: 3 of 4 in Phase 3 complete (03-01, 03-03 done; 03-02 Minimax in parallel)
+Plan: 3 of 4 in Phase 3 complete (03-01, 03-02, 03-03 done; 03-04 Console/Program.fs next)
 Status: In progress
-Last activity: 2026-02-20 — Completed 03-03-PLAN.md (Q-Learning agent + self-play training loop)
+Last activity: 2026-02-20 — Completed 03-02-PLAN.md (Minimax Alpha-Beta + Expecto equivalence tests)
 
-Progress: [████████░░] 53% (8/15 plans total)
+Progress: [████████░░] 60% (9/15 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: ~2.4 min
-- Total execution time: ~21 min
+- Total plans completed: 9
+- Average duration: ~2.3 min
+- Total execution time: ~23 min
 
 **By Phase:**
 
@@ -29,12 +29,12 @@ Progress: [████████░░] 53% (8/15 plans total)
 |-------|-------|-------|----------|
 | 01-bandit-mdbook | 3/3 COMPLETE | ~11 min | 3.7 min |
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
-| 03-connect-four-q-learning-minimax | 2/4 | ~5 min | 2.5 min |
+| 03-connect-four-q-learning-minimax | 3/4 | ~5 min | 2.3 min |
 | 04-gomoku-dqn | 0/3 | - | - |
 | 05-gomoku-alphazero | 0/3 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (2 min), 02-03 (2 min), 03-01 (3 min), 03-03 (2 min)
+- Last 5 plans: 02-03 (2 min), 03-01 (3 min), 03-02 (2 min), 03-03 (2 min)
 - Trend: fast
 
 *Updated after each plan completion*
@@ -73,6 +73,9 @@ Recent decisions affecting current work:
 - [03-01]: dropRow iterates rows-1 downto 0 — gravity: first empty found from bottom = landing row
 - [03-01]: genValidBoard plays 0-30 random plies via System.Random to produce realistic board states for FsCheck
 - [03-01]: Array.create (rows*cols) Empty for Board init (not Array.zeroCreate — returns null for DU types)
+- [03-02]: NegInf/PosInf = +-1_000_000 (not Int32.MinValue/MaxValue) — negating MinValue overflows in .NET
+- [03-02]: chooseMoveNaive inside Minimax.fs as reference for equivalence testing (not separate module)
+- [03-02]: Blocking test uses 1-sided threat (Yellow cols 0,1,2) — double-sided threat is unblockable so only col 3 blocks
 - [03-03]: QAgent.fs placed after Rules.fs and before Minimax.fs — QAgent has no dependency on Minimax
 - [03-03]: Separate Q-tables per player (redTable, yellowTable) — avoids perspective confusion in self-play
 - [03-03]: encodeState: Empty->'.', Red->'R', Yellow->'Y' — 42-char string key from flat Board array
@@ -80,18 +83,16 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None — Phase 3 Plans 01 and 03 complete. Plan 02 (Minimax) may be in parallel; Plan 04 (Console/Program.fs) next.
+None — Phase 3 Plans 01, 02, 03 complete. Plan 04 (Console integration / Program.fs) is next.
 
 ### Blockers/Concerns
 
-- [03-02]: Minimax test "blocks opponent's winning move (depth 2)" failing — evaluation heuristic issue at depth 2; may need fixing before Phase 3 completion
-- [Phase 3 planning]: Alpha-Beta 평가 함수 설계 — F# 전용 예제 부족, planning 시 research-phase 고려
 - [Phase 4 planning]: TorchSharp Conv2D + Sequential F# API 패턴 — C# 예제와 다름, research-phase 권장
 - [Phase 4]: Apple Silicon ARM64 TorchSharp-cpu 지원 여부 — Phase 4 시작 전 확인 필요
 - [Phase 5 planning]: AlphaZero 스타일 self-play + dual-head MCTS in F# — 문서 희소, research-phase 강력 권장
 
 ## Session Continuity
 
-Last session: 2026-02-20T00:11:08Z
-Stopped at: Completed 03-03-PLAN.md (Q-Learning agent + self-play training loop)
+Last session: 2026-02-20T00:11:22Z
+Stopped at: Completed 03-02-PLAN.md (Minimax Alpha-Beta + Expecto equivalence tests)
 Resume file: None
