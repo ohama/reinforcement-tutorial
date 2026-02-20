@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 4 COMPLETE — 04-04 done. Next: Phase 5 (Gomoku MCTS / AlphaZero-style).
+**Current focus:** Phase 5 IN PROGRESS — 05-01 done. Next: 05-02 (MCTS).
 
 ## Current Position
 
-Phase: 4 of 5 COMPLETE (Connect Four + DQN with TorchSharp)
-Plan: 4 of 4 in Phase 4 complete (04-01, 04-02, 04-03, 04-04 done)
-Status: Phase 4 complete
+Phase: 5 of 5 IN PROGRESS (Gomoku MCTS / AlphaZero-style)
+Plan: 1 of 3 in Phase 5 complete (05-01 done)
+Status: In progress
 
-Last activity: 2026-02-20 — Completed 04-04-PLAN.md (Program.fs Serilog + Korean mdBook chapter + 9/9 tests passing)
+Last activity: 2026-02-20 — Completed 05-01-PLAN.md (Gomoku.sln bootstrap + Domain.fs + Rules.fs + 8/8 FsCheck/Expecto tests passing)
 
-Progress: [██████████████] 93% (14/15 plans total)
+Progress: [███████████████] 100% (15/15 plans total — Phase 5 base plan count TBD)
 
 ## Performance Metrics
 
@@ -32,10 +32,10 @@ Progress: [██████████████] 93% (14/15 plans total)
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
 | 03-connect-four-q-learning-minimax | 4/4 COMPLETE | ~8 min | 2.0 min |
 | 04-connect-four-dqn | 4/4 COMPLETE | ~43 min | 10.8 min |
-| 05-gomoku-alphazero | 0/3 | - | - |
+| 05-gomoku-mcts | 1/3 | ~2 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (3 min), 04-02 (6 min), 04-03 (26 min), 04-04 (~8 min)
+- Last 5 plans: 04-02 (6 min), 04-03 (26 min), 04-04 (~8 min), 05-01 (2 min)
 
 *Updated after each plan completion*
 
@@ -100,17 +100,20 @@ Recent decisions affecting current work:
 - [04-03]: float64 is not a valid F# type (use float); open type TorchSharp.torch also shadows float32 — use Operators.float32 for numeric conversion
 - [04-04]: isGameOver returns GameResult option (RedWins/YellowWins/Draw/None) — no winner() function exists in Rules.fs; all game loop termination must match isGameOver pattern
 - [04-04]: Serilog packages available transitively in Console project via ProjectReference to ConnectFourDQN.fsproj — no direct package reference needed in Console.fsproj
+- [05-01]: Board = int array (0=empty, 1=Black, -1=White) — flat 225-element row-major array; Array.zeroCreate safe for int arrays (unsafe only for DU arrays)
+- [05-01]: isWinningMove scans 4 directions through placed stone only — O(WinLength) not O(225), critical for MCTS simulation speed
+- [05-01]: playRandomGame FsCheck helper: plays random plies stopping on win/draw to generate varied board states for property tests
 
 ### Pending Todos
 
-None — Phase 4 complete. Phase 5 (Gomoku MCTS) is next.
+None — Phase 5 in progress. Next: 05-02 (MCTS implementation).
 
 ### Blockers/Concerns
 
-- [Phase 5 planning]: AlphaZero 스타일 self-play + dual-head MCTS in F# — 문서 희소, research-phase 강력 권장
+None — 05-01 complete cleanly, no blockers for 05-02.
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 04-04-PLAN.md — Program.fs + Korean mdBook chapter complete, Phase 4 fully complete
+Stopped at: Completed 05-01-PLAN.md — Gomoku.sln bootstrap + Domain.fs + Rules.fs + 8/8 tests passing
 Resume file: None
