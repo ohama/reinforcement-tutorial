@@ -69,68 +69,94 @@ let private chooseOpponentMove (rng: System.Random) (board: Board) (opp: Cell) (
 
 // ── Single Episode ────────────────────────────────────────────────────────────
 // Play one episode. DQN always plays as Red; opponent plays as Yellow.
-// Only Red's experiences are pushed into the replay buffer.
-// Returns whether Red won or it was a draw.
+// Red's experiences are pushed into the replay buffer with correct terminal rewards.
+//
+// TRANSITION DESIGN (single-agent DQN with alternating players):
+//   Each Red transition = (s_red, a_red, r, s_red_next, done)
+//   where s_red_next is the board state when Red gets to move AGAIN
+//   (i.e., AFTER Yellow has responded to Red's move).
+//
+//   Rewards from Red's perspective:
+//     Red wins on Red's move   → r = +1.0, done = true
+//     Draw on Red's move       → r = +0.3, done = true
+//     Yellow wins after Red    → r = -1.0, done = true
+//     Draw on Yellow's move    → r = +0.3, done = true
+//     Game continues           → r =  0.0, done = false (pushed AFTER Yellow responds)
 let private runEpisode (rng: System.Random) (model: DQNModel) (buf: ReplayBuffer)
                         (epsilon: float) (episode: int) : {| Win: bool; Draw: bool |} =
     let mutable board   = Array.create (rows * cols) Empty
-    let mutable current = Red
     let mutable result  = {| Win = false; Draw = false |}
     let mutable running = true
 
     while running do
-        let legal = legalMoves board
-        if List.isEmpty legal then
-            // No legal moves left — draw
+        // ── Red's turn ──────────────────────────────────────────────────────
+        let redLegal = legalMoves board
+        if List.isEmpty redLegal then
             result  <- {| Win = false; Draw = true |}
             running <- false
         else
-            let action =
-                if current = Red then
-                    chooseMove rng model board Red Yellow epsilon
-                else
-                    chooseOpponentMove rng board Yellow episode
+            let redAction    = chooseMove rng model board Red Yellow epsilon
+            let redStateData = boardToArray board Red Yellow
+            let boardAfterRed = applyMove board Red redAction
 
-            let stateData     = boardToArray board Red Yellow
-            let nextBoard     = applyMove board current action
-            let nextStateData = boardToArray nextBoard Red Yellow
-
-            let gameResult = isGameOver nextBoard
-            let gameOver   = Option.isSome gameResult
-
-            let redWon =
-                match gameResult with
-                | Some RedWins -> true
-                | _            -> false
-
-            let reward =
-                if not gameOver then 0.0f
-                elif redWon     then 1.0f
-                else
-                    match gameResult with
-                    | Some YellowWins -> -1.0f
-                    | _               -> 0.3f   // draw
-
-            // Only push Red's perspective into replay buffer
-            if current = Red then
-                buf.Push {
-                    StateData     = stateData
-                    Action        = action
-                    Reward        = reward
-                    NextStateData = nextStateData
-                    Done          = gameOver
-                }
-
-            board   <- nextBoard
-            current <- if current = Red then Yellow else Red
-
-            if gameOver then
-                let isDraw =
-                    match gameResult with
-                    | Some Draw -> true
-                    | _         -> false
-                result  <- {| Win = redWon; Draw = isDraw |}
+            match isGameOver boardAfterRed with
+            | Some RedWins ->
+                // Red wins immediately — terminal experience
+                let nextSD = boardToArray boardAfterRed Red Yellow
+                buf.Push { StateData = redStateData; Action = redAction; Reward = 1.0f; NextStateData = nextSD; Done = true }
+                result  <- {| Win = true; Draw = false |}
                 running <- false
+            | Some Draw ->
+                // Draw on Red's move
+                let nextSD = boardToArray boardAfterRed Red Yellow
+                buf.Push { StateData = redStateData; Action = redAction; Reward = 0.3f; NextStateData = nextSD; Done = true }
+                result  <- {| Win = false; Draw = true |}
+                running <- false
+            | Some YellowWins ->
+                // Shouldn't happen after Red's move, but be safe
+                let nextSD = boardToArray boardAfterRed Red Yellow
+                buf.Push { StateData = redStateData; Action = redAction; Reward = -1.0f; NextStateData = nextSD; Done = true }
+                result  <- {| Win = false; Draw = false |}
+                running <- false
+            | None ->
+                // Game continues — Yellow gets to respond
+                // ── Yellow's turn ────────────────────────────────────────────
+                let yellowLegal = legalMoves boardAfterRed
+                if List.isEmpty yellowLegal then
+                    // Board full after Red, no winner → draw
+                    let nextSD = boardToArray boardAfterRed Red Yellow
+                    buf.Push { StateData = redStateData; Action = redAction; Reward = 0.3f; NextStateData = nextSD; Done = true }
+                    result  <- {| Win = false; Draw = true |}
+                    running <- false
+                else
+                    let yellowAction  = chooseOpponentMove rng boardAfterRed Yellow episode
+                    let boardAfterYellow = applyMove boardAfterRed Yellow yellowAction
+
+                    match isGameOver boardAfterYellow with
+                    | Some YellowWins ->
+                        // Yellow wins — Red's last action leads to -1
+                        let nextSD = boardToArray boardAfterYellow Red Yellow
+                        buf.Push { StateData = redStateData; Action = redAction; Reward = -1.0f; NextStateData = nextSD; Done = true }
+                        result  <- {| Win = false; Draw = false |}
+                        running <- false
+                    | Some Draw ->
+                        // Draw on Yellow's move
+                        let nextSD = boardToArray boardAfterYellow Red Yellow
+                        buf.Push { StateData = redStateData; Action = redAction; Reward = 0.3f; NextStateData = nextSD; Done = true }
+                        result  <- {| Win = false; Draw = true |}
+                        running <- false
+                    | Some RedWins ->
+                        // Shouldn't happen after Yellow's move, but be safe
+                        let nextSD = boardToArray boardAfterYellow Red Yellow
+                        buf.Push { StateData = redStateData; Action = redAction; Reward = 1.0f; NextStateData = nextSD; Done = true }
+                        result  <- {| Win = true; Draw = false |}
+                        running <- false
+                    | None ->
+                        // Game continues — push intermediate experience with r=0, nextState = state for Red's next move
+                        let nextSD = boardToArray boardAfterYellow Red Yellow
+                        buf.Push { StateData = redStateData; Action = redAction; Reward = 0.0f; NextStateData = nextSD; Done = false }
+                        board <- boardAfterYellow
+                        // `current` stays Red for next iteration
 
     result
 

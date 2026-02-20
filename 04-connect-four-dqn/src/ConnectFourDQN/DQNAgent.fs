@@ -93,10 +93,16 @@ let trainStep (model: DQNModel) (target: DQNModel)
     use qTaken = qAll.gather(1L, actions.unsqueeze(1L)).squeeze(1L)    // [N]
 
     // Target Q-values: r + gamma * max_a'(Q_target(s', a')) * (1 - done)
-    use _noGrad = torch.no_grad()
-    let struct(nextQMax, _nextQIdx) = target.forward(nextStates).max(1L)  // [N]
-    use nextQMaxDisposable = nextQMax
-    use targetQ = rewards + gamma * nextQMax * (1.0f - dones)             // [N]
+    // IMPORTANT: we must exit no_grad BEFORE computing the loss so that backward() works.
+    // Use explicit .Dispose() rather than `use` so we control the scope boundary.
+    let targetQ =
+        let noGrad = torch.no_grad()
+        let struct(nextQMax, _nextQIdx) = target.forward(nextStates).max(1L)  // [N]
+        let tq = rewards + gamma * nextQMax * (1.0f - dones)   // [N], detached
+        nextQMax.Dispose()
+        noGrad.Dispose()
+        tq
+    use _targetQ = targetQ  // register for dispose-scope cleanup
 
     opt.zero_grad()
     use loss = nn.functional.smooth_l1_loss(qTaken, targetQ, reduction = nn.Reduction.Mean)

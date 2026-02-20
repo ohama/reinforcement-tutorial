@@ -7,10 +7,12 @@
   <ItemGroup>
     <Compile Include="TensorTests.fs" />
     <Compile Include="ReplayBufferTests.fs" />
+    <Compile Include="BenchmarkTests.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ConnectFourDQN\ConnectFourDQN.fsproj" />
+    <ProjectReference Include="..\..\src\ConnectFourDQN.Console\ConnectFourDQN.Console.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
