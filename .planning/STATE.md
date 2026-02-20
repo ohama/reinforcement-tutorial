@@ -5,23 +5,24 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 4 in progress — 04-03 complete. Next: 04-04 (Program.fs Serilog logging + mdBook tutorial).
+**Current focus:** Phase 4 COMPLETE — 04-04 done. Next: Phase 5 (Gomoku MCTS / AlphaZero-style).
 
 ## Current Position
 
-Phase: 4 of 5 IN PROGRESS (Connect Four + DQN with TorchSharp)
-Plan: 3 of 4 in Phase 4 complete (04-01, 04-02, 04-03 done)
-Status: In progress
-Last activity: 2026-02-20 — Completed 04-03-PLAN.md (Training loop + BenchmarkTests + 9/9 tests passing)
+Phase: 4 of 5 COMPLETE (Connect Four + DQN with TorchSharp)
+Plan: 4 of 4 in Phase 4 complete (04-01, 04-02, 04-03, 04-04 done)
+Status: Phase 4 complete
 
-Progress: [█████████████░] 87% (13/15 plans total)
+Last activity: 2026-02-20 — Completed 04-04-PLAN.md (Program.fs Serilog + Korean mdBook chapter + 9/9 tests passing)
+
+Progress: [██████████████] 93% (14/15 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: ~2.8 min
-- Total execution time: ~61 min
+- Total plans completed: 14
+- Average duration: ~2.8 min (non-DQN) / ~8 min (DQN)
+- Total execution time: ~69 min
 
 **By Phase:**
 
@@ -30,12 +31,11 @@ Progress: [█████████████░] 87% (13/15 plans total)
 | 01-bandit-mdbook | 3/3 COMPLETE | ~11 min | 3.7 min |
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
 | 03-connect-four-q-learning-minimax | 4/4 COMPLETE | ~8 min | 2.0 min |
-| 04-connect-four-dqn | 3/4 | ~35 min | 8.8 min |
+| 04-connect-four-dqn | 4/4 COMPLETE | ~43 min | 10.8 min |
 | 05-gomoku-alphazero | 0/3 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 03-04 (3 min), 04-01 (3 min), 04-02 (6 min), 04-03 (26 min)
-- Note: 04-03 was slower due to 3 bug fixes + 2x test runtime (5K episode DQN training × 2 runs)
+- Last 5 plans: 04-01 (3 min), 04-02 (6 min), 04-03 (26 min), 04-04 (~8 min)
 
 *Updated after each plan completion*
 
@@ -98,10 +98,12 @@ Recent decisions affecting current work:
 - [04-03]: torch.manual_seed(42L) before DQNModel() for deterministic weight init in CI tests
 - [04-03]: DQN CI benchmark: test vs random opponent (not Minimax) when training distribution is purely random (< 20K episode curriculum threshold). Production 50K uses full curriculum → test vs Minimax depth 2 (run via dotnet run)
 - [04-03]: float64 is not a valid F# type (use float); open type TorchSharp.torch also shadows float32 — use Operators.float32 for numeric conversion
+- [04-04]: isGameOver returns GameResult option (RedWins/YellowWins/Draw/None) — no winner() function exists in Rules.fs; all game loop termination must match isGameOver pattern
+- [04-04]: Serilog packages available transitively in Console project via ProjectReference to ConnectFourDQN.fsproj — no direct package reference needed in Console.fsproj
 
 ### Pending Todos
 
-None — 04-03 complete. Phase 4 Plan 04 (Program.fs + mdBook tutorial) is next.
+None — Phase 4 complete. Phase 5 (Gomoku MCTS) is next.
 
 ### Blockers/Concerns
 
@@ -110,5 +112,5 @@ None — 04-03 complete. Phase 4 Plan 04 (Program.fs + mdBook tutorial) is next.
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 04-03-PLAN.md — Training.fs + BenchmarkTests complete, 9/9 tests passing
+Stopped at: Completed 04-04-PLAN.md — Program.fs + Korean mdBook chapter complete, Phase 4 fully complete
 Resume file: None
