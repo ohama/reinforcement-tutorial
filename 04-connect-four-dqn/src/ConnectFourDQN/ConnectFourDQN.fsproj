@@ -8,6 +8,8 @@
     <Compile Include="Rules.fs" />
     <Compile Include="Minimax.fs" />
     <Compile Include="NativeLoader.fs" />
+    <Compile Include="DQNModel.fs" />
+    <Compile Include="ReplayBuffer.fs" />
     <Compile Include="DQNAgent.fs" />
   </ItemGroup>
   <ItemGroup>
