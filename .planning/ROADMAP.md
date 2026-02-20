@@ -78,13 +78,13 @@ Plans:
   2. DQN 학습 루프가 50K 에피소드 동안 메모리 증가 없이 실행되고, 손실 곡선과 승률 변화가 Serilog로 기록된다
   3. 학습된 모델이 .pt 파일로 저장되고, 저장된 파일에서 불러온 에이전트가 Phase 3 Minimax(depth 4)와 대결에서 승률 > 50%를 달성한다
   4. mdBook 04-dqn/ 챕터에 `{{#include}}` 로 boardToTensor, DQN 모델 정의, 학습 루프가 인클루드되어 있다
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 04-01: TorchSharp 설정 + 텐서 변환 검증 (DQN-01, DQN-02, DQN-08, DQN-11 포함)
-- [ ] 04-02: DQN 모델 + Experience Replay + Target Network (DQN-03, DQN-04, DQN-05)
-- [ ] 04-03: 학습 루프 + Minimax 대결 벤치마크 + 모델 저장/불러오기 (DQN-06, DQN-07, DQN-09)
-- [ ] 04-04: Serilog 학습 추적 + mdBook 챕터 (DQN-10, TUTR-03, TUTR-04, TUTR-05, TUTR-06)
+- [ ] 04-01-PLAN.md — DQN.sln 부트스트랩 + NativeLoader (ARM64) + boardToTensor + FsCheck 텐서 합 불변 조건 (DQN-01, DQN-02, DQN-08, DQN-11, DQN-12)
+- [ ] 04-02-PLAN.md — DQNModel (Conv2D) + ReplayBuffer + DQNAgent (chooseMove + trainStep) + ReplayBufferTests (DQN-03, DQN-04, DQN-05)
+- [ ] 04-03-PLAN.md — 커리큘럼 학습 루프 Training.fs + 벤치마크 Expecto 테스트 + 모델 저장/불러오기 (DQN-06, DQN-07, DQN-09)
+- [ ] 04-04-PLAN.md — Program.fs (Serilog 학습 추적 + 메뉴) + Korean mdBook 04-dqn 챕터 (DQN-10, TUTR-03, TUTR-04, TUTR-05, TUTR-06)
 
 ### Phase 5: Gomoku MCTS
 **Goal**: MCTS + Policy/Value Network 자가 대국 AI가 구현되고, 랜덤 상대 승률 > 80%를 달성하며 사람과 콘솔 대전이 가능하다
