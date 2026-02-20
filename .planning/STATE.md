@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 3 IN PROGRESS — Connect Four engine + Minimax + Q-Learning done, Console integration (03-04) next
+**Current focus:** Phase 3 COMPLETE — Phase 4 (DQN) next. Verify TorchSharp ARM64 support before starting.
 
 ## Current Position
 
-Phase: 3 of 5 in progress (Connect Four + Q-Learning + Minimax)
-Plan: 3 of 4 in Phase 3 complete (03-01, 03-02, 03-03 done; 03-04 Console/Program.fs next)
-Status: In progress
-Last activity: 2026-02-20 — Completed 03-02-PLAN.md (Minimax Alpha-Beta + Expecto equivalence tests)
+Phase: 3 of 5 COMPLETE (Connect Four + Q-Learning + Minimax)
+Plan: 4 of 4 in Phase 3 complete (03-01, 03-02, 03-03, 03-04 all done)
+Status: Phase 3 complete — ready for Phase 4
+Last activity: 2026-02-20 — Completed 03-04-PLAN.md (Program.fs console + Korean mdBook chapter)
 
-Progress: [████████░░] 60% (9/15 plans total)
+Progress: [██████████░░] 67% (10/15 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
+- Total plans completed: 10
 - Average duration: ~2.3 min
-- Total execution time: ~23 min
+- Total execution time: ~26 min
 
 **By Phase:**
 
@@ -29,12 +29,12 @@ Progress: [████████░░] 60% (9/15 plans total)
 |-------|-------|-------|----------|
 | 01-bandit-mdbook | 3/3 COMPLETE | ~11 min | 3.7 min |
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
-| 03-connect-four-q-learning-minimax | 3/4 | ~5 min | 2.3 min |
+| 03-connect-four-q-learning-minimax | 4/4 COMPLETE | ~8 min | 2.0 min |
 | 04-gomoku-dqn | 0/3 | - | - |
 | 05-gomoku-alphazero | 0/3 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 02-03 (2 min), 03-01 (3 min), 03-02 (2 min), 03-03 (2 min)
+- Last 5 plans: 03-01 (3 min), 03-02 (2 min), 03-03 (2 min), 03-04 (3 min)
 - Trend: fast
 
 *Updated after each plan completion*
@@ -80,10 +80,14 @@ Recent decisions affecting current work:
 - [03-03]: Separate Q-tables per player (redTable, yellowTable) — avoids perspective confusion in self-play
 - [03-03]: encodeState: Empty->'.', Red->'R', Yellow->'Y' — 42-char string key from flat Board array
 - [03-03]: RewardDraw=0.3, RewardStep=0.0 — terminal-only rewards, no intermediate shaping
+- [03-04]: Program.fs is sole impure file for Phase 3 — Training.fs returns result; Program.fs logs via Serilog
+- [03-04]: AI vs AI depth=6 for matchup; Human vs Minimax depth=7 for player challenge
+- [03-04]: Q-table covers only 0.000004% of 4.5T possible states — explicit DQN motivation
+- [03-04]: Korean mdBook {{#include}} path pattern: ../../../03-connect-four/src/ConnectFour/...
 
 ### Pending Todos
 
-None — Phase 3 Plans 01, 02, 03 complete. Plan 04 (Console integration / Program.fs) is next.
+None — Phase 3 complete. Phase 4 (DQN with TorchSharp) is next.
 
 ### Blockers/Concerns
 
@@ -93,6 +97,6 @@ None — Phase 3 Plans 01, 02, 03 complete. Plan 04 (Console integration / Progr
 
 ## Session Continuity
 
-Last session: 2026-02-20T00:11:22Z
-Stopped at: Completed 03-02-PLAN.md (Minimax Alpha-Beta + Expecto equivalence tests)
+Last session: 2026-02-20T00:20:33Z
+Stopped at: Completed 03-04-PLAN.md (Program.fs console integration + Korean mdBook chapter)
 Resume file: None
