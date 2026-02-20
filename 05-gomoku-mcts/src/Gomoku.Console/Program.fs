@@ -1,6 +1,7 @@
 module Gomoku.Console.Program
 
 open System
+open Serilog
 open Gomoku.Domain
 open Gomoku.Rules
 open Gomoku.PolicyValueNet
@@ -41,6 +42,9 @@ let private runTraining (config: TrainingConfig) =
     printfn "Config: %d iterations, %d simulations/move, %d games/iter"
         config.NTrainingIter config.NSimulations config.NSelfPlayGames
 
+    Log.Information("SelfPlay training started: Iterations={Iterations} Simulations={Simulations} LR={LR}",
+        config.NTrainingIter, config.NSimulations, config.LearningRate)
+
     let model = new PolicyValueNet("pv-net")
     let rng   = Random(42)
     let results = runSelfPlayTraining model config rng
@@ -49,9 +53,12 @@ let private runTraining (config: TrainingConfig) =
     for r in results |> List.filter (fun r -> r.Iteration % 10 = 0 || r.Iteration = 1) do
         printfn "  Iter %3d | Games=%4d | PolicyLoss=%.4f | ValueLoss=%.4f"
             r.Iteration r.GamesPlayed r.AvgPolicyLoss r.AvgValueLoss
+        Log.Information("Training Iter={Iter} Games={Games} PolicyLoss={PolicyLoss:F4} ValueLoss={ValueLoss:F4}",
+            r.Iteration, r.GamesPlayed, r.AvgPolicyLoss, r.AvgValueLoss)
 
     model.save(config.ModelSavePath) |> ignore
     printfn "\nModel saved to: %s" config.ModelSavePath
+    Log.Information("Model saved to {Path}", config.ModelSavePath)
     model
 
 let private runBenchmark (modelPath: string) (nGames: int) (nSimulations: int) =
@@ -68,6 +75,8 @@ let private runBenchmark (modelPath: string) (nGames: int) (nSimulations: int) =
     let wins = evaluateVsRandom model nGames nSimulations 5.0 rng
     let rate = float wins / float nGames
     printfn "Result: %d/%d wins (%.1f%%)" wins nGames (rate * 100.0)
+    Log.Information("Benchmark: WinRate={WinRate:P1} Wins={Wins}/{Games} Simulations={Sims}",
+        rate, wins, nGames, nSimulations)
 
 let private runHumanVsAI (modelPath: string) (nSimulations: int) =
     printfn "\n=== Human vs AI (difficulty = %d simulations/move) ===" nSimulations
@@ -110,7 +119,10 @@ let private runHumanVsAI (modelPath: string) (nSimulations: int) =
                 printfn "AI thinking..."
                 let visitProbs = mctsSearchWithNet model rng state nSimulations 5.0 false
                 let move = bestMove visitProbs
-                printfn "AI plays: (%d, %d)" (move / BoardSize) (move % BoardSize)
+                let r = move / BoardSize
+                let c = move % BoardSize
+                printfn "AI plays: (%d, %d)" r c
+                Log.Information("AI move ({Row},{Col}) Simulations={Sims}", r, c, nSimulations)
                 state <- applyMove state move
 
 let private showMenu () =
@@ -123,6 +135,15 @@ let private showMenu () =
 
 [<EntryPoint>]
 let main _ =
+    Log.Logger <-
+        LoggerConfiguration()
+            .MinimumLevel.Information()
+            .WriteTo.Console(outputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+            .WriteTo.File("logs/gomoku-training.log",
+                          rollingInterval = RollingInterval.Day,
+                          outputTemplate = "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+            .CreateLogger()
+
     let modelPath    = "gomoku_model.pt"
     let trainConfig  = { defaultConfig with ModelSavePath = modelPath }
 
@@ -149,4 +170,5 @@ let main _ =
         | other ->
             if not (String.IsNullOrEmpty other) then printfn "Unknown option: %s" other
 
+    Log.CloseAndFlush()
     0
