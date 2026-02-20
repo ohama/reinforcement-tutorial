@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 4 in progress — 04-02 complete. Next: 04-03 (full 50K episode DQN training loop).
+**Current focus:** Phase 4 in progress — 04-03 complete. Next: 04-04 (Program.fs Serilog logging + mdBook tutorial).
 
 ## Current Position
 
 Phase: 4 of 5 IN PROGRESS (Connect Four + DQN with TorchSharp)
-Plan: 2 of 3 in Phase 4 complete (04-01, 04-02 done)
+Plan: 3 of 4 in Phase 4 complete (04-01, 04-02, 04-03 done)
 Status: In progress
-Last activity: 2026-02-20 — Completed 04-02-PLAN.md (DQNModel + ReplayBuffer + full DQNAgent + 7 tests passing)
+Last activity: 2026-02-20 — Completed 04-03-PLAN.md (Training loop + BenchmarkTests + 9/9 tests passing)
 
-Progress: [████████████░] 80% (12/15 plans total)
+Progress: [█████████████░] 87% (13/15 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: ~2.6 min
-- Total execution time: ~35 min
+- Total plans completed: 13
+- Average duration: ~2.8 min
+- Total execution time: ~61 min
 
 **By Phase:**
 
@@ -30,12 +30,12 @@ Progress: [████████████░] 80% (12/15 plans total)
 | 01-bandit-mdbook | 3/3 COMPLETE | ~11 min | 3.7 min |
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
 | 03-connect-four-q-learning-minimax | 4/4 COMPLETE | ~8 min | 2.0 min |
-| 04-connect-four-dqn | 2/3 | ~9 min | 4.5 min |
+| 04-connect-four-dqn | 3/4 | ~35 min | 8.8 min |
 | 05-gomoku-alphazero | 0/3 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 03-03 (2 min), 03-04 (3 min), 04-01 (3 min), 04-02 (6 min)
-- Trend: stable
+- Last 5 plans: 03-04 (3 min), 04-01 (3 min), 04-02 (6 min), 04-03 (26 min)
+- Note: 04-03 was slower due to 3 bug fixes + 2x test runtime (5K episode DQN training × 2 runs)
 
 *Updated after each plan completion*
 
@@ -93,10 +93,15 @@ Recent decisions affecting current work:
 - [04-02]: Tensor.max(dim) returns struct ValueTuple<Tensor,Tensor> in TorchSharp 0.106.0 — use let struct(vals, _) = t.max(1L); .values property does NOT exist
 - [04-02]: index_fill_(0L, idxTensor, Scalar) for in-place illegal move masking — qVec.[int64 col] <- fails to compile due to shadowing
 - [04-02]: Experience stores float32[] not Tensor fields — tensors outside NewDisposeScope cause memory leaks in 50K episode loops
+- [04-03]: torch.no_grad() in F# requires explicit .Dispose() before gradient computation — `use _noGrad` spans the entire function scope, disabling autograd for loss.backward() if placed mid-function
+- [04-03]: DQN alternating-player transition design: Red experience = (s_red, a_red, r, s_after_yellow, done) — stores board AFTER Yellow responds as nextState so Red receives terminal rewards when Yellow wins
+- [04-03]: torch.manual_seed(42L) before DQNModel() for deterministic weight init in CI tests
+- [04-03]: DQN CI benchmark: test vs random opponent (not Minimax) when training distribution is purely random (< 20K episode curriculum threshold). Production 50K uses full curriculum → test vs Minimax depth 2 (run via dotnet run)
+- [04-03]: float64 is not a valid F# type (use float); open type TorchSharp.torch also shadows float32 — use Operators.float32 for numeric conversion
 
 ### Pending Todos
 
-None — 04-02 complete. Phase 4 Plan 03 (50K episode training loop) is next.
+None — 04-03 complete. Phase 4 Plan 04 (Program.fs + mdBook tutorial) is next.
 
 ### Blockers/Concerns
 
@@ -105,5 +110,5 @@ None — 04-02 complete. Phase 4 Plan 03 (50K episode training loop) is next.
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 04-02-PLAN.md — DQNModel + ReplayBuffer + DQNAgent complete, 7/7 tests passing
+Stopped at: Completed 04-03-PLAN.md — Training.fs + BenchmarkTests complete, 9/9 tests passing
 Resume file: None
