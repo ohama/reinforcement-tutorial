@@ -96,14 +96,14 @@ Plans:
   3. 학습된 모델을 저장하고, 저장된 모델을 불러와 사람 vs AI 콘솔 대전(난이도 = 시뮬레이션 횟수)을 플레이할 수 있다
   4. mdBook 05-gomoku/ 챕터에 MCTS 알고리즘, PUCT 수식, Policy/Value Network 설계가 한국어로 설명되고 `{{#include}}` 로 핵심 코드가 인클루드된다
   5. 모든 5개 챕터가 Phase 간 연결 설명("이전 Phase의 한계 → 다음 Phase의 동기부여")을 포함하고 mdBook이 에러 없이 빌드된다
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 05-01: Gomoku 게임 엔진 (Domain.fs, Rules.fs — 15×15, 5연속, FsCheck 프로퍼티)
-- [ ] 05-02: MCTS 기본 구현 (MctsNode, UCB1 selection, expand, simulate, backpropagate, Expecto 단위 테스트)
-- [ ] 05-03: Policy/Value Network + PUCT 통합 (ResBlock, TorchSharp, GMOK-03, GMOK-04)
-- [ ] 05-04: 자가 대국 파이프라인 + 모델 저장/불러오기 + 사람 vs AI (GMOK-05, GMOK-06, GMOK-07)
-- [ ] 05-05: Serilog 로깅 + Expecto 수렴 테스트 + mdBook 챕터 완성
+- [ ] 05-01-PLAN.md — Gomoku.sln 부트스트랩 + Domain.fs + Rules.fs + FsCheck 5연속/합법 수 프로퍼티 테스트 (GMOK-01, GMOK-08, GMOK-12)
+- [ ] 05-02-PLAN.md — MctsNode 클래스 + Mcts.fs (PUCT + 랜덤 롤아웃) + Expecto 백프롭 관점전환 + >80% 승률 테스트 (GMOK-02, GMOK-09, GMOK-10)
+- [ ] 05-03-PLAN.md — NativeLoader (ARM64) + PolicyValueNet (3 conv + 듀얼 헤드) + boardToTensor + mctsSearchWithNet (GMOK-03, GMOK-04)
+- [ ] 05-04-PLAN.md — SelfPlay.fs + Training.fs (순수 함수) + Program.fs 메뉴 + 모델 저장/불러오기 + 사람 vs AI (GMOK-05, GMOK-06, GMOK-07)
+- [ ] 05-05-PLAN.md — Serilog 구조화 로깅 + 한국어 mdBook 05-gomoku 챕터 + SUMMARY.md 완성 (GMOK-11, TUTR-03, TUTR-04, TUTR-05, TUTR-06)
 
 ## Progress
 
