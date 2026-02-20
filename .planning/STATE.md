@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 3 IN PROGRESS — Connect Four game engine done, Minimax + Q-Learning next
+**Current focus:** Phase 3 IN PROGRESS — Connect Four engine + Q-Learning done, Minimax + Console integration next
 
 ## Current Position
 
 Phase: 3 of 5 in progress (Connect Four + Q-Learning + Minimax)
-Plan: 1 of 3 in Phase 3 complete
+Plan: 3 of 4 in Phase 3 complete (03-01, 03-03 done; 03-02 Minimax in parallel)
 Status: In progress
-Last activity: 2026-02-20 — Completed 03-01-PLAN.md (ConnectFour game engine + FsCheck property tests)
+Last activity: 2026-02-20 — Completed 03-03-PLAN.md (Q-Learning agent + self-play training loop)
 
-Progress: [███████░░░] 47% (7/15 plans total)
+Progress: [████████░░] 53% (8/15 plans total)
 
 ## Performance Metrics
 
@@ -29,12 +29,12 @@ Progress: [███████░░░] 47% (7/15 plans total)
 |-------|-------|-------|----------|
 | 01-bandit-mdbook | 3/3 COMPLETE | ~11 min | 3.7 min |
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
-| 03-connect-four-q-learning-minimax | 1/3 | ~3 min | 3 min |
+| 03-connect-four-q-learning-minimax | 2/4 | ~5 min | 2.5 min |
 | 04-gomoku-dqn | 0/3 | - | - |
 | 05-gomoku-alphazero | 0/3 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (3 min), 02-02 (2 min), 02-03 (2 min), 03-01 (3 min)
+- Last 5 plans: 02-02 (2 min), 02-03 (2 min), 03-01 (3 min), 03-03 (2 min)
 - Trend: fast
 
 *Updated after each plan completion*
@@ -73,13 +73,18 @@ Recent decisions affecting current work:
 - [03-01]: dropRow iterates rows-1 downto 0 — gravity: first empty found from bottom = landing row
 - [03-01]: genValidBoard plays 0-30 random plies via System.Random to produce realistic board states for FsCheck
 - [03-01]: Array.create (rows*cols) Empty for Board init (not Array.zeroCreate — returns null for DU types)
+- [03-03]: QAgent.fs placed after Rules.fs and before Minimax.fs — QAgent has no dependency on Minimax
+- [03-03]: Separate Q-tables per player (redTable, yellowTable) — avoids perspective confusion in self-play
+- [03-03]: encodeState: Empty->'.', Red->'R', Yellow->'Y' — 42-char string key from flat Board array
+- [03-03]: RewardDraw=0.3, RewardStep=0.0 — terminal-only rewards, no intermediate shaping
 
 ### Pending Todos
 
-None — Phase 3 Plan 01 complete. Ready for Plan 02 (Minimax Alpha-Beta) or Plan 03 (Q-Learning).
+None — Phase 3 Plans 01 and 03 complete. Plan 02 (Minimax) may be in parallel; Plan 04 (Console/Program.fs) next.
 
 ### Blockers/Concerns
 
+- [03-02]: Minimax test "blocks opponent's winning move (depth 2)" failing — evaluation heuristic issue at depth 2; may need fixing before Phase 3 completion
 - [Phase 3 planning]: Alpha-Beta 평가 함수 설계 — F# 전용 예제 부족, planning 시 research-phase 고려
 - [Phase 4 planning]: TorchSharp Conv2D + Sequential F# API 패턴 — C# 예제와 다름, research-phase 권장
 - [Phase 4]: Apple Silicon ARM64 TorchSharp-cpu 지원 여부 — Phase 4 시작 전 확인 필요
@@ -87,6 +92,6 @@ None — Phase 3 Plan 01 complete. Ready for Plan 02 (Minimax Alpha-Beta) or Pla
 
 ## Session Continuity
 
-Last session: 2026-02-20T00:05:56Z
-Stopped at: Completed 03-01-PLAN.md (ConnectFour game engine + FsCheck property tests)
+Last session: 2026-02-20T00:11:08Z
+Stopped at: Completed 03-03-PLAN.md (Q-Learning agent + self-play training loop)
 Resume file: None
