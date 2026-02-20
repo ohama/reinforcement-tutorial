@@ -171,18 +171,18 @@ Note: TUTR-03, TUTR-04, TUTR-06 are established in Phase 1 and the pattern is ca
 | DQN-10 | Phase 4 | Complete |
 | DQN-11 | Phase 4 | Complete |
 | DQN-12 | Phase 4 | Complete |
-| GMOK-01 | Phase 5 | Pending |
-| GMOK-02 | Phase 5 | Pending |
-| GMOK-03 | Phase 5 | Pending |
-| GMOK-04 | Phase 5 | Pending |
-| GMOK-05 | Phase 5 | Pending |
-| GMOK-06 | Phase 5 | Pending |
-| GMOK-07 | Phase 5 | Pending |
-| GMOK-08 | Phase 5 | Pending |
-| GMOK-09 | Phase 5 | Pending |
-| GMOK-10 | Phase 5 | Pending |
-| GMOK-11 | Phase 5 | Pending |
-| GMOK-12 | Phase 5 | Pending |
+| GMOK-01 | Phase 5 | Complete |
+| GMOK-02 | Phase 5 | Complete |
+| GMOK-03 | Phase 5 | Complete |
+| GMOK-04 | Phase 5 | Complete |
+| GMOK-05 | Phase 5 | Complete |
+| GMOK-06 | Phase 5 | Complete |
+| GMOK-07 | Phase 5 | Complete |
+| GMOK-08 | Phase 5 | Complete |
+| GMOK-09 | Phase 5 | Complete |
+| GMOK-10 | Phase 5 | Complete |
+| GMOK-11 | Phase 5 | Complete |
+| GMOK-12 | Phase 5 | Complete |
 | XCUT-01 | Phase 1 | Complete |
 | XCUT-02 | Phase 1 | Complete |
 | XCUT-03 | Phase 1 | Complete |
@@ -194,4 +194,4 @@ Note: TUTR-03, TUTR-04, TUTR-06 are established in Phase 1 and the pattern is ca
 
 ---
 *Requirements defined: 2026-02-19*
-*Last updated: 2026-02-19 after roadmap creation — traceability clarified to single-phase per requirement*
+*Last updated: 2026-02-20 — all v1 requirements complete (56/56)*

@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Tic-Tac-Toe (TD Learning)** - MDP + Value Function + 자가 대국으로 TD(0) 에이전트 구현
 - [x] **Phase 3: Connect Four (Q-Learning + Minimax)** - 특징 기반 Q-Learning과 Alpha-Beta Pruning 비교
 - [x] **Phase 4: Connect Four DQN** - TorchSharp Conv2D 신경망으로 Q-table 한계 극복
-- [ ] **Phase 5: Gomoku MCTS** - MCTS + Policy/Value Network + 자가 대국 파이프라인
+- [x] **Phase 5: Gomoku MCTS** - MCTS + Policy/Value Network + 자가 대국 파이프라인
 
 ## Phase Details
 
@@ -99,11 +99,11 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Gomoku.sln 부트스트랩 + Domain.fs + Rules.fs + FsCheck 5연속/합법 수 프로퍼티 테스트 (GMOK-01, GMOK-08, GMOK-12)
-- [ ] 05-02-PLAN.md — MctsNode 클래스 + Mcts.fs (PUCT + 랜덤 롤아웃) + Expecto 백프롭 관점전환 + >80% 승률 테스트 (GMOK-02, GMOK-09, GMOK-10)
-- [ ] 05-03-PLAN.md — NativeLoader (ARM64) + PolicyValueNet (3 conv + 듀얼 헤드) + boardToTensor + mctsSearchWithNet (GMOK-03, GMOK-04)
-- [ ] 05-04-PLAN.md — SelfPlay.fs + Training.fs (순수 함수) + Program.fs 메뉴 + 모델 저장/불러오기 + 사람 vs AI (GMOK-05, GMOK-06, GMOK-07)
-- [ ] 05-05-PLAN.md — Serilog 구조화 로깅 + 한국어 mdBook 05-gomoku 챕터 + SUMMARY.md 완성 (GMOK-11, TUTR-03, TUTR-04, TUTR-05, TUTR-06)
+- [x] 05-01-PLAN.md — Gomoku.sln 부트스트랩 + Domain.fs + Rules.fs + FsCheck 5연속/합법 수 프로퍼티 테스트 (GMOK-01, GMOK-08, GMOK-12)
+- [x] 05-02-PLAN.md — MctsNode 클래스 + Mcts.fs (PUCT + 랜덤 롤아웃) + Expecto 백프롭 관점전환 + >80% 승률 테스트 (GMOK-02, GMOK-09, GMOK-10)
+- [x] 05-03-PLAN.md — NativeLoader (ARM64) + PolicyValueNet (3 conv + 듀얼 헤드) + boardToTensor + mctsSearchWithNet (GMOK-03, GMOK-04)
+- [x] 05-04-PLAN.md — SelfPlay.fs + Training.fs (순수 함수) + Program.fs 메뉴 + 모델 저장/불러오기 + 사람 vs AI (GMOK-05, GMOK-06, GMOK-07)
+- [x] 05-05-PLAN.md — Serilog 구조화 로깅 + 한국어 mdBook 05-gomoku 챕터 + SUMMARY.md 완성 (GMOK-11, TUTR-03, TUTR-04, TUTR-05, TUTR-06)
 
 ## Progress
 
@@ -116,4 +116,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Tic-Tac-Toe (TD Learning) | 3/3 | Complete | 2026-02-19 |
 | 3. Connect Four (Q-Learning + Minimax) | 4/4 | Complete | 2026-02-20 |
 | 4. Connect Four DQN | 4/4 | Complete | 2026-02-20 |
-| 5. Gomoku MCTS | 0/5 | Not started | - |
+| 5. Gomoku MCTS | 5/5 | Complete | 2026-02-20 |
