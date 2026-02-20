@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Bandit + mdBook 기반** - 프로젝트 전체 구조 확립, ε-greedy + UCB1 구현, mdBook 스캐폴드
 - [x] **Phase 2: Tic-Tac-Toe (TD Learning)** - MDP + Value Function + 자가 대국으로 TD(0) 에이전트 구현
 - [x] **Phase 3: Connect Four (Q-Learning + Minimax)** - 특징 기반 Q-Learning과 Alpha-Beta Pruning 비교
-- [ ] **Phase 4: Connect Four DQN** - TorchSharp Conv2D 신경망으로 Q-table 한계 극복
+- [x] **Phase 4: Connect Four DQN** - TorchSharp Conv2D 신경망으로 Q-table 한계 극복
 - [ ] **Phase 5: Gomoku MCTS** - MCTS + Policy/Value Network + 자가 대국 파이프라인
 
 ## Phase Details
@@ -81,10 +81,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — DQN.sln 부트스트랩 + NativeLoader (ARM64) + boardToTensor + FsCheck 텐서 합 불변 조건 (DQN-01, DQN-02, DQN-08, DQN-11, DQN-12)
-- [ ] 04-02-PLAN.md — DQNModel (Conv2D) + ReplayBuffer + DQNAgent (chooseMove + trainStep) + ReplayBufferTests (DQN-03, DQN-04, DQN-05)
-- [ ] 04-03-PLAN.md — 커리큘럼 학습 루프 Training.fs + 벤치마크 Expecto 테스트 + 모델 저장/불러오기 (DQN-06, DQN-07, DQN-09)
-- [ ] 04-04-PLAN.md — Program.fs (Serilog 학습 추적 + 메뉴) + Korean mdBook 04-dqn 챕터 (DQN-10, TUTR-03, TUTR-04, TUTR-05, TUTR-06)
+- [x] 04-01-PLAN.md — DQN.sln 부트스트랩 + NativeLoader (ARM64) + boardToTensor + FsCheck 텐서 합 불변 조건 (DQN-01, DQN-02, DQN-08, DQN-11, DQN-12)
+- [x] 04-02-PLAN.md — DQNModel (Conv2D) + ReplayBuffer + DQNAgent (chooseMove + trainStep) + ReplayBufferTests (DQN-03, DQN-04, DQN-05)
+- [x] 04-03-PLAN.md — 커리큘럼 학습 루프 Training.fs + 벤치마크 Expecto 테스트 + 모델 저장/불러오기 (DQN-06, DQN-07, DQN-09)
+- [x] 04-04-PLAN.md — Program.fs (Serilog 학습 추적 + 메뉴) + Korean mdBook 04-dqn 챕터 (DQN-10, TUTR-03, TUTR-04, TUTR-05, TUTR-06)
 
 ### Phase 5: Gomoku MCTS
 **Goal**: MCTS + Policy/Value Network 자가 대국 AI가 구현되고, 랜덤 상대 승률 > 80%를 달성하며 사람과 콘솔 대전이 가능하다
@@ -115,5 +115,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Bandit + mdBook 기반 | 3/3 | Complete | 2026-02-19 |
 | 2. Tic-Tac-Toe (TD Learning) | 3/3 | Complete | 2026-02-19 |
 | 3. Connect Four (Q-Learning + Minimax) | 4/4 | Complete | 2026-02-20 |
-| 4. Connect Four DQN | 0/4 | Not started | - |
+| 4. Connect Four DQN | 4/4 | Complete | 2026-02-20 |
 | 5. Gomoku MCTS | 0/5 | Not started | - |
