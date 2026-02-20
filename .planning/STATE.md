@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** 각 Phase에서 RL 핵심 개념을 실제 동작하는 F# 코드로 구현하고, property-based test로 검증하며, tutorial 문서로 정리하는 것.
-**Current focus:** Phase 5 IN PROGRESS — 05-03 done. Phase 5 complete (all 3 plans done).
+**Current focus:** Phase 5 FULLY COMPLETE — all 4 plans done (05-01 through 05-04). AlphaZero loop closed.
 
 ## Current Position
 
 Phase: 5 of 5 COMPLETE (Gomoku MCTS / AlphaZero-style)
-Plan: 3 of 3 in Phase 5 complete (05-01 + 05-02 + 05-03 done)
-Status: Phase 5 complete
+Plan: 4 of 4 in Phase 5 complete (05-01 + 05-02 + 05-03 + 05-04 done)
+Status: All phases complete
 
-Last activity: 2026-02-20 — Completed 05-03-PLAN.md (TorchSharp + PolicyValueNet + neural mctsSearchWithNet; 14/14 tests passing)
+Last activity: 2026-02-20 — Completed 05-04-PLAN.md (SelfPlay.fs + Training.fs + Program.fs; 14/14 tests passing)
 
-Progress: [███████████████] 100% (All phases complete)
+Progress: [████████████████] 100% (All phases complete — 16/16 plans)
 
 ## Performance Metrics
 
@@ -32,10 +32,10 @@ Progress: [███████████████] 100% (All phases compl
 | 02-tictactoe-td-learning | 3/3 COMPLETE | ~7 min | 2.3 min |
 | 03-connect-four-q-learning-minimax | 4/4 COMPLETE | ~8 min | 2.0 min |
 | 04-connect-four-dqn | 4/4 COMPLETE | ~43 min | 10.8 min |
-| 05-gomoku-mcts | 3/3 COMPLETE | ~8 min | 2.7 min |
+| 05-gomoku-mcts | 4/4 COMPLETE | ~11 min | 2.75 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-01 (2 min), 05-02 (2 min), 05-03 (4 min)
+- Last 5 plans: 05-01 (2 min), 05-02 (2 min), 05-03 (4 min), 05-04 (3 min)
 
 *Updated after each plan completion*
 
@@ -113,17 +113,20 @@ Recent decisions affecting current work:
 - [05-03]: Use torch.nn.functional.log_softmax (fully qualified) — avoids namespace ambiguity with open type
 - [05-03]: Implement Dirichlet noise in pure F# using Marsaglia-Tsang Gamma sampler — torch.distributions.Dirichlet not reliably accessible via F# open type in 0.106.0
 - [05-03]: mctsSearchWithNet takes rng: System.Random parameter — Dirichlet noise requires randomness outside tensor scope
+- [05-04]: Training.fs requires open Gomoku.Rules for evaluateVsRandom — isWinningMove/legalMoves/applyMove used in benchmark game loop
+- [05-04]: Program.fs uses open Gomoku.Mcts + unqualified function calls — not Mcts.X qualified style
+- [05-04]: Human-vs-AI creates its own Random() for AI rng — no fixed seed so each game differs from training games
 
 ### Pending Todos
 
-None — Phase 5 complete (all 3 plans done).
+None — all phases and plans complete (16/16).
 
 ### Blockers/Concerns
 
-None — 05-03 complete cleanly. PolicyValueNet and mctsSearchWithNet ready for Plan 04 self-play training.
+None — 05-04 complete cleanly. Full AlphaZero self-play loop implemented and compiling.
 
 ## Session Continuity
 
-Last session: 2026-02-20T04:19:24Z
-Stopped at: Completed 05-03-PLAN.md — TorchSharp + PolicyValueNet + neural mctsSearchWithNet + 14/14 tests passing
+Last session: 2026-02-20T04:27:22Z
+Stopped at: Completed 05-04-PLAN.md — SelfPlay.fs + Training.fs + Program.fs; full menu; 14/14 tests passing
 Resume file: None
